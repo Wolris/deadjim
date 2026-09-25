@@ -50,7 +50,11 @@ Publication remains manual for now. Revisit only when a second manual pre-releas
 
 ## Current execution
 
-The active lock is **real SkelForm workflow adoption**. Use the published alpha with representative SkelForm-authored animation and let real integration evidence determine the next Dead Jim change. Do not evaluate replacement authoring formats absent a concrete blocker.
+The first real-export adoption review found a concrete atlas-packaging blocker: genuine SkelForm v0.7.2 runtime exports pack texture pixels into `atlasX.png` and describe regions under `styles[].textures[]`, while the Phase 1 demo used individually loaded textures.
+
+The active branch closes only that gap by keeping atlas/style metadata at the source boundary and adding an optional Phaser asset resolver/frame-registration path. The normalized skeleton remains unchanged and loose-texture consumers remain supported.
+
+After this fix is validated and merged, the next boundary is a real SkelForm editor/export proof with a short representative Adventurer asset set.
 
 ## Fresh-chat handoff
 
