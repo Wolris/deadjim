@@ -33,15 +33,26 @@ export interface SkelFormBone {
   init_pos: SkelFormVec2;
   init_rot: number;
   init_scale: SkelFormVec2;
+  init_hidden?: boolean;
   visuals_id?: number;
   ik_family_id?: number;
   physics_id?: number;
 }
 
+export interface SkelFormTint {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
 export interface SkelFormVisuals {
   tex?: string;
+  tint?: SkelFormTint;
   zindex?: number;
   pivot_pos?: SkelFormVec2;
+  pivot_rot?: number;
+  pivot_scale?: SkelFormVec2;
   vertices?: readonly unknown[];
   indices?: readonly unknown[];
   binds?: readonly unknown[];
@@ -91,6 +102,28 @@ function requireFinite(value: number, label: string): number {
   return value;
 }
 
+function sourceYToNormalized(value: number): number {
+  return -value;
+}
+
+function sourceRotationToNormalized(value: number): number {
+  return -value;
+}
+
+function sourceChannelValueToNormalized(
+  element: string,
+  value: number,
+): number {
+  switch (element) {
+    case "PositionY":
+      return sourceYToNormalized(value);
+    case "Rotation":
+      return sourceRotationToNormalized(value);
+    default:
+      return value;
+  }
+}
+
 function ensureFirstDiscriminatorScope(source: SkelFormSource): void {
   if (source.version !== SKELFORM_ARMATURE_VERSION) {
     throw new Error(
@@ -122,6 +155,11 @@ function ensureFirstDiscriminatorScope(source: SkelFormSource): void {
         `SkelForm bone ${bone.id} uses physics, which are not supported by this import discriminator.`,
       );
     }
+    if (bone.init_hidden === true) {
+      throw new Error(
+        `SkelForm bone ${bone.id} is hidden in the bind pose, which is not supported by this import discriminator.`,
+      );
+    }
   });
 }
 
@@ -149,6 +187,38 @@ function convertAttachments(source: SkelFormSource): SpriteAttachmentDefinition[
       );
     }
 
+    const pivotRotation = requireFinite(
+      visual.pivot_rot ?? 0,
+      `visuals ${visualsId} pivot rotation`,
+    );
+    if (pivotRotation !== 0) {
+      throw new Error(
+        `SkelForm visuals ${visualsId} uses pivot rotation, which is outside the first Dead Jim import discriminator.`,
+      );
+    }
+
+    const pivotScale = visual.pivot_scale ?? { x: 1, y: 1 };
+    if (
+      requireFinite(pivotScale.x, `visuals ${visualsId} pivot scale x`) !== 1 ||
+      requireFinite(pivotScale.y, `visuals ${visualsId} pivot scale y`) !== 1
+    ) {
+      throw new Error(
+        `SkelForm visuals ${visualsId} uses pivot scale, which is outside the first Dead Jim import discriminator.`,
+      );
+    }
+
+    const tint = visual.tint ?? { r: 1, g: 1, b: 1, a: 1 };
+    if (
+      tint.r !== 1 ||
+      tint.g !== 1 ||
+      tint.b !== 1 ||
+      tint.a !== 1
+    ) {
+      throw new Error(
+        `SkelForm visuals ${visualsId} uses tint, which is outside the first Dead Jim import discriminator.`,
+      );
+    }
+
     const assetId = visual.tex ?? "";
     if (assetId.length === 0) continue;
 
@@ -160,7 +230,9 @@ function convertAttachments(source: SkelFormSource): SpriteAttachmentDefinition[
       boneId: sourceBoneId(bone.id),
       assetId,
       pivotX: requireFinite(pivot.x, `visuals ${visualsId} pivot x`),
-      pivotY: requireFinite(pivot.y, `visuals ${visualsId} pivot y`),
+      pivotY: sourceYToNormalized(
+        requireFinite(pivot.y, `visuals ${visualsId} pivot y`),
+      ),
       zIndex: requireFinite(visual.zindex ?? 0, `visuals ${visualsId} z-index`),
     });
   }
@@ -255,7 +327,7 @@ function convertAnimation(
 
     getTrackChannel(track, keyframe.element).push({
       timeMs: (keyframe.frame * 1000) / animation.fps,
-      value,
+      value: sourceChannelValueToNormalized(keyframe.element, value),
     });
 
     lastFrame = Math.max(lastFrame, keyframe.frame);
@@ -292,8 +364,12 @@ export class SkelFormAdapter
         parentId: bone.parent_id === -1 ? null : sourceBoneId(bone.parent_id),
         bind: {
           x: requireFinite(bone.init_pos.x, `bone ${bone.id} init x`),
-          y: requireFinite(bone.init_pos.y, `bone ${bone.id} init y`),
-          rotation: requireFinite(bone.init_rot, `bone ${bone.id} init rotation`),
+          y: sourceYToNormalized(
+            requireFinite(bone.init_pos.y, `bone ${bone.id} init y`),
+          ),
+          rotation: sourceRotationToNormalized(
+            requireFinite(bone.init_rot, `bone ${bone.id} init rotation`),
+          ),
           scaleX: requireFinite(
             bone.init_scale.x,
             `bone ${bone.id} init scale x`,

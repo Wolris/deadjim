@@ -45,7 +45,13 @@ License: MIT
 
 Role in Dead Jim: first renderer/runtime integration target.
 
-Phaser-specific objects and lifecycle behavior belong in the Phaser adapter rather than Dead Jim's normalized skeletal-animation model.
+The first renderer adapter is pinned for development and type validation against **Phaser 4.2.1**. Phaser remains a peer runtime boundary: Phaser-specific objects and lifecycle behavior belong in the Phaser adapter rather than Dead Jim's normalized skeletal-animation model.
+
+Reference:
+
+- https://github.com/phaserjs/phaser/releases/tag/v4.2.1
+- https://docs.phaser.io/phaser/concepts/gameobjects
+- https://docs.phaser.io/phaser/concepts/gameobjects/components
 
 ## Independence
 
