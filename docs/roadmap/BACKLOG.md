@@ -4,7 +4,7 @@ Approved future work that is not active.
 
 Completed Phase 1, package-boundary work, the first public pre-release, and the release-automation decision are intentionally omitted here. See `docs/roadmap/ACTIVE_TODO.md` and `docs/PROJECT_STATUS.md` for milestone evidence.
 
-The DragonBones/LoongBones source-format discriminator is currently active and therefore is not duplicated here.
+The current priority is real SkelForm workflow adoption. Do not promote speculative capability work ahead of concrete consumer evidence.
 
 ## Release process
 
@@ -20,7 +20,9 @@ The DragonBones/LoongBones source-format discriminator is currently active and t
 
 ## Source adapters
 
-- Define a stable normalized serialized fixture format if cross-adapter testing benefits from it.
+- **No alternative source-adapter work is planned.**
+- Revisit another authoring format only if SkelForm proves inadequate for a concrete required workflow.
+- Define a stable normalized serialized fixture format only if real cross-adapter or compatibility testing later benefits from it.
 
 ## Renderer adapters
 
@@ -38,10 +40,10 @@ These remain deferred until real animation evidence proves they are needed.
 
 ## Tooling
 
-- CLI validator/inspector for source files.
-- Debug bone/attachment overlay.
-- Optional hosted/demo deployment after release-readiness work establishes an appropriate publishing path.
+- CLI validator/inspector for source files if repeated integration work makes it useful.
+- Debug bone/attachment overlay if real consumer debugging requires it.
+- Optional hosted/demo deployment if it materially improves public adoption or validation.
 
 ## Editor
 
-A custom Dead Jim authoring editor is explicitly deferred. Revisit only if repeated use demonstrates that free/open authoring tools cannot satisfy the workflow.
+A custom Dead Jim authoring editor is explicitly deferred. SkelForm is the selected free/open authoring workflow. Revisit editor development only if repeated real use demonstrates that SkelForm cannot satisfy the required workflow.
