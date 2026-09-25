@@ -86,7 +86,7 @@ assert(
   "Release policy does not reference the candidate version.",
 );
 assert(
-  releasePolicy.includes("maintainer authorization"),
+  releasePolicy.toLowerCase().includes("maintainer authorization"),
   "Release policy does not record the authorization boundary.",
 );
 
