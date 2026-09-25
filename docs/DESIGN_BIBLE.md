@@ -58,29 +58,24 @@ Dead Jim keeps four responsibilities separate:
 
 Source-specific conventions are converted at import boundaries. Renderer-specific representation stays in renderer adapters.
 
-## Package distribution boundary — proven
+## Package distribution boundary — proven and released
 
-The post-Phase 1 package boundary is also validated without publishing:
+The post-Phase 1 package boundary is validated and publicly released:
 
 - the public `src/index.ts` surface emits ESM JavaScript and TypeScript declarations;
 - package exports/types resolve to the emitted `dist/lib` artifact;
 - packed contents are constrained to the built library plus required package documentation/metadata;
 - Phaser remains a peer dependency;
-- a clean temporary consumer installs the packed tarball, imports representative runtime exports, and typechecks representative public types.
+- a clean temporary consumer installs the packed tarball, imports representative runtime exports, and typechecks representative public types;
+- `dead-jim@0.1.0-alpha.1` is the first public npm package and GitHub pre-release.
 
-This proves distributability mechanics, not release approval.
+Future releases remain behind explicit maintainer approval and the release process defined in `docs/RELEASE_POLICY.md`.
 
-## Remaining release boundary
+## Public alpha state
 
-Before a first public pre-release, Dead Jim still requires:
+The first public alpha proves the original SkelForm -> Dead Jim -> Phaser 4 path and the package distribution boundary. Additional source formats or renderer adapters remain evidence-driven extensions, not automatic scope expansion.
 
-- verified package identity/name;
-- intentional pre-release semantic version;
-- minimal changelog/release-note policy;
-- final public metadata review;
-- a later explicit maintainer decision to change publish posture, tag, release, or publish.
-
-`private: true` remains an intentional safety gate until that later decision.
+Publication automation is intentionally deferred until repeated release work justifies it. If adopted later, it must preserve the explicit maintainer approval boundary and use short-lived trusted authentication rather than reusable publishing secrets.
 
 ## Explicitly deferred
 
