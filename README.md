@@ -40,17 +40,37 @@ The first milestone is intentionally small:
 
 Advanced mesh deformation, IK, physics, and a custom animation editor are deliberately deferred until real runtime evidence requires them.
 
-The TypeScript scaffold is currently being developed on the focused implementation branch before it is merged into `main`.
+The Phase 1 runtime discriminator is implemented. A browser sandbox in `examples/phase1/` proves the public SkelForm → Dead Jim → Phaser 4 path visually.
 
 ## Repository structure
 
 - `assets/` — public project artwork and repository assets
+- `examples/phase1/` — self-contained browser sandbox for the Phase 1 runtime path
 - `docs/DESIGN_BIBLE.md` — public product principles and scope
 - `docs/architecture/` — architecture decision records
 - `docs/roadmap/` — active execution lock, process, and backlog
 - `docs/THIRD_PARTY.md` — upstream projects and license boundaries
 - `AGENTS.md` — repository rules for AI-assisted development
 - `src/`, `tests/`, and `validate.cmd` — runtime implementation and validation as they land from the current implementation branch
+
+## Phase 1 browser demo
+
+From the repository root:
+
+```bash
+npm install
+npm run demo:dev
+```
+
+Open the local URL printed by Vite.
+
+PASS when the arm keeps animating, the blend slider changes the motion continuously, and the style button swaps cyan/magenta attachments without interrupting playback.
+
+The production demo build is included in `npm run validate` and can be run directly with:
+
+```bash
+npm run demo:build
+```
 
 ## Validation
 

@@ -1,0 +1,81 @@
+{
+  "version": "0.7.1",
+  "bones": [
+    {
+      "id": 0,
+      "name": "Root",
+      "parent_id": -1,
+      "init_pos": { "x": 320, "y": -240 },
+      "init_rot": 0,
+      "init_scale": { "x": 1, "y": 1 },
+      "init_hidden": false,
+      "visuals_id": 0,
+      "ik_family_id": -1,
+      "physics_id": -1
+    },
+    {
+      "id": 1,
+      "name": "Arm",
+      "parent_id": 0,
+      "init_pos": { "x": 0, "y": 0 },
+      "init_rot": 0,
+      "init_scale": { "x": 1, "y": 1 },
+      "init_hidden": false,
+      "visuals_id": 1,
+      "ik_family_id": -1,
+      "physics_id": -1
+    }
+  ],
+  "visuals": [
+    {
+      "tex": "root-marker",
+      "zindex": 0,
+      "pivot_pos": { "x": 0, "y": 0 },
+      "pivot_rot": 0,
+      "pivot_scale": { "x": 1, "y": 1 },
+      "vertices": [],
+      "indices": [],
+      "binds": []
+    },
+    {
+      "tex": "arm-cyan",
+      "zindex": 1,
+      "pivot_pos": { "x": 0.5, "y": 0 },
+      "pivot_rot": 0,
+      "pivot_scale": { "x": 1, "y": 1 },
+      "vertices": [],
+      "indices": [],
+      "binds": []
+    }
+  ],
+  "animations": [
+    {
+      "id": 0,
+      "name": "Sweep",
+      "fps": 10,
+      "keyframes": [
+        { "frame": 0, "bone_id": 1, "element": "Rotation", "value": 0.7, "handle_preset": "Linear" },
+        { "frame": 10, "bone_id": 1, "element": "Rotation", "value": -0.7, "handle_preset": "Linear" },
+        { "frame": 20, "bone_id": 1, "element": "Rotation", "value": 0.7, "handle_preset": "Linear" }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "LiftAndPulse",
+      "fps": 10,
+      "keyframes": [
+        { "frame": 0, "bone_id": 1, "element": "PositionY", "value": 0, "handle_preset": "Linear" },
+        { "frame": 10, "bone_id": 1, "element": "PositionY", "value": 60, "handle_preset": "Linear" },
+        { "frame": 20, "bone_id": 1, "element": "PositionY", "value": 0, "handle_preset": "Linear" },
+        { "frame": 0, "bone_id": 1, "element": "ScaleX", "value": 0.85, "handle_preset": "Linear" },
+        { "frame": 10, "bone_id": 1, "element": "ScaleX", "value": 1.2, "handle_preset": "Linear" },
+        { "frame": 20, "bone_id": 1, "element": "ScaleX", "value": 0.85, "handle_preset": "Linear" },
+        { "frame": 0, "bone_id": 1, "element": "ScaleY", "value": 0.85, "handle_preset": "Linear" },
+        { "frame": 10, "bone_id": 1, "element": "ScaleY", "value": 1.2, "handle_preset": "Linear" },
+        { "frame": 20, "bone_id": 1, "element": "ScaleY", "value": 0.85, "handle_preset": "Linear" }
+      ]
+    }
+  ],
+  "inverse_kinematics": [],
+  "physics": []
+}

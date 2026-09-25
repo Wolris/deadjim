@@ -1,0 +1,120 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #080b10;
+  color: #edf7ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, #172438 0, transparent 42rem),
+    #080b10;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.shell {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0 64px;
+}
+
+header {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #69e4ff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 760px;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+.lede,
+.hint {
+  max-width: 760px;
+  color: #aebccd;
+  line-height: 1.6;
+}
+
+.demo-card {
+  overflow: hidden;
+  border: 1px solid #2a3748;
+  border-radius: 18px;
+  background: #0e141d;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 0.35);
+}
+
+.game-frame {
+  display: grid;
+  min-height: 480px;
+  place-items: center;
+  background:
+    linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    #11151c;
+  background-size: 32px 32px;
+}
+
+.game-frame canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.controls {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border-top: 1px solid #2a3748;
+}
+
+.controls label {
+  display: grid;
+  gap: 8px;
+  color: #d9e6f2;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+button {
+  width: fit-content;
+  padding: 10px 16px;
+  border: 1px solid #365067;
+  border-radius: 10px;
+  background: #172536;
+  color: #edf7ff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #20374f;
+}
+
+output {
+  color: #69e4ff;
+  font-weight: 700;
+}
