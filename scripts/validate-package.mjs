@@ -11,7 +11,7 @@ import { mkdtempSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 
 const repoRoot = fileURLToPath(new URL("../", import.meta.url));
-const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+const npmExecPath = process.env.npm_execpath;
 const packageCheckDir = join(repoRoot, "dist", "package-check");
 const packDir = join(packageCheckDir, "pack");
 
@@ -37,6 +37,15 @@ function run(command, args, options = {}) {
   return result.stdout ?? "";
 }
 
+function runNpm(args, options = {}) {
+  if (npmExecPath) {
+    return run(process.execPath, [npmExecPath, ...args], options);
+  }
+
+  const fallbackCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+  return run(fallbackCommand, args, options);
+}
+
 function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
@@ -46,14 +55,13 @@ function assert(condition, message) {
 rmSync(packageCheckDir, { recursive: true, force: true });
 mkdirSync(packDir, { recursive: true });
 
-run(npmCommand, ["run", "build:lib"]);
+runNpm(["run", "build:lib"]);
 
 const packageJson = JSON.parse(
   readFileSync(join(repoRoot, "package.json"), "utf8"),
 );
 
-const packOutput = run(
-  npmCommand,
+const packOutput = runNpm(
   ["pack", "--json", "--pack-destination", packDir],
   { capture: true },
 );
@@ -118,8 +126,7 @@ try {
     ) + "\n",
   );
 
-  run(
-    npmCommand,
+  runNpm(
     [
       "install",
       "--ignore-scripts",

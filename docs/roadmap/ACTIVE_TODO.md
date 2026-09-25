@@ -8,51 +8,48 @@ Maintainer authorization for `dead-jim@0.1.0-alpha.1` was granted on September 2
 
 ## CURRENT EXECUTION LOCK
 
-**AWAITING MERGE APPROVAL — PR #13, publish-ready `0.1.0-alpha.1` release preparation.**
+**LOCKED — Fix Windows package validation before publishing `0.1.0-alpha.1`.**
+
+Release-preparation PR #13 was merged at `90e8b7e` and merged-`main` validation run 77 passed. A local Windows/Node 24 release check then exposed a real portability defect: `scripts/validate-package.mjs` attempted to spawn `npm.cmd` directly and failed with `spawnSync npm.cmd EINVAL`.
 
 Acceptance criteria:
 
-- begin from merged `main` after the candidate checklist;
-- remove the `private: true` publish-safety gate from `package.json`;
-- date the `0.1.0-alpha.1` changelog entry September 25, 2026;
 - keep package identity/version exactly `dead-jim@0.1.0-alpha.1`;
-- preserve ESM exports, declarations, package file boundary, MIT license, and Phaser peer dependency;
-- run full deterministic repository/package validation;
-- run `npm run release:check` with a fresh npm registry identity check on the publish-ready candidate — **run 74: PASS**;
-- prove packed artifact identity and clean consumer runtime/type import again;
-- restore routine CI to deterministic validation after the one-time registry-backed release check — **run 75: PASS**;
-- open a focused release-preparation PR — **PR #13 open**;
-- stop for explicit merge approval before tagging, creating a GitHub release, or running `npm publish` — **current boundary**.
+- make package-check npm subprocess invocation work on Windows/Node 24 without weakening Linux behavior;
+- add permanent Windows/Node 24 package-check CI coverage;
+- preserve the 23-file package boundary and clean consumer runtime/type imports;
+- leave runtime behavior unchanged;
+- open a focused PR and stop for explicit merge approval;
+- after merge and green `main`, move tag `v0.1.0-alpha.1` from pre-fix commit `90e8b7e` to the final fixed release commit;
+- re-run the npm package-name check immediately before publication;
+- publish only after the corrected tag and exact release commit are verified.
 
 ## NEXT
 
-After explicit merge approval and successful merged-`main` validation:
+After the Windows validation fix is merged and `main` is green:
 
-1. re-run `npm run package:name-check` immediately before first publication;
-2. create Git tag `v0.1.0-alpha.1`;
-3. publish `dead-jim@0.1.0-alpha.1` to npm with dist-tag `alpha` if authenticated npm access is available;
-4. create GitHub pre-release **Dead Jim v0.1.0-alpha.1** using the matching changelog entry.
+1. delete/recreate `v0.1.0-alpha.1` on the final fixed release commit;
+2. verify `npm whoami` and `npm run package:name-check`;
+3. run `npm publish --tag alpha`;
+4. create GitHub pre-release **Dead Jim v0.1.0-alpha.1** from the corrected tag.
 
-If npm publishing credentials are unavailable, stop at that concrete blocker rather than bypassing it.
+No npm publication has occurred yet.
 
 ## Recently closed
+
+### Publish-ready release preparation — DONE
+
+Evidence:
+
+- PR #13 merged at `90e8b7e`;
+- release validation run 74: PASS;
+- deterministic PR validation runs 75 and 76: PASS;
+- merged `main` validation run 77: PASS;
+- fresh npm identity check run 79: PASS.
 
 ### First public pre-release authorization — APPROVED
 
 Maintainer authorization received September 25, 2026 for `dead-jim@0.1.0-alpha.1`.
-
-Authorization permits the publish-ready preparation branch and, after a separate explicit merge approval, the planned tag/release/publication sequence.
-
-### First pre-release candidate checklist — DONE
-
-Evidence:
-
-- candidate `main` run 67: PASS;
-- checklist run 69: PASS;
-- merged checklist `main` run 72: PASS;
-- npm identity check: PASS;
-- packed artifact: `dead-jim@0.1.0-alpha.1`, 23 intentional files;
-- clean consumer runtime/type checks: PASS.
 
 ## Explicitly deferred
 
