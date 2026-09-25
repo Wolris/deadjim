@@ -2,7 +2,7 @@
 
 ## Project
 
-Dead Jim — an MIT-licensed open-source TypeScript bridge/runtime for bringing SkelForm-authored 2D skeletal animation into Phaser 4.
+Dead Jim — an MIT-licensed open-source TypeScript bridge/runtime for bringing open 2D skeletal-animation authoring data into Phaser 4 through explicit source and renderer adapters.
 
 Repository: `Wolris/deadjim`
 
@@ -29,6 +29,8 @@ Release identity:
 Release evidence:
 
 - merged-`main` validation run 85: PASS;
+- post-release reconciliation merged at `a65da361cb95e7d68f7858bcdeb52a5a8ceb5629`;
+- post-merge validation run 87: PASS;
 - Linux full validation: PASS;
 - Windows/Node 24 package validation: PASS;
 - packed artifact: 23 files;
@@ -37,11 +39,17 @@ Release evidence:
 - npm publication: confirmed live;
 - GitHub pre-release: confirmed published and marked pre-release.
 
-The first manual release path also exposed and resolved a Windows `spawnSync npm.cmd EINVAL` portability defect before publication. Permanent Windows/Node 24 package validation is now part of CI.
+## Release automation decision
+
+Publication remains manual for now.
+
+The first manual release is proven, but one release does not yet justify another high-impact publication path. Existing CI already automates deterministic validation and package-boundary checks. Revisit publication automation after a second manual pre-release or when cadence makes the manual sequence materially repetitive.
+
+If automation is later adopted, the intended security direction is npm Trusted Publishing with GitHub Actions OIDC rather than a stored long-lived npm write token. Explicit maintainer approval remains mandatory.
 
 ## Current execution
 
-The single current lock is deciding the smallest safe release automation for future pre-releases now that the manual path is proven. Explicit maintainer approval remains mandatory for release boundaries.
+The single current lock is evaluating DragonBones/LoongBones as the second source-format discriminator. The evaluation must pin a concrete format/fixture, map only the Phase 1-compatible subset into the normalized runtime, verify license/coordinate boundaries, and produce a go/no-go recommendation before implementation.
 
 ## Release documents
 
@@ -51,4 +59,4 @@ The single current lock is deciding the smallest safe release automation for fut
 
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The first public alpha is complete. The next lock is the release-automation decision; runtime/editor scope remains unchanged unless promoted from the backlog by evidence.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The first public alpha is complete, publication automation is intentionally deferred, and the active lock is the DragonBones/LoongBones source-format discriminator.
