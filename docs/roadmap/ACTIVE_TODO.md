@@ -8,26 +8,34 @@ Dead Jim `0.1.0-alpha.1` was published on September 25, 2026.
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Prove the chosen SkelForm workflow with real consumer evidence before adding features.**
+**AWAITING VALIDATION — Close the real SkelForm atlas-packaging blocker before the representative asset proof.**
 
-Dead Jim exists to make the free/open **SkelForm -> Dead Jim -> Phaser 4** authoring/runtime path practical. The adapter architecture is an implementation boundary, not a roadmap mandate to support multiple authoring formats.
+The first adoption review found a concrete mismatch between the synthetic Phase 1 demo and genuine SkelForm v0.7.2 runtime exports: SkelForm ships `armature.json` plus packed `atlasX.png` files, with texture rectangles under `styles[].textures[]`. Dead Jim alpha.1 previously assumed referenced textures were already standalone Phaser texture keys.
 
 Acceptance criteria:
 
-- keep SkelForm as the selected authoring tool and source format unless a concrete real-world blocker proves it inadequate;
-- exercise the published `dead-jim@alpha` package through a representative SkelForm-authored character/animation workflow rather than evaluating replacement authoring tools;
-- validate the already-proven Phase 1 capabilities that the real authored asset actually uses: hierarchy, transforms, sprite attachments, pivots/origins, draw order, linear transform animation, playback, attachment/style selection, and two-pose blending as applicable;
-- record only concrete gaps discovered by the real workflow;
-- do not add weighted meshes, IK, physics, advanced curves, extra source adapters, extra renderer adapters, or other deferred features without evidence that the chosen workflow needs them;
-- keep any private consumer details out of this public repository; public evidence may use sanitized/reproducible fixtures or maintainer-reported results;
-- if the real SkelForm workflow passes within the current boundary, treat that as adoption evidence rather than inventing new Dead Jim scope;
-- if it exposes a reproducible gap, promote exactly that smallest gap as the successor lock.
+- model the pinned SkelForm atlas/style texture metadata required by real exports;
+- resolve texture regions using explicit active-style order and SkelForm's first-active-style-containing-the-texture precedence;
+- keep atlas packaging out of the normalized skeleton model;
+- preserve existing loose-texture behavior for current Dead Jim consumers;
+- let the Phaser adapter accept an asset-id-to-texture/frame resolver;
+- provide a generic Phaser helper that registers resolved atlas regions against already-loaded atlas images;
+- reject missing styles, textures, atlases, and invalid region metadata deterministically;
+- keep dynamic style switching, loader/network orchestration, meshes, IK, physics, and advanced animation out of this slice;
+- pass full Linux validation and the Windows/Node 24 package boundary with the package file count unchanged.
 
 ## NEXT
 
-Use Dead Jim in the intended SkelForm-authored Phaser workflow with a short, representative asset set. Promote only the smallest reproducible compatibility/runtime gap that real use exposes.
+After this atlas-packaging fix is merged and green, perform the first **real SkelForm editor/export proof** with a short representative Adventurer asset set:
 
-After that asset proof is solid and any blocking gaps are closed, promote the **public promotional/adoption website** milestone from `BACKLOG.md`.
+- one shared base character rig;
+- idle + one expressive/action animation;
+- at least one texture/style variation sufficient to prove the exported style/atlas path;
+- Phaser rendering through the public Dead Jim package boundary.
+
+If that proof passes, expand only as needed toward the previously accepted customization evidence (hair, clothing, held equipment) and record any concrete gap before implementing it.
+
+After the representative asset proof is solid and any blocking gaps are closed, promote the **public promotional/adoption website** milestone from `BACKLOG.md`.
 
 ## Recently closed
 

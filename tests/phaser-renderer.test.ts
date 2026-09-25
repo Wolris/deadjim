@@ -17,10 +17,12 @@ import { evaluateClipPose } from "../src/pose.js";
 import {
   PHASER_TARGET_VERSION,
   Phaser4RendererAdapter,
+  registerPhaserAtlasRegions,
 } from "../src/renderer/phaser.js";
 import { validateSkeleton } from "../src/skeleton.js";
 import {
   SkelFormAdapter,
+  resolveSkelFormTextureRegions,
   type SkelFormSource,
 } from "../src/source/skelform.js";
 import fixture from "./fixtures/skelform-v0.7.2-minimal.json";
@@ -37,7 +39,10 @@ class FakeImage {
   visible = true;
   destroyed = false;
 
-  constructor(readonly assetId: string) {}
+  constructor(
+    readonly assetId: string,
+    readonly frame?: string | number,
+  ) {}
 
   setPosition(x: number, y: number): this {
     this.x = x;
@@ -77,15 +82,77 @@ class FakeImage {
   }
 }
 
-function makeScene(images: FakeImage[]) {
+interface FakeFrame {
+  sourceIndex: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+class FakeTexture {
+  readonly frames = new Map<string, FakeFrame>();
+
+  has(name: string): boolean {
+    return this.frames.has(name);
+  }
+
+  add(
+    name: string,
+    sourceIndex: number,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): FakeFrame | null {
+    if (this.frames.has(name)) return null;
+
+    const frame = { sourceIndex, x, y, width, height };
+    this.frames.set(name, frame);
+    return frame;
+  }
+}
+
+class FakeTextureManager {
+  private readonly textures = new Map<string, FakeTexture>();
+
+  constructor(keys: readonly string[] = []) {
+    for (const key of keys) {
+      this.textures.set(key, new FakeTexture());
+    }
+  }
+
+  exists(key: string): boolean {
+    return this.textures.has(key);
+  }
+
+  get(key: string): FakeTexture {
+    const texture = this.textures.get(key);
+    if (!texture) {
+      throw new Error(`Missing fake texture ${key}.`);
+    }
+    return texture;
+  }
+}
+
+function makeScene(
+  images: FakeImage[],
+  textures: FakeTextureManager = new FakeTextureManager(),
+) {
   return {
     add: {
-      image(_x: number, _y: number, assetId: string) {
-        const image = new FakeImage(assetId);
+      image(
+        _x: number,
+        _y: number,
+        assetId: string,
+        frame?: string | number,
+      ) {
+        const image = new FakeImage(assetId, frame);
         images.push(image);
         return image;
       },
     },
+    textures,
   } as unknown as ConstructorParameters<typeof Phaser4RendererAdapter>[0];
 }
 
@@ -288,6 +355,63 @@ describe("Phaser4RendererAdapter", () => {
     expect(images[0].visible).toBe(true);
 
     adapter.destroy();
+  });
+
+  it("registers real SkelForm atlas regions and resolves them into Phaser frames", () => {
+    const source = structuredClone(fixture) as SkelFormSource;
+    const definition = new SkelFormAdapter().import(source);
+    const skeleton = validateSkeleton(definition);
+    const pose = evaluateClipPose(skeleton, definition.animations[0], 500);
+    const images: FakeImage[] = [];
+    const textures = new FakeTextureManager(["skelform:atlas0.png"]);
+    const scene = makeScene(images, textures);
+    const regions = resolveSkelFormTextureRegions(source, [0]);
+    const resolveAsset = registerPhaserAtlasRegions(
+      scene,
+      regions,
+      (filename) => `skelform:${filename}`,
+    );
+    const adapter = new Phaser4RendererAdapter(scene, skeleton, {
+      resolveAsset,
+    });
+
+    expect(
+      textures
+        .get("skelform:atlas0.png")
+        .frames.get("dead-jim:hand.png"),
+    ).toEqual({
+      sourceIndex: 0,
+      x: 12,
+      y: 20,
+      width: 40,
+      height: 60,
+    });
+
+    adapter.applyPose(pose);
+
+    expect(images).toHaveLength(1);
+    expect(images[0].assetId).toBe("skelform:atlas0.png");
+    expect(images[0].frame).toBe("dead-jim:hand.png");
+    expect(images[0].x).toBeCloseTo(20);
+    expect(images[0].y).toBeCloseTo(-20);
+
+    adapter.destroy();
+  });
+
+  it("fails clearly when a SkelForm atlas image has not been loaded into Phaser", () => {
+    const source = structuredClone(fixture) as SkelFormSource;
+    const regions = resolveSkelFormTextureRegions(source, [0]);
+    const scene = makeScene([]);
+
+    expect(() =>
+      registerPhaserAtlasRegions(
+        scene,
+        regions,
+        (filename) => `skelform:${filename}`,
+      ),
+    ).toThrow(
+      "Phaser atlas texture skelform:atlas0.png is not loaded for asset hand.png",
+    );
   });
 
   it("renders looping clip playback through the normalized runtime", () => {
