@@ -2,9 +2,14 @@
 
 Approved future work that is not active.
 
-Completed Phase 1, package-boundary work, and the first public pre-release are intentionally omitted here. See `docs/roadmap/ACTIVE_TODO.md` and `docs/PROJECT_STATUS.md` for milestone evidence.
+Completed Phase 1, package-boundary work, the first public pre-release, and the release-automation decision are intentionally omitted here. See `docs/roadmap/ACTIVE_TODO.md` and `docs/PROJECT_STATUS.md` for milestone evidence.
 
-The release-automation decision is currently active and therefore is not duplicated here.
+The DragonBones/LoongBones source-format discriminator is currently active and therefore is not duplicated here.
+
+## Release process
+
+- Revisit automated publication after a second manual pre-release or when release cadence makes the manual path materially repetitive.
+- If automated publication is adopted, prefer npm Trusted Publishing with GitHub Actions OIDC over long-lived npm write tokens while preserving explicit maintainer approval.
 
 ## Core runtime
 
@@ -15,7 +20,6 @@ The release-automation decision is currently active and therefore is not duplica
 
 ## Source adapters
 
-- Evaluate DragonBones/LoongBones import only if useful after the first milestone.
 - Define a stable normalized serialized fixture format if cross-adapter testing benefits from it.
 
 ## Renderer adapters
