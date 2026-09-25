@@ -38,11 +38,30 @@ The current priority is real SkelForm workflow adoption. Do not promote speculat
 
 These remain deferred until real animation evidence proves they are needed.
 
+## Promotion and adoption
+
+### Public promotional website — after real asset proof
+
+Promote this only after the selected SkelForm -> Dead Jim -> Phaser 4 workflow has been proven with a short, representative asset set and any blocking compatibility/runtime gaps from that proof are closed.
+
+The site should:
+
+- explain Dead Jim's purpose and the free/open authoring/runtime path clearly;
+- showcase a small set of polished, real Dead Jim animation examples rather than synthetic capability claims;
+- provide installation/getting-started links for `dead-jim@alpha` and the public repository;
+- give prominent, explicit credit and high praise to **SkelForm / Retropaint** and **Phaser** as projects that made Dead Jim possible;
+- link directly to SkelForm and Phaser;
+- include a Dead Jim support/donation path;
+- verify whether Retropaint has a public donation/support link at implementation time and, if appropriate, link to it prominently as well;
+- avoid implying endorsement, partnership, or affiliation before any such relationship actually exists;
+- after the finished site is public, contact Retropaint with the site/demo and ask whether they are interested in cross-promotion or linking to Dead Jim;
+- treat any resulting collaboration, quote, logo permission, or endorsement language as explicit follow-up work rather than assuming permission.
+
 ## Tooling
 
 - CLI validator/inspector for source files if repeated integration work makes it useful.
 - Debug bone/attachment overlay if real consumer debugging requires it.
-- Optional hosted/demo deployment if it materially improves public adoption or validation.
+- Hosted/demo infrastructure may be implemented as part of the promotional website milestone when that milestone is promoted.
 
 ## Editor
 
