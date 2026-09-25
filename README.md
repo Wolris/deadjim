@@ -1,10 +1,10 @@
-<p align="center">
-  <img src="assets/dead-jim-avatar.jpg" alt="Dead Jim — grinning neon skeleton project artwork" width="256">
-</p>
-
 # Dead Jim
 
 **Dead Jim** is an open-source TypeScript bridge/runtime for bringing [SkelForm](https://skelform.org/)-authored 2D skeletal animation into [Phaser 4](https://github.com/phaserjs/phaser).
+
+<img src="https://raw.githubusercontent.com/Wolris/deadjim/main/assets/dead-jim-avatar.png" alt="Dead Jim — grinning neon skeleton project artwork" width="128">
+
+Bones: "He's dead, Jim."
 
 The intended pipeline is:
 
@@ -84,7 +84,3 @@ See [docs/THIRD_PARTY.md](docs/THIRD_PARTY.md) for upstream license details.
 ## Contributing
 
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
-
-## Name
-
-Bones. He's dead, Jim.
