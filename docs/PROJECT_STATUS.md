@@ -8,51 +8,34 @@ Repository: `Wolris/deadjim`
 
 ## Phase 1 — complete
 
-The runtime path is proven end to end through automated tests and the public browser sandbox:
+The runtime path is proven end to end through automated tests and the public browser sandbox. Maintainer browser validation: **4/4 PASS**.
 
-```text
-SkelForm v0.7.2
-        ↓
-source adapter
-        ↓
-normalized runtime
-        ↓
-playback / attachment selection / pose evaluation / two-pose blend
-        ↓
-Phaser 4.2.1 renderer adapter
-        ↓
-public browser sandbox
-```
+## Package boundary — proven
 
-Maintainer browser validation: **4/4 PASS**.
+Dead Jim emits ESM JavaScript and TypeScript declarations, defines explicit package exports/files, retains Phaser as a peer dependency, and passes a clean packed-artifact consumer runtime/type smoke test.
 
-## Package distribution boundary — proven
+## Pre-release identity — defined, not released
 
-Dead Jim now has a validated, non-published package artifact:
-
-- ESM JavaScript emitted to `dist/lib`;
-- TypeScript declarations emitted alongside JavaScript;
-- explicit root package exports and type entry point;
-- intentional package `files` boundary;
-- Phaser retained as a peer dependency;
-- deterministic `npm pack` validation;
-- clean temporary consumer install, runtime import, and TypeScript import smoke tests.
-
-GitHub Actions validation run 59 passed and packed **23 intentional files**. The consumer smoke reported runtime import PASS and package boundary PASS.
-
-The package remains deliberately non-publishable: `private: true`, version `0.0.0`, no tags, no releases, and no npm publication.
+- Intended npm package: `dead-jim`.
+- npm identity check on September 25, 2026: no registry package record.
+- First candidate version: `0.1.0-alpha.1`.
+- Package remains `private: true`.
+- No npm publication, Git tag, or GitHub release exists from this work.
+- Versioning and release-note policy: `docs/RELEASE_POLICY.md`.
+- Candidate notes: `CHANGELOG.md`.
 
 ## Current execution
 
-The single current execution lock is pre-release metadata/versioning: verify the intended package identity, choose an initial pre-release semantic version, define a minimal release-notes convention, and revalidate the package artifact without publishing.
+The single current execution lock is the first pre-release candidate checklist. It must verify the candidate one final time and then stop for an explicit maintainer decision before changing publish posture, tagging, releasing, or publishing.
 
 ## Current reference stack
 
-- SkelForm v0.7.2 as the first source-format compatibility target;
-- TypeScript normalized engine-independent runtime;
-- Phaser 4.2.1 as the first renderer target;
-- Vite-powered public Phase 1 browser sandbox;
-- emitted ESM + declaration package artifact validated by a clean consumer smoke test.
+- SkelForm v0.7.2 / armature version 0.7.1.
+- TypeScript normalized engine-independent runtime.
+- Phaser 4.2.1 renderer adapter.
+- Vite-powered public Phase 1 browser sandbox.
+- ESM + declaration package artifact.
+- Candidate package identity/version: `dead-jim@0.1.0-alpha.1`.
 
 ## Licensing
 
@@ -63,10 +46,6 @@ The single current execution lock is pre-release metadata/versioning: verify the
 
 See `LICENSE` and `docs/THIRD_PARTY.md`.
 
-## Public-project rule
-
-Repository documentation, fixtures, examples, source, logs, and screenshots must remain self-contained and free of private workflow, personal storage, secrets, or unrelated consumer-project information.
-
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The package boundary is proven; the next work is metadata/versioning only. Do not publish, tag, release, remove `private: true`, or add new runtime features unless the active lock explicitly changes.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The next work is the candidate release checklist only. Do not change `private: true`, create a tag/release, or publish unless the maintainer explicitly authorizes the release after the checklist.

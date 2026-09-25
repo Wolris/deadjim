@@ -1,6 +1,6 @@
 {
   "name": "dead-jim",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.1",
   "private": true,
   "description": "TypeScript bridge/runtime for bringing SkelForm-authored 2D skeletal animation into Phaser 4.",
   "type": "module",
@@ -31,7 +31,8 @@
     "clean:lib": "node scripts/clean-lib.mjs",
     "build:lib": "npm run clean:lib && tsc -p tsconfig.build.json",
     "package:check": "node scripts/validate-package.mjs",
-    "validate": "npm run typecheck && npm test && npm run demo:build && npm run package:check"
+    "validate": "npm run typecheck && npm test && npm run demo:build && npm run package:check",
+    "package:name-check": "node scripts/check-npm-name.mjs"
   },
   "devDependencies": {
     "phaser": "4.2.1",
