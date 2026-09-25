@@ -34,7 +34,7 @@ describe("SkelFormAdapter", () => {
         parentId: null,
         bind: {
           x: 10,
-          y: 20,
+          y: -20,
           rotation: 0,
           scaleX: 1,
           scaleY: 1,
@@ -47,7 +47,7 @@ describe("SkelFormAdapter", () => {
         bind: {
           x: 5,
           y: 0,
-          rotation: 0.25,
+          rotation: -0.25,
           scaleX: 1,
           scaleY: 1,
         },
@@ -61,7 +61,7 @@ describe("SkelFormAdapter", () => {
         boneId: "1",
         assetId: "hand.png",
         pivotX: 0.5,
-        pivotY: 0.75,
+        pivotY: -0.75,
         zIndex: 3,
       },
     ]);
@@ -83,8 +83,8 @@ describe("SkelFormAdapter", () => {
           {
             boneId: "1",
             rotation: [
-              { timeMs: 0, value: 0.25 },
-              { timeMs: 1000, value: 1.25 },
+              { timeMs: 0, value: -0.25 },
+              { timeMs: 1000, value: -1.25 },
             ],
           },
         ],
@@ -103,11 +103,42 @@ describe("SkelFormAdapter", () => {
       pose.bones.get("0")?.local,
     );
 
-    expect(pose.bones.get("1")?.local.rotation).toBeCloseTo(0.75);
+    expect(pose.bones.get("1")?.local.rotation).toBeCloseTo(-0.75);
     expect(pose.bones.get("1")?.world.x).toBeCloseTo(20);
-    expect(pose.bones.get("1")?.world.y).toBeCloseTo(20);
-    expect(pose.bones.get("1")?.world.rotation).toBeCloseTo(0.75);
+    expect(pose.bones.get("1")?.world.y).toBeCloseTo(-20);
+    expect(pose.bones.get("1")?.world.rotation).toBeCloseTo(-0.75);
     expect(pose.visibleAttachments).toEqual(["bone-1-visual-0"]);
+  });
+
+  it("converts SkelForm Y-up and counter-clockwise channels at the source boundary", () => {
+    const converted = source();
+    converted.animations[0].keyframes = [
+      ...converted.animations[0].keyframes,
+      {
+        frame: 0,
+        bone_id: 0,
+        element: "PositionY",
+        value: 20,
+        handle_preset: "Linear",
+      },
+      {
+        frame: 10,
+        bone_id: 0,
+        element: "PositionY",
+        value: 30,
+        handle_preset: "Linear",
+      },
+    ];
+
+    const definition = new SkelFormAdapter().import(converted);
+    const rootTrack = definition.animations[0].tracks.find(
+      (track) => track.boneId === "0",
+    );
+
+    expect(rootTrack?.y).toEqual([
+      { timeMs: 0, value: -20 },
+      { timeMs: 1000, value: -30 },
+    ]);
   });
 
   it("rejects source versions and interpolation semantics outside the pinned discriminator", () => {
@@ -141,6 +172,30 @@ describe("SkelFormAdapter", () => {
     physics.physics = [{}];
     expect(() => new SkelFormAdapter().import(physics)).toThrow(
       "physics",
+    );
+
+    const pivotRotation = source();
+    pivotRotation.visuals[0].pivot_rot = 0.25;
+    expect(() => new SkelFormAdapter().import(pivotRotation)).toThrow(
+      "pivot rotation",
+    );
+
+    const pivotScale = source();
+    pivotScale.visuals[0].pivot_scale = { x: 2, y: 1 };
+    expect(() => new SkelFormAdapter().import(pivotScale)).toThrow(
+      "pivot scale",
+    );
+
+    const tint = source();
+    tint.visuals[0].tint = { r: 1, g: 0.5, b: 1, a: 1 };
+    expect(() => new SkelFormAdapter().import(tint)).toThrow(
+      "uses tint",
+    );
+
+    const hidden = source();
+    hidden.bones[1].init_hidden = true;
+    expect(() => new SkelFormAdapter().import(hidden)).toThrow(
+      "hidden in the bind pose",
     );
   });
 });

@@ -2,6 +2,13 @@ export type BoneId = string;
 export type AttachmentId = string;
 export type AnimationId = string;
 
+/**
+ * Dead Jim normalized 2D transform space.
+ *
+ * +X points right, +Y points down, and positive rotation is clockwise in
+ * radians. Source adapters are responsible for converting external coordinate
+ * conventions into this space.
+ */
 export interface Transform2D {
   x: number;
   y: number;
@@ -30,6 +37,11 @@ export interface SpriteAttachmentDefinition {
   name: string;
   boneId: BoneId;
   assetId: string;
+  /**
+   * Texture-center-relative normalized offsets in Dead Jim coordinates.
+   * (0, 0) centers the texture on the bone; (+0.5, +0.5) places the texture
+   * center half a texture width right and half a texture height down.
+   */
   pivotX: number;
   pivotY: number;
   zIndex: number;

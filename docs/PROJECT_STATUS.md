@@ -28,7 +28,7 @@ See `LICENSE` and `docs/THIRD_PARTY.md`.
 
 ## Proven runtime path
 
-The current automated discriminator now covers:
+The automated discriminator now covers:
 
 ```text
 SkelForm v0.7.2 armature.json shape
@@ -40,15 +40,19 @@ normalized skeleton / animation data
 validated hierarchy
         ↓
 engine-independent pose evaluation
+        ↓
+Phaser 4.2.1 renderer adapter
 ```
 
-The first SkelForm fixture is independently authored from the public v0.7.2 format documentation. Because that release tag still writes Cargo version `0.7.1` into `armature.json`, the fixture is correctly pinned to armature version `0.7.1`.
+The full pinned fixture path is exercised in deterministic tests. The Phaser adapter owns its Image objects, applies evaluated world transforms and normalized attachment presentation data, and remains isolated from SkelForm source fields.
 
-GitHub Actions validation run 19 passed for the importer and imported-pose path.
+ADR-0002 defines normalized 2D coordinates as +X right, +Y down, clockwise-positive radians. Source adapters own conversion into that space; renderer adapters consume it.
+
+GitHub Actions validation run 26 passed for the complete SkelForm -> pose -> Phaser adapter discriminator.
 
 ## Current execution
 
-The single current execution lock is the first Phaser 4 renderer adapter. It must consume normalized runtime state only; SkelForm parsing stays behind the source-adapter boundary.
+The single current execution lock is the smallest engine-independent single-clip playback/looping path. Crossfade, state machines, animation events, and richer playback orchestration remain deferred.
 
 ## Public-project rule
 

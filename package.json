@@ -29,7 +29,11 @@
     "validate": "npm run typecheck && npm test"
   },
   "devDependencies": {
+    "phaser": "4.2.1",
     "typescript": "latest",
     "vitest": "latest"
+  },
+  "peerDependencies": {
+    "phaser": "^4.2.1"
   }
 }
