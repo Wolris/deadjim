@@ -6,20 +6,9 @@ Dead Jim — an MIT-licensed open-source TypeScript bridge/runtime for bringing 
 
 Repository: `Wolris/deadjim`
 
-## Current direction
+## Phase 1 evidence
 
-Initial reference stack:
-
-- SkelForm as the first source-format target;
-- TypeScript core runtime;
-- normalized engine-independent skeletal runtime model;
-- Phaser 4 as the first renderer adapter.
-
-The initial product is runtime/adapter tooling, not a custom editor.
-
-## Proven runtime path
-
-The automated discriminator now covers:
+The Phase 1 runtime discriminator is complete and proven through both automated validation and a public browser demo:
 
 ```text
 SkelForm v0.7.2 armature.json shape
@@ -34,20 +23,32 @@ clip playback / looping
         ↓
 attachment/style selection
         ↓
-evaluated poses
+pose evaluation
         ↓
 two-pose crossfade/blending
         ↓
 Phaser 4.2.1 renderer adapter
+        ↓
+public browser sandbox
 ```
 
-Two compatible evaluated poses can be blended with one normalized linear weight. Endpoint identity is exact; intermediate TRS values are deterministic; incompatible bone sets or attachment visibility fail explicitly.
+The browser sandbox lives in `examples/phase1/` and uses the real public runtime APIs rather than reimplementing animation behavior in demo code.
 
-GitHub Actions validation run 45 passed for the two-pose crossfade/blending discriminator.
+Validation evidence:
+
+- GitHub Actions run 51: PASS for typecheck, unit/integration tests, and production demo build;
+- maintainer browser validation: **4/4 PASS** for continuous animation, blend control, attachment swap, and swap-back.
 
 ## Current execution
 
-The single current execution lock is the smallest public browser sandbox/demo proving the completed Phase 1 runtime path visually while keeping demo UI/state outside the core runtime.
+The single current execution lock is the Phase 1 milestone review. It reconciles the Design Bible, backlog, project status, and release-readiness gaps before any new phase, package publishing, tagging, or release work begins.
+
+## Current reference stack
+
+- SkelForm v0.7.2 as the first source-format compatibility target;
+- TypeScript normalized engine-independent runtime;
+- Phaser 4.2.1 as the first renderer target;
+- Vite-powered public browser sandbox for Phase 1 validation.
 
 ## Licensing
 
@@ -64,4 +65,4 @@ Repository documentation, fixtures, examples, source, logs, and screenshots must
 
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. Load only the relevant repository document, ADR, test, or source file required by the single current execution lock.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The next work is the Phase 1 milestone review; do not start new runtime features before that review leaves one explicit successor lock.
