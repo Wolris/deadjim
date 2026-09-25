@@ -73,7 +73,7 @@ Future releases remain behind explicit maintainer approval and the release proce
 
 ## Public alpha state
 
-The first public alpha proves the original SkelForm -> Dead Jim -> Phaser 4 path and the package distribution boundary. Additional source formats or renderer adapters remain evidence-driven extensions, not automatic scope expansion.
+The first public alpha proves the selected **SkelForm -> Dead Jim -> Phaser 4** path and the package distribution boundary. SkelForm is the chosen authoring workflow; additional source formats are considered only if concrete real-world use proves SkelForm inadequate for a required workflow.
 
 Publication automation is intentionally deferred until repeated release work justifies it. If adopted later, it must preserve the explicit maintainer approval boundary and use short-lived trusted authentication rather than reusable publishing secrets.
 
@@ -88,7 +88,7 @@ Until real runtime or consumer evidence requires them:
 - non-linear/advanced curve interpolation;
 - tint animation;
 - multiple renderer adapters;
-- multiple source adapters beyond evidence-driven evaluation;
+- alternative source formats unless concrete SkelForm usage proves one is required;
 - multi-layer blending, blend trees, additive animation, masks, and state machines;
 - animation events unless a real consumer requires them;
 - speed curves and custom scheduling;
