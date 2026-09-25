@@ -25,7 +25,9 @@ Maintainer release authorization was granted on **September 25, 2026**. This doc
 - [x] `CHANGELOG.md` and `docs/RELEASE_POLICY.md` describe the same candidate — candidate metadata check PASS, run 69;
 - [x] publish posture remains unchanged — `private: true`; this checklist performed no tag, GitHub release, or npm publication.
 
-Fresh npm identity evidence from run 69: **PASS — `dead-jim` had no registry package record on September 25, 2026.**
+Fresh npm identity evidence from checklist run 69 and authorized release-preparation run **74**: **PASS — `dead-jim` had no registry package record on September 25, 2026.**
+
+Authorized release-preparation run **74: PASS** also reconfirmed the publish-ready metadata, `dead-jim@0.1.0-alpha.1` packed artifact, 23-file boundary, and clean consumer runtime/type checks after removing `private: true`.
 
 Routine `npm run validate` remains deterministic and does not query the live npm registry. `npm run release:check` is the explicit release-time guard.
 

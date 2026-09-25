@@ -18,9 +18,9 @@ Acceptance criteria:
 - keep package identity/version exactly `dead-jim@0.1.0-alpha.1`;
 - preserve ESM exports, declarations, package file boundary, MIT license, and Phaser peer dependency;
 - run full deterministic repository/package validation;
-- run `npm run release:check` with a fresh npm registry identity check on the publish-ready candidate;
+- run `npm run release:check` with a fresh npm registry identity check on the publish-ready candidate — **run 74: PASS**;
 - prove packed artifact identity and clean consumer runtime/type import again;
-- restore routine CI to deterministic validation after the one-time registry-backed release check;
+- restore routine CI to deterministic validation after the one-time registry-backed release check — **done; final deterministic PR validation pending**;
 - open a focused release-preparation PR;
 - stop for explicit merge approval before tagging, creating a GitHub release, or running `npm publish`.
 

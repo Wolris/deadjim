@@ -26,7 +26,7 @@ Release identity:
 - GitHub pre-release: **Dead Jim v0.1.0-alpha.1**;
 - npm dist-tag: `alpha`.
 
-The current branch prepares publish posture only. Repository rules still require a separate explicit merge approval before tag/release/publication actions.
+The current branch prepares publish posture only. Authorized release-preparation validation **run 74: PASS** reconfirmed the packed artifact, clean consumer checks, publish-ready metadata, and fresh npm package-name availability. Repository rules still require a separate explicit merge approval before tag/release/publication actions.
 
 ## Current execution
 
