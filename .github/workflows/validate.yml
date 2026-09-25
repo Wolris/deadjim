@@ -26,3 +26,20 @@ jobs:
 
       - name: Validate
         run: npm run validate
+
+  package-check-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install
+        run: npm install
+
+      - name: Package check
+        run: npm run package:check
