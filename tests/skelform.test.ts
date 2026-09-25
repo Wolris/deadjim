@@ -7,6 +7,7 @@ import {
   SKELFORM_RELEASE_COMMIT,
   SKELFORM_RELEASE_TAG,
   SkelFormAdapter,
+  resolveSkelFormTextureRegions,
   type SkelFormSource,
 } from "../src/source/skelform.js";
 import fixture from "./fixtures/skelform-v0.7.2-minimal.json";
@@ -90,6 +91,98 @@ describe("SkelFormAdapter", () => {
         ],
       },
     ]);
+  });
+
+  it("resolves packed SkelForm texture regions using active-style precedence", () => {
+    const packed = source();
+    packed.atlases = [
+      ...(packed.atlases ?? []),
+      { filename: "atlas1.png" },
+    ];
+    packed.styles = [
+      ...(packed.styles ?? []),
+      {
+        id: 1,
+        name: "Alternate",
+        textures: [
+          {
+            name: "hand.png",
+            offset: { x: 70, y: 80 },
+            size: { x: 44, y: 66 },
+            atlas_idx: 1,
+          },
+        ],
+      },
+    ];
+
+    expect(resolveSkelFormTextureRegions(packed, [0])).toEqual([
+      {
+        assetId: "hand.png",
+        styleId: 0,
+        styleName: "Default",
+        atlasIndex: 0,
+        atlasFilename: "atlas0.png",
+        x: 12,
+        y: 20,
+        width: 40,
+        height: 60,
+      },
+    ]);
+
+    expect(resolveSkelFormTextureRegions(packed, [1, 0])).toEqual([
+      {
+        assetId: "hand.png",
+        styleId: 1,
+        styleName: "Alternate",
+        atlasIndex: 1,
+        atlasFilename: "atlas1.png",
+        x: 70,
+        y: 80,
+        width: 44,
+        height: 66,
+      },
+    ]);
+  });
+
+  it("rejects invalid or incomplete SkelForm atlas metadata deterministically", () => {
+    expect(() => resolveSkelFormTextureRegions(source(), [])).toThrow(
+      "at least one active style id",
+    );
+
+    expect(() => resolveSkelFormTextureRegions(source(), [99])).toThrow(
+      "active style 99 does not exist",
+    );
+
+    const missingTexture = source();
+    missingTexture.styles = [
+      {
+        id: 0,
+        name: "Default",
+        textures: [],
+      },
+    ];
+    expect(() =>
+      resolveSkelFormTextureRegions(missingTexture, [0]),
+    ).toThrow("No active SkelForm style provides texture hand.png");
+
+    const missingAtlas = source();
+    missingAtlas.styles = [
+      {
+        id: 0,
+        name: "Default",
+        textures: [
+          {
+            name: "hand.png",
+            offset: { x: 0, y: 0 },
+            size: { x: 10, y: 10 },
+            atlas_idx: 4,
+          },
+        ],
+      },
+    ];
+    expect(() =>
+      resolveSkelFormTextureRegions(missingAtlas, [0]),
+    ).toThrow("references missing atlas 4");
   });
 
   it("feeds imported data through normalized pose evaluation", () => {
