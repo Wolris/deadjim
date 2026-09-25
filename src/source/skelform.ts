@@ -102,12 +102,17 @@ function requireFinite(value: number, label: string): number {
   return value;
 }
 
+function negateWithoutNegativeZero(value: number): number {
+  const converted = -value;
+  return Object.is(converted, -0) ? 0 : converted;
+}
+
 function sourceYToNormalized(value: number): number {
-  return -value;
+  return negateWithoutNegativeZero(value);
 }
 
 function sourceRotationToNormalized(value: number): number {
-  return -value;
+  return negateWithoutNegativeZero(value);
 }
 
 function sourceChannelValueToNormalized(
