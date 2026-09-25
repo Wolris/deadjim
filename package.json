@@ -31,7 +31,8 @@
     "clean:lib": "node scripts/clean-lib.mjs",
     "build:lib": "npm run clean:lib && tsc -p tsconfig.build.json",
     "package:check": "node scripts/validate-package.mjs",
-    "validate": "npm run typecheck && npm test && npm run demo:build && npm run package:check"
+    "validate": "npm run typecheck && npm test && npm run demo:build && npm run package:check && npm run package:name-check",
+    "package:name-check": "node scripts/check-npm-name.mjs"
   },
   "devDependencies": {
     "phaser": "4.2.1",
