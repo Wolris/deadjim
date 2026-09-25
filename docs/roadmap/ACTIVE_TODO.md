@@ -4,49 +4,58 @@
 
 **Post-Phase 1 — Release Readiness**
 
-Phase 1 and the package distribution boundary are proven. The intended npm identity and first pre-release metadata are now defined without changing publish posture.
+Phase 1, package distribution, pre-release metadata, and the first candidate checklist are complete.
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Prepare the first pre-release candidate checklist and stop for explicit release authorization.**
+**AWAITING MAINTAINER AUTHORIZATION — First public pre-release `dead-jim@0.1.0-alpha.1`.**
 
-Acceptance criteria:
+The candidate is fully checked and remains non-published.
 
-- begin from current `main` after the pre-release metadata/versioning branch is merged;
-- re-run and record the full repository/package validation against the candidate version;
-- re-run `npm run package:name-check` immediately before any proposed first publication;
-- inspect the packed tarball contents and confirm package name/version/exports/types/peer dependency/files match the reviewed metadata;
-- prepare the exact proposed release identity: npm package `dead-jim`, version `0.1.0-alpha.1`, Git tag `v0.1.0-alpha.1`, and matching GitHub pre-release title/notes;
-- verify `CHANGELOG.md` and `docs/RELEASE_POLICY.md` match the candidate;
-- identify the exact actions that would change publish posture: remove/change `private: true`, commit that change, create the Git tag, create the GitHub pre-release, and run `npm publish`;
-- stop for explicit maintainer authorization before performing any publish-posture change, tag, GitHub release, or npm publication;
-- do not add new runtime features, editor work, additional adapters, or consumer-specific integration.
+Maintainer decision required:
+
+- **Approve release** — authorize preparation of the release-posture change for `0.1.0-alpha.1`, followed by a separate merge boundary before tagging/releasing/publishing.
+- **Decline / defer release** — keep `private: true`, create no tag/release/publication, and leave the candidate parked until later direction.
+
+No release action may occur until the maintainer explicitly approves the public pre-release.
 
 ## NEXT
 
-**MAINTAINER DECISION — First public pre-release authorization.**
-
-After the checklist is complete, the maintainer must explicitly approve or decline changing publish posture and releasing `0.1.0-alpha.1`. No tag, GitHub release, or npm publication may occur without that approval.
+If release is approved, promote exactly one release-execution lock for the publish-posture preparation branch. If release is deferred, choose no successor release work until new maintainer direction.
 
 ## Recently closed
 
-### Pre-release package metadata, versioning, and release-note policy — DONE
+### First pre-release candidate checklist — DONE
 
 Closure basis:
 
-- npm identity validation run 64: PASS — `dead-jim` had no registry package record on September 25, 2026;
-- final branch validation must remain green before merge.
+- merged candidate `main` GitHub Actions run 67: PASS;
+- candidate checklist GitHub Actions run 69: PASS;
+- fresh npm identity lookup in run 69: PASS — `dead-jim` had no registry package record on September 25, 2026;
+- packed artifact: `dead-jim@0.1.0-alpha.1`, 23 intentional files;
+- clean consumer runtime import: PASS;
+- clean consumer TypeScript import: PASS;
+- candidate metadata validation: PASS;
+- `private: true` remains unchanged;
+- no npm publication, Git tag, or GitHub release was performed.
+
+Exact candidate identity:
+
+- npm package: `dead-jim`;
+- version: `0.1.0-alpha.1`;
+- proposed Git tag: `v0.1.0-alpha.1`;
+- proposed GitHub pre-release: **Dead Jim v0.1.0-alpha.1**;
+- proposed npm dist-tag: `alpha`.
+
+See `docs/RELEASE_CANDIDATE_0.1.0-alpha.1.md`.
+
+### Pre-release metadata/versioning — DONE
 
 Durable result:
 
-- intended package identity is `dead-jim`;
-- first intentional candidate version is `0.1.0-alpha.1`;
-- `private: true` remains the publish-safety gate;
-- `docs/RELEASE_POLICY.md` defines the pre-release progression and changelog/release-note rules;
-- `CHANGELOG.md` contains the unreleased `0.1.0-alpha.1` public capability/limitation summary;
-- package metadata remains MIT-licensed, repository-linked, ESM-only, declaration-enabled, Phaser-peer-based, and constrained by explicit exports/files;
-- `npm run package:name-check` remains available for release-time revalidation but is not part of routine deterministic CI;
-- no npm publication, Git tag, GitHub release, or release automation was performed.
+- package identity and candidate version are defined;
+- release/versioning policy and changelog are canonical;
+- the package remains protected by `private: true`.
 
 ### Library distribution/package boundary — DONE
 
@@ -54,8 +63,7 @@ Durable result:
 
 - emitted ESM JavaScript and TypeScript declarations;
 - explicit exports/types/files package boundary;
-- clean `npm pack` consumer runtime/type smoke validation;
-- Phaser remains a peer dependency.
+- clean packed-artifact consumer runtime/type validation.
 
 ### Phase 1 runtime discriminator — DONE
 
@@ -71,16 +79,13 @@ Proven capabilities:
 
 ## Explicitly deferred
 
-- npm publishing, Git tags, and GitHub releases until explicit maintainer authorization;
-- changing `private: true` before that authorization;
+- all npm publishing, Git tagging, and GitHub release actions until explicit maintainer release authorization;
+- changing `private: true` before release authorization;
 - release automation until after the first manual pre-release path is proven;
+- new runtime features while the release decision is pending;
 - custom visual rigging/animation editor;
 - weighted mesh deformation;
 - IK and physics;
-- advanced constraints and interpolation;
-- multiple renderer/source adapters without evidence;
-- multi-layer blending, blend trees, additive animation, masks, and state machines;
-- animation events until a real consumer requires them;
-- speed curves and custom scheduling;
-- consumer-specific integration;
-- new runtime features while release readiness is active.
+- advanced constraints/interpolation;
+- additional adapters without evidence;
+- multi-layer blending, blend trees, additive animation, masks, state machines, speed curves, and custom scheduling.

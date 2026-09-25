@@ -14,18 +14,20 @@
 
 This document is a release **candidate checklist**, not release authorization.
 
-## Required evidence
+## Required evidence — complete
 
-Before requesting public release authorization:
+- [x] merged candidate `main` passes full `npm run validate` — GitHub Actions run **67: PASS**;
+- [x] one-time `npm run release:check` passes, including a fresh npm registry identity lookup — run **69: PASS**;
+- [x] packed artifact reports `dead-jim@0.1.0-alpha.1` — run 69;
+- [x] packed contents remain limited to `dist/lib/`, `README.md`, `LICENSE`, and npm-generated `package.json` — **23 files**, run 69;
+- [x] clean consumer runtime import passes — run 69;
+- [x] clean consumer TypeScript import passes — run 69;
+- [x] `CHANGELOG.md` and `docs/RELEASE_POLICY.md` describe the same candidate — candidate metadata check PASS, run 69;
+- [x] publish posture remains unchanged — `private: true`; this checklist performed no tag, GitHub release, or npm publication.
 
-- [ ] merged candidate `main` passes full `npm run validate`;
-- [ ] `npm run release:check` passes, including a fresh npm registry identity lookup;
-- [ ] packed artifact reports `dead-jim@0.1.0-alpha.1`;
-- [ ] packed contents remain limited to `dist/lib/`, `README.md`, `LICENSE`, and npm-generated `package.json`;
-- [ ] clean consumer runtime import passes;
-- [ ] clean consumer TypeScript import passes;
-- [ ] `CHANGELOG.md` and `docs/RELEASE_POLICY.md` describe the same candidate;
-- [ ] no tag, GitHub release, npm publication, or publish-posture change has occurred.
+Fresh npm identity evidence from run 69: **PASS — `dead-jim` had no registry package record on September 25, 2026.**
+
+Routine `npm run validate` remains deterministic and does not query the live npm registry. `npm run release:check` is the explicit release-time guard.
 
 ## Release notes source
 
@@ -55,7 +57,7 @@ stop before publication rather than substituting release automation.
 
 ## Stop condition
 
-Completing this checklist does **not** authorize any action in the section above.
+The checklist is complete. It does **not** authorize any release action.
 
 Stop and obtain explicit maintainer authorization before changing
 `private: true`, tagging, creating a GitHub release, or running `npm publish`.
