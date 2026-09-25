@@ -7,13 +7,25 @@
       "id": 0,
       "name": "Root",
       "parent_id": -1,
-      "pos": { "x": 10, "y": 20 },
-      "scale": { "x": 1, "y": 1 },
+      "pos": {
+        "x": 10,
+        "y": 20
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
       "rot": 0,
       "hidden": false,
-      "init_pos": { "x": 10, "y": 20 },
+      "init_pos": {
+        "x": 10,
+        "y": 20
+      },
       "init_rot": 0,
-      "init_scale": { "x": 1, "y": 1 },
+      "init_scale": {
+        "x": 1,
+        "y": 1
+      },
       "init_hidden": false,
       "ik_family_id": -1,
       "ik_family_name": "",
@@ -24,13 +36,25 @@
       "id": 1,
       "name": "Hand",
       "parent_id": 0,
-      "pos": { "x": 5, "y": 0 },
-      "scale": { "x": 1, "y": 1 },
+      "pos": {
+        "x": 5,
+        "y": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
       "rot": 0.25,
       "hidden": false,
-      "init_pos": { "x": 5, "y": 0 },
+      "init_pos": {
+        "x": 5,
+        "y": 0
+      },
       "init_rot": 0.25,
-      "init_scale": { "x": 1, "y": 1 },
+      "init_scale": {
+        "x": 1,
+        "y": 1
+      },
       "init_hidden": false,
       "ik_family_id": -1,
       "ik_family_name": "",
@@ -49,8 +73,14 @@
           "bone_id": 0,
           "element": "PositionX",
           "value": 10,
-          "start_handle": { "x": 0.33333334, "y": 0.33333334 },
-          "end_handle": { "x": 0.6666667, "y": 0.6666667 },
+          "start_handle": {
+            "x": 0.33333334,
+            "y": 0.33333334
+          },
+          "end_handle": {
+            "x": 0.6666667,
+            "y": 0.6666667
+          },
           "next_kf": 2,
           "handle_preset": "Linear"
         },
@@ -59,8 +89,14 @@
           "bone_id": 1,
           "element": "Rotation",
           "value": 0.25,
-          "start_handle": { "x": 0.33333334, "y": 0.33333334 },
-          "end_handle": { "x": 0.6666667, "y": 0.6666667 },
+          "start_handle": {
+            "x": 0.33333334,
+            "y": 0.33333334
+          },
+          "end_handle": {
+            "x": 0.6666667,
+            "y": 0.6666667
+          },
           "next_kf": 3,
           "handle_preset": "Linear"
         },
@@ -69,8 +105,14 @@
           "bone_id": 0,
           "element": "PositionX",
           "value": 20,
-          "start_handle": { "x": 0.33333334, "y": 0.33333334 },
-          "end_handle": { "x": 0.6666667, "y": 0.6666667 },
+          "start_handle": {
+            "x": 0.33333334,
+            "y": 0.33333334
+          },
+          "end_handle": {
+            "x": 0.6666667,
+            "y": 0.6666667
+          },
           "next_kf": 2,
           "handle_preset": "Linear"
         },
@@ -79,23 +121,58 @@
           "bone_id": 1,
           "element": "Rotation",
           "value": 1.25,
-          "start_handle": { "x": 0.33333334, "y": 0.33333334 },
-          "end_handle": { "x": 0.6666667, "y": 0.6666667 },
+          "start_handle": {
+            "x": 0.33333334,
+            "y": 0.33333334
+          },
+          "end_handle": {
+            "x": 0.6666667,
+            "y": 0.6666667
+          },
           "next_kf": 3,
           "handle_preset": "Linear"
         }
       ]
     }
   ],
-  "atlases": [],
-  "styles": [],
+  "atlases": [
+    {
+      "filename": "atlas0.png"
+    }
+  ],
+  "styles": [
+    {
+      "id": 0,
+      "name": "Default",
+      "textures": [
+        {
+          "name": "hand.png",
+          "offset": {
+            "x": 12,
+            "y": 20
+          },
+          "size": {
+            "x": 40,
+            "y": 60
+          },
+          "atlas_idx": 0
+        }
+      ]
+    }
+  ],
   "visuals": [
     {
       "tex": "hand.png",
       "zindex": 3,
-      "pivot_pos": { "x": 0.5, "y": 0.75 },
+      "pivot_pos": {
+        "x": 0.5,
+        "y": 0.75
+      },
       "pivot_rot": 0,
-      "pivot_scale": { "x": 1, "y": 1 },
+      "pivot_scale": {
+        "x": 1,
+        "y": 1
+      },
       "vertices": [],
       "indices": [],
       "binds": [],
