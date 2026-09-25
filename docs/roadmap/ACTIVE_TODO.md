@@ -4,31 +4,48 @@
 
 **Phase 1 — Core Runtime Discriminator**
 
-Dead Jim now has a validated public runtime path from pinned SkelForm data through normalized pose evaluation into the first Phaser 4 renderer boundary.
+Dead Jim now has a validated public runtime path from pinned SkelForm data through deterministic single-clip playback, normalized pose evaluation, and the Phaser 4 renderer boundary.
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Implement the smallest runtime clip-playback and looping path.**
+**LOCKED — Prove basic attachment/style swapping in the normalized runtime.**
 
 Acceptance criteria:
 
-- begin from current `main` after the Phaser renderer-adapter branch is merged;
-- keep playback timing engine-independent and separate from Phaser scene/update ownership;
-- provide the smallest explicit playback state needed to sample one `AnimationClip` over elapsed milliseconds;
-- non-looping clips clamp deterministically at their endpoint;
-- looping clips wrap deterministically by clip duration;
-- zero-duration clips remain stable and deterministic;
-- feed sampled playback time through the existing pose evaluator and prove the resulting pose through the Phaser renderer adapter;
-- add deterministic tests for initial time, advancement, endpoint clamping, loop wrapping, and zero-duration behavior;
-- do not add crossfade/blending, animation events, layered animation, speed curves, state machines, or a custom scheduler in this lock;
+- begin from current `main` after the playback/looping branch is merged;
+- keep attachment/style selection engine-independent and separate from Phaser scene ownership;
+- introduce only the smallest renderer-neutral normalized concept needed to represent mutually exclusive attachment alternatives;
+- switching a selection must change only the deterministic `visibleAttachments` result needed by the renderer, without changing bone transforms or playback timing;
+- prove at least one attachment can be swapped for another alternative on the same normalized skeleton and rendered correctly through the Phaser adapter;
+- preserve deterministic default behavior when no explicit swap is active;
+- reject invalid or ambiguous attachment selections explicitly rather than silently choosing an alternative;
+- add focused tests for default selection, an active swap, invalid selection, and unchanged pose/playback transforms across a swap;
+- do not add texture animation, tint animation, crossfade/blending, layered animation, animation events, state machines, or a custom scheduler in this lock;
+- do not widen this lock into SkelForm style import unless source evidence is required to validate the normalized abstraction;
 - do not add weighted meshes, IK, physics, advanced constraints, editor UI, or consumer-specific concepts;
 - keep repository content self-contained and free of private workflow or personal information.
 
 ## NEXT
 
-Prove basic attachment/style swapping against the normalized runtime only after single-clip playback is validated end to end.
+Implement the smallest deterministic two-clip crossfade/blending path only after attachment/style swapping is proven through the normalized runtime and Phaser adapter.
 
 ## Recently closed
+
+### Single-clip playback and looping — DONE
+
+Closure basis: GitHub Actions validation run 32 completed successfully on `feature/clip-playback-looping` for commit `579ecf4`.
+
+Durable result:
+
+- playback state is engine-independent and stores only the active `AnimationClip` plus elapsed milliseconds;
+- non-looping clips clamp deterministically at their endpoint;
+- looping clips wrap deterministically by clip duration;
+- zero-duration clips remain stable at time zero;
+- invalid negative/non-finite clip durations, elapsed time, and advancement fail explicitly;
+- playback sampling feeds the existing pose evaluator without Phaser lifecycle ownership or a custom scheduler;
+- deterministic tests cover initial time, incremental advancement, endpoint clamping, loop wrapping, zero-duration behavior, and invalid timing input;
+- the pinned SkelForm fixture is advanced through a looping playback state, evaluated into a normalized pose, and rendered through the Phaser adapter in one end-to-end test;
+- no speed control, pause API, animation events, crossfade, layered animation, state machine, or renderer-owned timing was added.
 
 ### First Phaser 4 renderer adapter — DONE
 
@@ -106,7 +123,8 @@ Durable result:
 - IK and physics;
 - advanced constraints;
 - multiple renderer adapters;
-- animation crossfade/blending and state machines until basic playback is proven;
-- animation events until a real consumer requirement exists;
+- animation crossfade/blending until attachment/style swapping is proven;
+- animation events until a real consumer requires them;
+- layered animation, state machines, speed curves, and custom scheduling;
 - package publishing/release automation;
-- consumer-specific integration until the independent runtime discriminator includes basic clip playback.
+- consumer-specific integration until the initial capability boundary is complete.

@@ -39,20 +39,22 @@ normalized skeleton / animation data
         ↓
 validated hierarchy
         ↓
+engine-independent single-clip playback / looping
+        ↓
 engine-independent pose evaluation
         ↓
 Phaser 4.2.1 renderer adapter
 ```
 
-The full pinned fixture path is exercised in deterministic tests. The Phaser adapter owns its Image objects, applies evaluated world transforms and normalized attachment presentation data, and remains isolated from SkelForm source fields.
+The playback boundary stores only an `AnimationClip` plus elapsed milliseconds. Non-looping clips clamp, looping clips wrap by duration, and zero-duration clips remain stable. The pinned SkelForm fixture is exercised through playback, pose evaluation, and Phaser rendering in deterministic tests.
 
 ADR-0002 defines normalized 2D coordinates as +X right, +Y down, clockwise-positive radians. Source adapters own conversion into that space; renderer adapters consume it.
 
-GitHub Actions validation run 26 passed for the complete SkelForm -> pose -> Phaser adapter discriminator.
+GitHub Actions validation run 32 passed for the single-clip playback/looping discriminator.
 
 ## Current execution
 
-The single current execution lock is the smallest engine-independent single-clip playback/looping path. Crossfade, state machines, animation events, and richer playback orchestration remain deferred.
+The single current execution lock is basic attachment/style swapping in the normalized runtime. The goal is a minimal renderer-neutral way to choose mutually exclusive attachment alternatives and prove the resulting visibility through the existing Phaser adapter.
 
 ## Public-project rule
 
