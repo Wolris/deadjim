@@ -26,6 +26,40 @@ export interface SkelFormVec2 {
   y: number;
 }
 
+export interface SkelFormVec2I {
+  x: number;
+  y: number;
+}
+
+export interface SkelFormAtlas {
+  filename: string;
+}
+
+export interface SkelFormTexture {
+  name: string;
+  offset: SkelFormVec2I;
+  size: SkelFormVec2I;
+  atlas_idx: number;
+}
+
+export interface SkelFormStyle {
+  id: number;
+  name: string;
+  textures: readonly SkelFormTexture[];
+}
+
+export interface SkelFormTextureRegion {
+  assetId: string;
+  styleId: number;
+  styleName: string;
+  atlasIndex: number;
+  atlasFilename: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export interface SkelFormBone {
   id: number;
   name: string;
@@ -77,6 +111,8 @@ export interface SkelFormSource {
   version: string;
   bones: readonly SkelFormBone[];
   animations: readonly SkelFormAnimation[];
+  atlases?: readonly SkelFormAtlas[];
+  styles?: readonly SkelFormStyle[];
   visuals: readonly SkelFormVisuals[];
   inverse_kinematics?: readonly unknown[];
   physics?: readonly unknown[];
@@ -98,6 +134,22 @@ function sourceBoneId(id: number): BoneId {
 function requireFinite(value: number, label: string): number {
   if (!Number.isFinite(value)) {
     throw new Error(`SkelForm ${label} must be a finite number.`);
+  }
+  return value;
+}
+
+function requireNonNegativeInteger(value: number, label: string): number {
+  requireFinite(value, label);
+  if (!Number.isInteger(value) || value < 0) {
+    throw new Error(`SkelForm ${label} must be a non-negative integer.`);
+  }
+  return value;
+}
+
+function requirePositiveInteger(value: number, label: string): number {
+  requireFinite(value, label);
+  if (!Number.isInteger(value) || value <= 0) {
+    throw new Error(`SkelForm ${label} must be a positive integer.`);
   }
   return value;
 }
@@ -352,6 +404,118 @@ function convertAnimation(
     loop: false,
     tracks,
   };
+}
+
+/**
+ * Resolve the packed texture regions used by a real SkelForm runtime export.
+ *
+ * SkelForm exports texture pixels into atlas files and stores per-style atlas
+ * coordinates under styles[].textures[]. The first active style containing a
+ * requested texture name wins, matching SkelForm's documented style behavior.
+ *
+ * The returned regions remain source-side packaging metadata. They do not
+ * change Dead Jim's normalized skeleton or attachment model.
+ */
+export function resolveSkelFormTextureRegions(
+  source: SkelFormSource,
+  activeStyleIds: readonly number[],
+): readonly SkelFormTextureRegion[] {
+  if (activeStyleIds.length === 0) {
+    throw new Error(
+      "SkelForm texture-region resolution requires at least one active style id.",
+    );
+  }
+
+  const atlases = source.atlases ?? [];
+  const styles = source.styles ?? [];
+  const styleById = new Map<number, SkelFormStyle>();
+
+  for (const style of styles) {
+    if (styleById.has(style.id)) {
+      throw new Error(`SkelForm contains duplicate style id ${style.id}.`);
+    }
+    styleById.set(style.id, style);
+  }
+
+  const activeStyles = activeStyleIds.map((styleId) => {
+    const style = styleById.get(styleId);
+    if (!style) {
+      throw new Error(`SkelForm active style ${styleId} does not exist.`);
+    }
+    return style;
+  });
+
+  const assetIds = Array.from(
+    new Set(
+      source.visuals
+        .map((visual) => visual.tex ?? "")
+        .filter((assetId) => assetId.length > 0),
+    ),
+  );
+
+  return assetIds.map((assetId) => {
+    let selectedStyle: SkelFormStyle | undefined;
+    let selectedTexture: SkelFormTexture | undefined;
+
+    for (const style of activeStyles) {
+      const matches = style.textures.filter(
+        (texture) => texture.name === assetId,
+      );
+
+      if (matches.length > 1) {
+        throw new Error(
+          `SkelForm style ${style.id} contains duplicate texture name ${assetId}.`,
+        );
+      }
+
+      if (matches.length === 1) {
+        selectedStyle = style;
+        selectedTexture = matches[0];
+        break;
+      }
+    }
+
+    if (!selectedStyle || !selectedTexture) {
+      throw new Error(
+        `No active SkelForm style provides texture ${assetId}.`,
+      );
+    }
+
+    const atlasIndex = requireNonNegativeInteger(
+      selectedTexture.atlas_idx,
+      `texture ${assetId} atlas index`,
+    );
+    const atlas = atlases[atlasIndex];
+    if (!atlas || atlas.filename.length === 0) {
+      throw new Error(
+        `SkelForm texture ${assetId} references missing atlas ${atlasIndex}.`,
+      );
+    }
+
+    return {
+      assetId,
+      styleId: selectedStyle.id,
+      styleName: selectedStyle.name,
+      atlasIndex,
+      atlasFilename: atlas.filename,
+      x: requireNonNegativeInteger(
+        selectedTexture.offset.x,
+        `texture ${assetId} offset x`,
+      ),
+      y: requireNonNegativeInteger(
+        selectedTexture.offset.y,
+        `texture ${assetId} offset y`,
+      ),
+      width: requirePositiveInteger(
+        selectedTexture.size.x,
+        `texture ${assetId} width`,
+      ),
+      height: requirePositiveInteger(
+        selectedTexture.size.y,
+        `texture ${assetId} height`,
+      ),
+    };
+  });
 }
 
 export class SkelFormAdapter
