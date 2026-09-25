@@ -2,16 +2,9 @@
 
 Approved future work that is not active.
 
-Completed Phase 1 and completed package-boundary work are intentionally omitted here. See `docs/roadmap/ACTIVE_TODO.md` and `docs/PROJECT_STATUS.md` for milestone evidence.
+Completed Phase 1, package-boundary work, and the first public pre-release are intentionally omitted here. See `docs/roadmap/ACTIVE_TODO.md` and `docs/PROJECT_STATUS.md` for milestone evidence.
 
-## Release readiness
-
-- Verify the intended public package identity/name.
-- Choose an intentional initial pre-release version and semantic-versioning policy.
-- Add the smallest changelog/release-notes convention.
-- Review final package metadata before changing publish posture.
-- Decide package publishing automation only after a first manual pre-release path is approved.
-- Create npm publications, tags, and GitHub releases only through an explicit maintainer-approved release lock.
+The release-automation decision is currently active and therefore is not duplicated here.
 
 ## Core runtime
 
