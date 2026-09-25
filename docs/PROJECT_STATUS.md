@@ -26,15 +26,29 @@ The initial product is runtime/adapter tooling, not a custom editor.
 
 See `LICENSE` and `docs/THIRD_PARTY.md`.
 
+## Proven runtime path
+
+The current automated discriminator now covers:
+
+```text
+SkelForm v0.7.2 armature.json shape
+        ↓
+Dead Jim SkelForm source adapter
+        ↓
+normalized skeleton / animation data
+        ↓
+validated hierarchy
+        ↓
+engine-independent pose evaluation
+```
+
+The first SkelForm fixture is independently authored from the public v0.7.2 format documentation. Because that release tag still writes Cargo version `0.7.1` into `armature.json`, the fixture is correctly pinned to armature version `0.7.1`.
+
+GitHub Actions validation run 19 passed for the importer and imported-pose path.
+
 ## Current execution
 
-The normalized runtime scaffold and first pose-evaluation path are implemented and validated. Local/world transform propagation and linear transform-channel keyframe interpolation remain renderer-independent.
-
-The current execution lock is the first real SkelForm import mapping and public fixture. Phaser rendering remains deferred until imported SkelForm data is proven through the normalized pose evaluator.
-
-## Validation evidence
-
-GitHub Actions validation run 13 passed for pose-evaluation commit `835c6ae`.
+The single current execution lock is the first Phaser 4 renderer adapter. It must consume normalized runtime state only; SkelForm parsing stays behind the source-adapter boundary.
 
 ## Public-project rule
 
