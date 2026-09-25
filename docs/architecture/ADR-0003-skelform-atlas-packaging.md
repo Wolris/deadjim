@@ -1,6 +1,6 @@
 # ADR-0003 — SkelForm atlas packaging boundary
 
-Status: Proposed
+Status: Accepted
 
 ## Context
 

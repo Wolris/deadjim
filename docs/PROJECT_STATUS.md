@@ -50,11 +50,11 @@ Publication remains manual for now. Revisit only when a second manual pre-releas
 
 ## Current execution
 
-The first real-export adoption review found a concrete atlas-packaging blocker: genuine SkelForm v0.7.2 runtime exports pack texture pixels into `atlasX.png` and describe regions under `styles[].textures[]`, while the Phase 1 demo used individually loaded textures.
+The real SkelForm atlas-packaging blocker is closed and validated on merged `main`.
 
-The active branch closes only that gap by keeping atlas/style metadata at the source boundary and adding an optional Phaser asset resolver/frame-registration path. The normalized skeleton remains unchanged and loose-texture consumers remain supported.
+The active boundary is now a **genuine SkelForm v0.7.2 editor/export proof**. The proof uses a deliberately small generic humanoid-style rig (torso, head, arm), Default + Alternate styles, and Idle + Action linear-transform animations. The editor-produced `.skf` file is the required evidence; once available, Dead Jim will unpack its runtime assets and prove the public import/atlas/Phaser path end to end.
 
-After this fix is validated and merged, the next boundary is a real SkelForm editor/export proof with a short representative Adventurer asset set.
+No additional runtime capability is authorized unless that real editor-produced proof exposes a reproducible gap.
 
 ## Fresh-chat handoff
 
