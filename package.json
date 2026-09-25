@@ -1,0 +1,35 @@
+{
+  "name": "dead-jim",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TypeScript bridge/runtime for bringing SkelForm-authored 2D skeletal animation into Phaser 4.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Curadh Creative (Wolris)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wolris/deadjim.git"
+  },
+  "homepage": "https://github.com/Wolris/deadjim#readme",
+  "bugs": {
+    "url": "https://github.com/Wolris/deadjim/issues"
+  },
+  "keywords": [
+    "skelform",
+    "phaser",
+    "phaser4",
+    "skeletal-animation",
+    "2d-animation",
+    "typescript",
+    "game-development"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "validate": "npm run typecheck && npm test"
+  },
+  "devDependencies": {
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}
