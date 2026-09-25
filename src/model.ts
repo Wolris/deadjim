@@ -1,5 +1,6 @@
 export type BoneId = string;
 export type AttachmentId = string;
+export type AttachmentSlotId = string;
 export type AnimationId = string;
 
 /**
@@ -47,6 +48,24 @@ export interface SpriteAttachmentDefinition {
   zIndex: number;
 }
 
+/**
+ * A renderer-neutral mutually exclusive attachment choice.
+ *
+ * Attachments not assigned to a slot remain visible by default. Each slot
+ * contributes exactly one visible attachment: its default, or an explicit
+ * runtime selection.
+ */
+export interface AttachmentSlotDefinition {
+  id: AttachmentSlotId;
+  attachmentIds: readonly AttachmentId[];
+  defaultAttachmentId: AttachmentId;
+}
+
+export type AttachmentSelections = ReadonlyMap<
+  AttachmentSlotId,
+  AttachmentId
+>;
+
 export interface NumberKeyframe {
   timeMs: number;
   value: number;
@@ -72,6 +91,7 @@ export interface AnimationClip {
 export interface SkeletonDefinition {
   bones: readonly BoneDefinition[];
   attachments: readonly SpriteAttachmentDefinition[];
+  attachmentSlots?: readonly AttachmentSlotDefinition[];
   animations: readonly AnimationClip[];
 }
 

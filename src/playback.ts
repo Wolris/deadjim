@@ -1,5 +1,6 @@
 import type {
   AnimationClip,
+  AttachmentSelections,
   SkeletonPose,
 } from "./model.js";
 import { evaluateClipPose } from "./pose.js";
@@ -67,10 +68,12 @@ export function sampleClipPlaybackTime(
 export function evaluateClipPlaybackPose(
   skeleton: ValidatedSkeleton,
   state: ClipPlaybackState,
+  attachmentSelections: AttachmentSelections = new Map(),
 ): SkeletonPose {
   return evaluateClipPose(
     skeleton,
     state.clip,
     sampleClipPlaybackTime(state),
+    attachmentSelections,
   );
 }

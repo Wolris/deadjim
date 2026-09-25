@@ -1,3 +1,4 @@
+export * from "./attachments.js";
 export * from "./model.js";
 export * from "./playback.js";
 export * from "./pose.js";
