@@ -25,7 +25,9 @@ Acceptance criteria:
 
 ## NEXT
 
-Use Dead Jim in the intended SkelForm-authored Phaser workflow. Promote only the smallest reproducible compatibility/runtime gap that real use exposes.
+Use Dead Jim in the intended SkelForm-authored Phaser workflow with a short, representative asset set. Promote only the smallest reproducible compatibility/runtime gap that real use exposes.
+
+After that asset proof is solid and any blocking gaps are closed, promote the **public promotional/adoption website** milestone from `BACKLOG.md`.
 
 ## Recently closed
 
