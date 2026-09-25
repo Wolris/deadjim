@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { blendSkeletonPoses } from "../src/blend.js";
 import type {
   BonePose,
   SkeletonDefinition,
@@ -388,6 +389,119 @@ describe("Phaser4RendererAdapter", () => {
     expect(images[1].rotation).toBeCloseTo(0.4);
     expect(images[1].scaleX).toBeCloseTo(1.5);
     expect(images[1].scaleY).toBeCloseTo(0.75);
+
+    adapter.destroy();
+  });
+
+  it("renders a blended pose from two evaluated clips", () => {
+    const blendedDefinition: SkeletonDefinition = {
+      bones: [
+        {
+          id: "root",
+          name: "Root",
+          parentId: null,
+          bind: transform(0, 0, 0, 1, 1),
+        },
+      ],
+      attachments: [
+        {
+          id: "root-image",
+          name: "Root Image",
+          boneId: "root",
+          assetId: "root.png",
+          pivotX: 0,
+          pivotY: 0,
+          zIndex: 2,
+        },
+      ],
+      animations: [
+        {
+          id: "left",
+          name: "Left",
+          durationMs: 1000,
+          loop: false,
+          tracks: [
+            {
+              boneId: "root",
+              x: [
+                { timeMs: 0, value: 0 },
+                { timeMs: 1000, value: 10 },
+              ],
+              rotation: [
+                { timeMs: 0, value: 0 },
+                { timeMs: 1000, value: 0.5 },
+              ],
+              scaleX: [
+                { timeMs: 0, value: 1 },
+                { timeMs: 1000, value: 2 },
+              ],
+              scaleY: [
+                { timeMs: 0, value: 1 },
+                { timeMs: 1000, value: 2 },
+              ],
+            },
+          ],
+        },
+        {
+          id: "right",
+          name: "Right",
+          durationMs: 1000,
+          loop: false,
+          tracks: [
+            {
+              boneId: "root",
+              x: [
+                { timeMs: 0, value: 20 },
+                { timeMs: 1000, value: 30 },
+              ],
+              rotation: [
+                { timeMs: 0, value: 1 },
+                { timeMs: 1000, value: 1.5 },
+              ],
+              scaleX: [
+                { timeMs: 0, value: 3 },
+                { timeMs: 1000, value: 4 },
+              ],
+              scaleY: [
+                { timeMs: 0, value: 3 },
+                { timeMs: 1000, value: 4 },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+    const skeleton = validateSkeleton(blendedDefinition);
+    const firstPose = evaluateClipPose(
+      skeleton,
+      blendedDefinition.animations[0],
+      500,
+    );
+    const secondPose = evaluateClipPose(
+      skeleton,
+      blendedDefinition.animations[1],
+      500,
+    );
+    const blendedPose = blendSkeletonPoses(
+      firstPose,
+      secondPose,
+      0.25,
+    );
+    const images: FakeImage[] = [];
+    const adapter = new Phaser4RendererAdapter(
+      makeScene(images),
+      skeleton,
+    );
+
+    adapter.applyPose(blendedPose);
+
+    expect(images).toHaveLength(1);
+    expect(images[0].x).toBeCloseTo(10);
+    expect(images[0].y).toBeCloseTo(0);
+    expect(images[0].rotation).toBeCloseTo(0.5);
+    expect(images[0].scaleX).toBeCloseTo(2);
+    expect(images[0].scaleY).toBeCloseTo(2);
+    expect(images[0].visible).toBe(true);
 
     adapter.destroy();
   });
