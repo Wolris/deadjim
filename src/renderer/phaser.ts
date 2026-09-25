@@ -9,6 +9,80 @@ import type { ValidatedSkeleton } from "../skeleton.js";
 
 export const PHASER_TARGET_VERSION = "4.2.1";
 
+export interface PhaserAssetBinding {
+  textureKey: string;
+  frame?: string | number;
+}
+
+export type PhaserAssetResolver = (
+  assetId: string,
+) => PhaserAssetBinding;
+
+export interface Phaser4RendererOptions {
+  resolveAsset?: PhaserAssetResolver;
+}
+
+export interface PhaserAtlasRegion {
+  assetId: string;
+  atlasFilename: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+function defaultAssetResolver(assetId: string): PhaserAssetBinding {
+  return { textureKey: assetId };
+}
+
+export function registerPhaserAtlasRegions(
+  scene: Phaser.Scene,
+  regions: readonly PhaserAtlasRegion[],
+  atlasTextureKey: (atlasFilename: string) => string = (filename) => filename,
+): PhaserAssetResolver {
+  const bindings = new Map<string, PhaserAssetBinding>();
+
+  for (const region of regions) {
+    if (bindings.has(region.assetId)) {
+      throw new Error(
+        `Duplicate Phaser atlas region for asset ${region.assetId}.`,
+      );
+    }
+
+    const textureKey = atlasTextureKey(region.atlasFilename);
+    if (!scene.textures.exists(textureKey)) {
+      throw new Error(
+        `Phaser atlas texture ${textureKey} is not loaded for asset ${region.assetId}.`,
+      );
+    }
+
+    const texture = scene.textures.get(textureKey);
+    const frame = `dead-jim:${region.assetId}`;
+
+    if (!texture.has(frame)) {
+      const added = texture.add(
+        frame,
+        0,
+        region.x,
+        region.y,
+        region.width,
+        region.height,
+      );
+
+      if (!added) {
+        throw new Error(
+          `Could not register Phaser frame ${frame} in texture ${textureKey}.`,
+        );
+      }
+    }
+
+    bindings.set(region.assetId, { textureKey, frame });
+  }
+
+  return (assetId) =>
+    bindings.get(assetId) ?? defaultAssetResolver(assetId);
+}
+
 function toPhaserOrigin(
   attachment: SpriteAttachmentDefinition,
 ): { x: number; y: number } {
@@ -32,9 +106,18 @@ export class Phaser4RendererAdapter {
   constructor(
     private readonly scene: Phaser.Scene,
     private readonly skeleton: ValidatedSkeleton,
+    options: Phaser4RendererOptions = {},
   ) {
+    const resolveAsset = options.resolveAsset ?? defaultAssetResolver;
+
     for (const attachment of skeleton.definition.attachments) {
-      const image = scene.add.image(0, 0, attachment.assetId);
+      const binding = resolveAsset(attachment.assetId);
+      const image = scene.add.image(
+        0,
+        0,
+        binding.textureKey,
+        binding.frame,
+      );
       const origin = toPhaserOrigin(attachment);
 
       image
