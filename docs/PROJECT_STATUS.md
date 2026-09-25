@@ -39,22 +39,22 @@ normalized skeleton / animation data
         ↓
 validated hierarchy
         ↓
-engine-independent single-clip playback / looping
+engine-independent clip playback / looping
+        ↓
+normalized attachment/style selection
         ↓
 engine-independent pose evaluation
         ↓
 Phaser 4.2.1 renderer adapter
 ```
 
-The playback boundary stores only an `AnimationClip` plus elapsed milliseconds. Non-looping clips clamp, looping clips wrap by duration, and zero-duration clips remain stable. The pinned SkelForm fixture is exercised through playback, pose evaluation, and Phaser rendering in deterministic tests.
+Attachment slots are renderer-neutral mutually exclusive choices. A slot has a deterministic default; runtime selection changes only `visibleAttachments`, while playback time and bone transforms remain unchanged. Ambiguous or invalid slot definitions and selections fail explicitly.
 
-ADR-0002 defines normalized 2D coordinates as +X right, +Y down, clockwise-positive radians. Source adapters own conversion into that space; renderer adapters consume it.
-
-GitHub Actions validation run 32 passed for the single-clip playback/looping discriminator.
+GitHub Actions validation run 38 passed for the attachment/style-swapping discriminator.
 
 ## Current execution
 
-The single current execution lock is basic attachment/style swapping in the normalized runtime. The goal is a minimal renderer-neutral way to choose mutually exclusive attachment alternatives and prove the resulting visibility through the existing Phaser adapter.
+The single current execution lock is the smallest deterministic two-clip crossfade/blending path. The goal is a renderer-neutral blend between exactly two compatible poses, with no state machine or layered-animation framework.
 
 ## Public-project rule
 
