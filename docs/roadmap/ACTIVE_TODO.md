@@ -2,87 +2,62 @@
 
 ## Current phase
 
-**Post-Phase 1 — Release Readiness**
+**Post-Phase 1 — First Public Pre-release**
 
-Phase 1, package distribution, pre-release metadata, and the first candidate checklist are complete.
+Maintainer authorization for `dead-jim@0.1.0-alpha.1` was granted on September 25, 2026.
 
 ## CURRENT EXECUTION LOCK
 
-**AWAITING MAINTAINER AUTHORIZATION — First public pre-release `dead-jim@0.1.0-alpha.1`.**
+**AWAITING MERGE APPROVAL — PR #13, publish-ready `0.1.0-alpha.1` release preparation.**
 
-The candidate is fully checked and remains non-published.
+Acceptance criteria:
 
-Maintainer decision required:
-
-- **Approve release** — authorize preparation of the release-posture change for `0.1.0-alpha.1`, followed by a separate merge boundary before tagging/releasing/publishing.
-- **Decline / defer release** — keep `private: true`, create no tag/release/publication, and leave the candidate parked until later direction.
-
-No release action may occur until the maintainer explicitly approves the public pre-release.
+- begin from merged `main` after the candidate checklist;
+- remove the `private: true` publish-safety gate from `package.json`;
+- date the `0.1.0-alpha.1` changelog entry September 25, 2026;
+- keep package identity/version exactly `dead-jim@0.1.0-alpha.1`;
+- preserve ESM exports, declarations, package file boundary, MIT license, and Phaser peer dependency;
+- run full deterministic repository/package validation;
+- run `npm run release:check` with a fresh npm registry identity check on the publish-ready candidate — **run 74: PASS**;
+- prove packed artifact identity and clean consumer runtime/type import again;
+- restore routine CI to deterministic validation after the one-time registry-backed release check — **run 75: PASS**;
+- open a focused release-preparation PR — **PR #13 open**;
+- stop for explicit merge approval before tagging, creating a GitHub release, or running `npm publish` — **current boundary**.
 
 ## NEXT
 
-If release is approved, promote exactly one release-execution lock for the publish-posture preparation branch. If release is deferred, choose no successor release work until new maintainer direction.
+After explicit merge approval and successful merged-`main` validation:
+
+1. re-run `npm run package:name-check` immediately before first publication;
+2. create Git tag `v0.1.0-alpha.1`;
+3. publish `dead-jim@0.1.0-alpha.1` to npm with dist-tag `alpha` if authenticated npm access is available;
+4. create GitHub pre-release **Dead Jim v0.1.0-alpha.1** using the matching changelog entry.
+
+If npm publishing credentials are unavailable, stop at that concrete blocker rather than bypassing it.
 
 ## Recently closed
 
+### First public pre-release authorization — APPROVED
+
+Maintainer authorization received September 25, 2026 for `dead-jim@0.1.0-alpha.1`.
+
+Authorization permits the publish-ready preparation branch and, after a separate explicit merge approval, the planned tag/release/publication sequence.
+
 ### First pre-release candidate checklist — DONE
 
-Closure basis:
+Evidence:
 
-- merged candidate `main` GitHub Actions run 67: PASS;
-- candidate checklist GitHub Actions run 69: PASS;
-- fresh npm identity lookup in run 69: PASS — `dead-jim` had no registry package record on September 25, 2026;
+- candidate `main` run 67: PASS;
+- checklist run 69: PASS;
+- merged checklist `main` run 72: PASS;
+- npm identity check: PASS;
 - packed artifact: `dead-jim@0.1.0-alpha.1`, 23 intentional files;
-- clean consumer runtime import: PASS;
-- clean consumer TypeScript import: PASS;
-- candidate metadata validation: PASS;
-- `private: true` remains unchanged;
-- no npm publication, Git tag, or GitHub release was performed.
-
-Exact candidate identity:
-
-- npm package: `dead-jim`;
-- version: `0.1.0-alpha.1`;
-- proposed Git tag: `v0.1.0-alpha.1`;
-- proposed GitHub pre-release: **Dead Jim v0.1.0-alpha.1**;
-- proposed npm dist-tag: `alpha`.
-
-See `docs/RELEASE_CANDIDATE_0.1.0-alpha.1.md`.
-
-### Pre-release metadata/versioning — DONE
-
-Durable result:
-
-- package identity and candidate version are defined;
-- release/versioning policy and changelog are canonical;
-- the package remains protected by `private: true`.
-
-### Library distribution/package boundary — DONE
-
-Durable result:
-
-- emitted ESM JavaScript and TypeScript declarations;
-- explicit exports/types/files package boundary;
-- clean packed-artifact consumer runtime/type validation.
-
-### Phase 1 runtime discriminator — DONE
-
-Proven capabilities:
-
-- SkelForm v0.7.2 import boundary;
-- normalized hierarchy and transform animation;
-- playback/looping;
-- attachment/style selection;
-- two-pose blending;
-- Phaser 4.2.1 renderer;
-- public browser demo with maintainer 4/4 PASS.
+- clean consumer runtime/type checks: PASS.
 
 ## Explicitly deferred
 
-- all npm publishing, Git tagging, and GitHub release actions until explicit maintainer release authorization;
-- changing `private: true` before release authorization;
 - release automation until after the first manual pre-release path is proven;
-- new runtime features while the release decision is pending;
+- new runtime features while the first public pre-release is active;
 - custom visual rigging/animation editor;
 - weighted mesh deformation;
 - IK and physics;

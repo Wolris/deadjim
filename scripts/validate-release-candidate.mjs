@@ -29,8 +29,8 @@ assert(
   "Unexpected pre-release candidate version.",
 );
 assert(
-  packageJson.private === true,
-  "Candidate checklist must not change publish posture.",
+  packageJson.private !== true,
+  "Authorized release candidate must not remain private.",
 );
 assert(packageJson.license === "MIT", "Package license must remain MIT.");
 assert(
@@ -78,18 +78,18 @@ for (const keyword of requiredKeywords) {
 }
 
 assert(
-  changelog.includes("## 0.1.0-alpha.1 — unreleased candidate"),
-  "CHANGELOG.md does not describe the candidate as unreleased.",
+  changelog.includes("## 0.1.0-alpha.1 — 2026-09-25"),
+  "CHANGELOG.md does not contain the authorized release date.",
 );
 assert(
   releasePolicy.includes("0.1.0-alpha.1"),
   "Release policy does not reference the candidate version.",
 );
 assert(
-  releasePolicy.includes("private: true"),
-  "Release policy does not preserve the publish-safety gate.",
+  releasePolicy.toLowerCase().includes("maintainer authorization"),
+  "Release policy does not record the authorization boundary.",
 );
 
 console.log(
-  "Dead Jim release candidate metadata: PASS (dead-jim@0.1.0-alpha.1, private=true)",
+  "Dead Jim release candidate metadata: PASS (dead-jim@0.1.0-alpha.1, publish-ready)",
 );

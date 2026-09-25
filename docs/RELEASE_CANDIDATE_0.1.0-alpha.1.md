@@ -12,7 +12,7 @@
 - Phaser peer dependency: `^4.2.1`
 - current publish safety gate: `private: true`
 
-This document is a release **candidate checklist**, not release authorization.
+Maintainer release authorization was granted on **September 25, 2026**. This document remains the candidate evidence record; repository rules still require separate merge approval for the release-preparation PR before tagging/releasing/publishing.
 
 ## Required evidence — complete
 
@@ -25,7 +25,9 @@ This document is a release **candidate checklist**, not release authorization.
 - [x] `CHANGELOG.md` and `docs/RELEASE_POLICY.md` describe the same candidate — candidate metadata check PASS, run 69;
 - [x] publish posture remains unchanged — `private: true`; this checklist performed no tag, GitHub release, or npm publication.
 
-Fresh npm identity evidence from run 69: **PASS — `dead-jim` had no registry package record on September 25, 2026.**
+Fresh npm identity evidence from checklist run 69 and authorized release-preparation run **74**: **PASS — `dead-jim` had no registry package record on September 25, 2026.**
+
+Authorized release-preparation run **74: PASS** also reconfirmed the publish-ready metadata, `dead-jim@0.1.0-alpha.1` packed artifact, 23-file boundary, and clean consumer runtime/type checks after removing `private: true`. Routine deterministic PR validation **run 75: PASS** after restoring `npm run validate` to the non-networked validation path.
 
 Routine `npm run validate` remains deterministic and does not query the live npm registry. `npm run release:check` is the explicit release-time guard.
 
@@ -57,7 +59,4 @@ stop before publication rather than substituting release automation.
 
 ## Stop condition
 
-The checklist is complete. It does **not** authorize any release action.
-
-Stop and obtain explicit maintainer authorization before changing
-`private: true`, tagging, creating a GitHub release, or running `npm publish`.
+The checklist is complete and maintainer release authorization has been granted. The active release-preparation branch may change publish posture, but it must stop for explicit merge approval before creating the Git tag, GitHub pre-release, or running `npm publish`.

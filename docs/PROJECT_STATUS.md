@@ -14,39 +14,30 @@ The runtime path is proven end to end. Maintainer browser validation: **4/4 PASS
 
 Dead Jim emits ESM JavaScript and TypeScript declarations, defines explicit package exports/files, retains Phaser as a peer dependency, and passes a clean packed-artifact consumer runtime/type smoke test.
 
-## Candidate 0.1.0-alpha.1 — checklist complete, not released
+## First public pre-release — authorized, not yet released
 
-Candidate identity:
+Maintainer authorization for `dead-jim@0.1.0-alpha.1` was granted on September 25, 2026.
+
+Release identity:
 
 - npm package: `dead-jim`;
 - version: `0.1.0-alpha.1`;
-- proposed Git tag: `v0.1.0-alpha.1`;
-- proposed GitHub pre-release: **Dead Jim v0.1.0-alpha.1**;
+- Git tag: `v0.1.0-alpha.1`;
+- GitHub pre-release: **Dead Jim v0.1.0-alpha.1**;
 - npm dist-tag: `alpha`.
 
-Evidence:
-
-- merged candidate `main` run 67: PASS;
-- candidate checklist run 69: PASS;
-- fresh npm registry name check: PASS — no `dead-jim` package record on September 25, 2026;
-- packed artifact: `dead-jim@0.1.0-alpha.1`, 23 intentional files;
-- clean consumer runtime/type checks: PASS;
-- candidate metadata check: PASS.
-
-Publish posture is unchanged: `private: true`. No npm publication, Git tag, or GitHub release was performed.
+The release-preparation branch is publish-ready. Authorized release validation **run 74: PASS** reconfirmed the packed artifact, clean consumer checks, publish-ready metadata, and fresh npm package-name availability. Routine deterministic PR validation **run 75: PASS** after the live registry check was removed from `npm run validate`. PR **#13** is now waiting for explicit merge approval before tag/release/publication actions.
 
 ## Current execution
 
-The repository is waiting for one explicit maintainer decision: whether to authorize the first public pre-release.
-
-Approval does not bypass the repository merge boundary. If approved, release-posture changes are prepared on a focused branch, validated, and presented for explicit merge approval before tagging/releasing/publishing.
+The single current execution lock is the publish-ready release-preparation branch. It removes `private: true`, dates the changelog, revalidates the exact packed package plus npm name, restores deterministic routine CI, and opens the final release-preparation PR.
 
 ## Release documents
 
-- `docs/RELEASE_POLICY.md` — versioning and release-note policy.
+- `docs/RELEASE_POLICY.md` — versioning and release execution policy.
 - `CHANGELOG.md` — canonical public release notes.
-- `docs/RELEASE_CANDIDATE_0.1.0-alpha.1.md` — exact candidate checklist and proposed release actions.
+- `docs/RELEASE_CANDIDATE_0.1.0-alpha.1.md` — candidate checklist and release identity.
 
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The current lock is a maintainer release decision. Do not change `private: true`, tag, release, or publish without explicit approval.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The release is authorized but not yet executed. Do not tag, create the GitHub pre-release, or publish to npm until the release-preparation PR receives explicit merge approval and merged-`main` validation passes.

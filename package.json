@@ -1,7 +1,6 @@
 {
   "name": "dead-jim",
   "version": "0.1.0-alpha.1",
-  "private": true,
   "description": "TypeScript bridge/runtime for bringing SkelForm-authored 2D skeletal animation into Phaser 4.",
   "type": "module",
   "license": "MIT",

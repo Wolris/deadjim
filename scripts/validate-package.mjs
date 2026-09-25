@@ -214,7 +214,7 @@ validateSkeleton(skeleton);
   rmSync(consumerDir, { recursive: true, force: true });
 }
 
-assert(packageJson.private === true, "Package must remain private in this lock.");
+assert(packageJson.private !== true, "Release-prepared package must not be private.");
 
 console.log(
   `Dead Jim packed artifact: PASS (${packed.name}@${packed.version}, ${packedFiles.length} files)`,
