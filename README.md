@@ -43,7 +43,7 @@ The completed Phase 1 runtime discriminator proves:
 
 The library distribution boundary is also validated: Dead Jim emits ESM JavaScript and TypeScript declarations, packs an intentional file set, and installs/imports successfully in a clean consumer smoke test.
 
-**Dead Jim is not published yet.** The package remains `private: true` at version `0.0.0` while pre-release metadata/versioning is reviewed.
+**Dead Jim is not published yet.** The first intentional candidate is `dead-jim@0.1.0-alpha.1`, but the package remains `private: true` until an explicit release authorization.
 
 Advanced mesh deformation, IK, physics, state machines, multiple adapters, and a custom animation editor remain deliberately deferred until real runtime evidence requires them.
 
@@ -55,6 +55,8 @@ Advanced mesh deformation, IK, physics, state machines, multiple adapters, and a
 - `docs/architecture/` — architecture decision records
 - `docs/roadmap/` — active execution lock, process, and backlog
 - `docs/THIRD_PARTY.md` — upstream projects and license boundaries
+- `docs/RELEASE_POLICY.md` — pre-release versioning and release-note policy
+- `CHANGELOG.md` — canonical public release notes
 - `AGENTS.md` — repository rules for AI-assisted development
 - `src/` — runtime implementation
 - `tests/` — deterministic runtime/import/renderer tests

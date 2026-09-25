@@ -4,70 +4,76 @@
 
 **Post-Phase 1 — Release Readiness**
 
-Phase 1 is complete. The library distribution boundary is now proven without publishing: Dead Jim emits ESM JavaScript and TypeScript declarations, packs only intentional files, and installs/imports successfully in a clean consumer smoke test.
+Phase 1 and the package distribution boundary are proven. The intended npm identity and first pre-release metadata are now defined without changing publish posture.
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Define pre-release package metadata, versioning, and release-note policy without publishing.**
+**LOCKED — Prepare the first pre-release candidate checklist and stop for explicit release authorization.**
 
 Acceptance criteria:
 
-- begin from current `main` after the package-distribution branch is merged;
-- verify the intended npm package identity/name before changing publish posture;
-- choose an intentional initial pre-release semantic version and document the versioning policy;
-- define the smallest changelog/release-notes convention for the first public pre-release;
-- review package metadata for the public artifact: name, description, license, repository, keywords, peer dependency, exports, types, and files;
-- keep the proven ESM/declaration build and clean packed-consumer smoke validation green;
-- keep `private: true` unless a later explicit release lock and maintainer approval authorize changing publish posture;
-- do not run `npm publish`, create Git tags, create GitHub releases, or add release automation in this lock;
+- begin from current `main` after the pre-release metadata/versioning branch is merged;
+- re-run and record the full repository/package validation against the candidate version;
+- re-run `npm run package:name-check` immediately before any proposed first publication;
+- inspect the packed tarball contents and confirm package name/version/exports/types/peer dependency/files match the reviewed metadata;
+- prepare the exact proposed release identity: npm package `dead-jim`, version `0.1.0-alpha.1`, Git tag `v0.1.0-alpha.1`, and matching GitHub pre-release title/notes;
+- verify `CHANGELOG.md` and `docs/RELEASE_POLICY.md` match the candidate;
+- identify the exact actions that would change publish posture: remove/change `private: true`, commit that change, create the Git tag, create the GitHub pre-release, and run `npm publish`;
+- stop for explicit maintainer authorization before performing any publish-posture change, tag, GitHub release, or npm publication;
 - do not add new runtime features, editor work, additional adapters, or consumer-specific integration.
 
 ## NEXT
 
-After metadata/versioning passes, prepare the smallest first pre-release candidate/release checklist and stop for an explicit maintainer decision before changing `private`, tagging, releasing, or publishing.
+**MAINTAINER DECISION — First public pre-release authorization.**
+
+After the checklist is complete, the maintainer must explicitly approve or decline changing publish posture and releasing `0.1.0-alpha.1`. No tag, GitHub release, or npm publication may occur without that approval.
 
 ## Recently closed
 
-### Library distribution/package boundary — DONE
+### Pre-release package metadata, versioning, and release-note policy — DONE
 
-Closure basis: GitHub Actions validation run 59 completed successfully on `feature/package-distribution-boundary` for commit `d68d556`.
+Closure basis:
+
+- npm identity validation run 64: PASS — `dead-jim` had no registry package record on September 25, 2026;
+- final branch validation must remain green before merge.
 
 Durable result:
 
-- `tsconfig.build.json` emits ESM JavaScript plus TypeScript declarations from the public `src/index.ts` surface;
-- package `main`, `types`, and explicit `exports` resolve to `dist/lib`;
-- package `files` limits the artifact to the built library plus required README/LICENSE/package metadata;
-- Phaser remains a peer dependency and is not bundled into the core library artifact;
-- `npm run package:check` cleans/builds, runs `npm pack` without publishing, validates the packed-file boundary, installs the tarball into a clean temporary consumer, imports representative public APIs at runtime, and typechecks representative public types;
-- CI packed exactly 23 intentional files and reported `Dead Jim packed runtime import: PASS` and `Dead Jim package boundary: PASS`;
-- `private: true` and version `0.0.0` remain intentionally unchanged pending the metadata/versioning lock;
-- no npm publish, Git tag, GitHub release, or release automation was performed.
+- intended package identity is `dead-jim`;
+- first intentional candidate version is `0.1.0-alpha.1`;
+- `private: true` remains the publish-safety gate;
+- `docs/RELEASE_POLICY.md` defines the pre-release progression and changelog/release-note rules;
+- `CHANGELOG.md` contains the unreleased `0.1.0-alpha.1` public capability/limitation summary;
+- package metadata remains MIT-licensed, repository-linked, ESM-only, declaration-enabled, Phaser-peer-based, and constrained by explicit exports/files;
+- `npm run package:name-check` remains available for release-time revalidation but is not part of routine deterministic CI;
+- no npm publication, Git tag, GitHub release, or release automation was performed.
 
-### Phase 1 milestone review — DONE
+### Library distribution/package boundary — DONE
 
-Findings:
+Durable result:
 
-- Phase 1 capabilities are recorded as proven rather than aspirational;
-- completed Phase 1 work is removed from the future backlog;
-- release readiness, not additional animation features, is the current project boundary.
+- emitted ESM JavaScript and TypeScript declarations;
+- explicit exports/types/files package boundary;
+- clean `npm pack` consumer runtime/type smoke validation;
+- Phaser remains a peer dependency.
 
 ### Phase 1 runtime discriminator — DONE
 
 Proven capabilities:
 
-- normalized skeleton hierarchy and world transforms;
-- linear transform keyframe interpolation;
-- SkelForm v0.7.2 source import boundary;
-- deterministic playback/looping;
-- renderer-neutral attachment/style swapping;
-- deterministic two-pose blending;
-- Phaser 4.2.1 renderer adapter;
-- public browser proof with maintainer 4/4 PASS.
+- SkelForm v0.7.2 import boundary;
+- normalized hierarchy and transform animation;
+- playback/looping;
+- attachment/style selection;
+- two-pose blending;
+- Phaser 4.2.1 renderer;
+- public browser demo with maintainer 4/4 PASS.
 
 ## Explicitly deferred
 
-- npm publishing, Git tags, GitHub releases, and release automation until later explicit approval;
-- changing `private: true` until an explicit release lock authorizes it;
+- npm publishing, Git tags, and GitHub releases until explicit maintainer authorization;
+- changing `private: true` before that authorization;
+- release automation until after the first manual pre-release path is proven;
 - custom visual rigging/animation editor;
 - weighted mesh deformation;
 - IK and physics;
