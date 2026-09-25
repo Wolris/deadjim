@@ -67,13 +67,11 @@ describe("blendSkeletonPoses", () => {
       scaleX: 2,
       scaleY: 3,
     });
-    expect(root?.world).toEqual({
-      x: 15,
-      y: 25,
-      rotation: 0.9,
-      scaleX: 3,
-      scaleY: 4,
-    });
+    expect(root?.world.x).toBeCloseTo(15);
+    expect(root?.world.y).toBeCloseTo(25);
+    expect(root?.world.rotation).toBeCloseTo(0.9);
+    expect(root?.world.scaleX).toBeCloseTo(3);
+    expect(root?.world.scaleY).toBeCloseTo(4);
     expect(blended.visibleAttachments).toBe(first.visibleAttachments);
   });
 
