@@ -28,7 +28,13 @@ See `LICENSE` and `docs/THIRD_PARTY.md`.
 
 ## Current execution
 
-The first implementation branch establishes the normalized runtime model, hierarchy validation, and the isolated SkelForm source-adapter boundary before Phaser-specific rendering is added.
+The normalized runtime scaffold and first pose-evaluation path are implemented and validated. Local/world transform propagation and linear transform-channel keyframe interpolation remain renderer-independent.
+
+The current execution lock is the first real SkelForm import mapping and public fixture. Phaser rendering remains deferred until imported SkelForm data is proven through the normalized pose evaluator.
+
+## Validation evidence
+
+GitHub Actions validation run 13 passed for pose-evaluation commit `835c6ae`.
 
 ## Public-project rule
 
@@ -36,4 +42,4 @@ Repository documentation, fixtures, examples, source, logs, and screenshots must
 
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. Load only the relevant repository document, ADR, test, or source file required by the current lock.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. Load only the relevant repository document, ADR, test, or source file required by the single current execution lock.

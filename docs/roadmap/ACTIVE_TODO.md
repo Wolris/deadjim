@@ -4,30 +4,55 @@
 
 **Phase 1 — Core Runtime Discriminator**
 
-Public repository bootstrap is complete. Dead Jim is now an MIT-licensed open-source project focused on the SkelForm -> Dead Jim -> Phaser 4 pipeline.
+Public repository bootstrap is complete. Dead Jim is an MIT-licensed open-source project focused on the SkelForm -> Dead Jim -> Phaser 4 pipeline.
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Scaffold the normalized TypeScript runtime and SkelForm import boundary.**
+**LOCKED — Implement the first real SkelForm import mapping and fixture.**
 
 Acceptance criteria:
 
-- use a focused implementation branch from `main`;
-- establish the smallest TypeScript package/test harness needed for runtime work;
-- define engine-independent normalized types for skeletons, bones, attachments, animation clips, and pose state;
-- define a SkelForm source-adapter boundary without leaking SkelForm-specific concepts into the normalized model;
-- add deterministic unit tests for hierarchy/transform data-shape behavior that can run before Phaser integration exists;
+- use the focused implementation branch from current `main`;
+- pin the SkelForm source shape/version used by the first fixture from public upstream evidence;
+- add a small public-safe source fixture representative of the first supported SkelForm data path;
+- map that source through the isolated SkelForm adapter into the normalized `SkeletonDefinition`;
+- convert source-specific transform/channel conventions at the adapter boundary rather than leaking SkelForm names into the normalized model;
+- add deterministic importer tests covering hierarchy, transforms, attachments, and animation data present in the fixture;
+- preserve the MIT/GPL boundary in `docs/THIRD_PARTY.md`; do not copy GPL editor implementation into Dead Jim;
 - do not implement the Phaser renderer adapter in this lock;
-- do not add mesh deformation, IK, physics, or editor UI;
-- keep core packages and fixtures consumer-neutral;
-- keep repository content free of private workflow or personal information;
-- preserve the MIT/GPL boundary documented in `docs/THIRD_PARTY.md`.
+- do not add weighted meshes, IK, physics, advanced constraints, editor UI, or consumer-specific concepts;
+- keep repository content self-contained and free of private workflow or personal information.
 
 ## NEXT
 
-Implement pose evaluation: local/world transform propagation plus the first keyframe interpolation path.
+Implement the first Phaser 4 renderer adapter only after the SkelForm import discriminator passes and the normalized pose output is proven against imported data.
 
 ## Recently closed
+
+### Pose evaluation and first keyframe interpolation — DONE
+
+Closure basis: GitHub Actions validation run 13 completed successfully on `feature/pose-evaluation-runtime` for commit `835c6ae`.
+
+Durable result:
+
+- local transforms propagate through validated parent-before-child hierarchy order;
+- parent translation, rotation, and scale contribute deterministically to child world transforms;
+- transform channels support first-path linear numeric interpolation with endpoint clamping;
+- sparse channels fall back to bind-pose values;
+- bind-pose evaluation works without a clip;
+- invalid missing-bone tracks, duplicate bone tracks, and non-increasing keyframe times fail deterministically;
+- the runtime remains engine-independent and contains no Phaser objects.
+
+### Normalized TypeScript runtime and source-adapter scaffold — DONE
+
+Closure basis: TypeScript package/test harness, normalized runtime types, hierarchy validation, isolated SkelForm adapter seam, deterministic tests, and CI validation are present.
+
+Durable result:
+
+- engine-independent normalized types cover skeletons, bones, sprite attachments, animation clips, keyframes, and pose state;
+- hierarchy validation rejects duplicate IDs, missing parents, cycles, and attachments targeting missing bones;
+- the SkelForm boundary remains isolated from normalized runtime names;
+- no renderer-specific objects are present in the normalized runtime.
 
 ### Open-source public project bootstrap — DONE
 
@@ -44,7 +69,7 @@ Durable result:
 
 ## Explicitly deferred
 
-- Phaser 4 renderer adapter until the normalized runtime boundary is proven;
+- Phaser 4 renderer adapter until the SkelForm import discriminator passes;
 - custom visual rigging/animation editor;
 - weighted mesh deformation;
 - IK and physics;
