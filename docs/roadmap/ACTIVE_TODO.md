@@ -4,32 +4,47 @@
 
 **Phase 1 — Core Runtime Discriminator**
 
-Dead Jim now has a validated public runtime path from pinned SkelForm data through deterministic single-clip playback, normalized pose evaluation, and the Phaser 4 renderer boundary.
+Dead Jim now has a validated public runtime path from pinned SkelForm data through deterministic playback, attachment/style selection, normalized pose evaluation, and the Phaser 4 renderer boundary.
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Prove basic attachment/style swapping in the normalized runtime.**
+**LOCKED — Implement the smallest deterministic two-clip crossfade/blending path.**
 
 Acceptance criteria:
 
-- begin from current `main` after the playback/looping branch is merged;
-- keep attachment/style selection engine-independent and separate from Phaser scene ownership;
-- introduce only the smallest renderer-neutral normalized concept needed to represent mutually exclusive attachment alternatives;
-- switching a selection must change only the deterministic `visibleAttachments` result needed by the renderer, without changing bone transforms or playback timing;
-- prove at least one attachment can be swapped for another alternative on the same normalized skeleton and rendered correctly through the Phaser adapter;
-- preserve deterministic default behavior when no explicit swap is active;
-- reject invalid or ambiguous attachment selections explicitly rather than silently choosing an alternative;
-- add focused tests for default selection, an active swap, invalid selection, and unchanged pose/playback transforms across a swap;
-- do not add texture animation, tint animation, crossfade/blending, layered animation, animation events, state machines, or a custom scheduler in this lock;
-- do not widen this lock into SkelForm style import unless source evidence is required to validate the normalized abstraction;
+- begin from current `main` after the attachment/style-swapping branch is merged;
+- keep blending engine-independent and separate from Phaser scene/update ownership;
+- blend exactly two evaluated clip poses using one explicit normalized weight in the range 0..1;
+- blend translation, rotation, and scale deterministically per bone;
+- preserve deterministic attachment visibility semantics without inventing layered attachment blending;
+- define and test endpoint identity: weight 0 exactly matches the first pose, weight 1 exactly matches the second pose;
+- reject invalid weights and incompatible skeleton/pose inputs explicitly;
+- prove one blended pose renders correctly through the existing Phaser adapter;
+- add focused tests for endpoints, midpoint interpolation, rotation/scale behavior, invalid weight, and renderer output;
+- do not add multi-layer blending, blend trees, state machines, animation events, easing curves, masks, additive animation, or custom scheduling in this lock;
 - do not add weighted meshes, IK, physics, advanced constraints, editor UI, or consumer-specific concepts;
 - keep repository content self-contained and free of private workflow or personal information.
 
 ## NEXT
 
-Implement the smallest deterministic two-clip crossfade/blending path only after attachment/style swapping is proven through the normalized runtime and Phaser adapter.
+Add the smallest public example sandbox/demo that proves the completed Phase 1 runtime path visually after two-clip blending is validated.
 
 ## Recently closed
+
+### Basic attachment/style swapping — DONE
+
+Closure basis: GitHub Actions validation run 38 completed successfully on `feature/attachment-style-swapping` for commit `d41d0fe`.
+
+Durable result:
+
+- the normalized runtime now supports optional attachment slots containing mutually exclusive attachment alternatives plus one deterministic default;
+- skeletons without attachment slots retain previous behavior: all attachments remain visible;
+- runtime selections change only `visibleAttachments`; playback time and bone transforms remain unchanged;
+- invalid unknown slots and attachments outside the selected slot fail explicitly;
+- duplicate attachment IDs, duplicate slot IDs, missing alternatives, invalid defaults, duplicate alternatives, and attachments assigned to multiple slots are rejected during validation;
+- deterministic tests cover default selection, active swapping, invalid selection, ambiguous slot ownership, and transform/playback invariance across a swap;
+- the Phaser adapter is proven with both alternatives instantiated while rendering only the selected attachment;
+- no SkelForm style-import expansion, texture animation, tint animation, crossfade, state machine, or renderer-owned selection logic was added.
 
 ### Single-clip playback and looping — DONE
 
@@ -59,9 +74,7 @@ Durable result:
 - renderer input is limited to validated normalized skeleton data plus `SkeletonPose`; no SkelForm source fields leak into the renderer;
 - ADR-0002 defines Dead Jim's normalized 2D coordinate space as +X right, +Y down, clockwise-positive radians, with center-relative normalized attachment pivots;
 - the SkelForm adapter converts its Y-up / counter-clockwise source conventions into normalized Dead Jim coordinates at the import boundary;
-- unsupported SkelForm bind-hidden, tint, pivot-rotation, and pivot-scale semantics are rejected rather than silently lost;
-- deterministic tests cover renderer creation, transform application, visibility, lifecycle/error cases, and the full SkelForm fixture -> import -> validation -> pose -> Phaser adapter path;
-- actual Phaser 4.2.1 types compile in CI and the package installs cleanly; no browser-only behavior is introduced by this lock, so a separate manual browser smoke was not required.
+- deterministic tests cover renderer creation, transform application, visibility, lifecycle/error cases, and the full SkelForm fixture -> import -> validation -> pose -> Phaser adapter path.
 
 ### First real SkelForm import mapping and fixture — DONE
 
@@ -70,51 +83,36 @@ Closure basis: GitHub Actions validation run 19 completed successfully on `featu
 Durable result:
 
 - the first compatibility target is pinned to SkelForm release `v0.7.2`, commit `37b268dfa578a2fb2e31c29814c5f609249475f2`;
-- the v0.7.2 source tag serializes Cargo package version `0.7.1` into `armature.json`, so the compatibility fixture correctly declares armature version `0.7.1`;
-- the independently authored public fixture exercises hierarchy, immutable `init_*` bind transforms, one sprite visual, pivot/z-order data, and linear transform animation keyframes;
-- the SkelForm adapter maps source IDs, parent relationships, visuals, frame/fps timing, and scalar transform channels into the normalized runtime model;
-- imported data is validated and evaluated through the engine-independent pose evaluator in deterministic tests;
-- mesh, IK, physics, unsupported source versions, and non-linear SkelForm interpolation are rejected explicitly instead of being silently discarded;
-- SkelForm-specific field names remain confined to the source-adapter boundary;
-- the GPL editor source is not copied or vendored into Dead Jim.
+- the independently authored public fixture exercises hierarchy, bind transforms, one sprite visual, pivot/z-order data, and linear transform animation keyframes;
+- imported data is validated and evaluated through the engine-independent pose evaluator;
+- mesh, IK, physics, unsupported versions, and non-linear interpolation are rejected explicitly;
+- SkelForm-specific fields remain confined to the source-adapter boundary.
 
 ### Pose evaluation and first keyframe interpolation — DONE
-
-Closure basis: GitHub Actions validation passed for the pose-evaluation implementation before merge to `main`.
 
 Durable result:
 
 - local transforms propagate through validated parent-before-child hierarchy order;
-- parent translation, rotation, and scale contribute deterministically to child world transforms;
-- transform channels support first-path linear numeric interpolation with endpoint clamping;
+- transform channels support deterministic linear interpolation with endpoint clamping;
 - sparse channels fall back to bind-pose values;
-- bind-pose evaluation works without a clip;
-- invalid missing-bone tracks, duplicate bone tracks, and non-increasing keyframe times fail deterministically;
-- the runtime remains engine-independent and contains no Phaser objects.
+- invalid track structure fails explicitly;
+- the runtime remains engine-independent.
 
 ### Normalized TypeScript runtime and source-adapter scaffold — DONE
-
-Closure basis: TypeScript package/test harness, normalized runtime types, hierarchy validation, isolated SkelForm adapter seam, deterministic tests, and CI validation are present.
 
 Durable result:
 
 - engine-independent normalized types cover skeletons, bones, sprite attachments, animation clips, keyframes, and pose state;
-- hierarchy validation rejects duplicate IDs, missing parents, cycles, and attachments targeting missing bones;
-- the SkelForm boundary remains isolated from normalized runtime names;
-- no renderer-specific objects are present in the normalized runtime.
+- hierarchy validation rejects malformed structure;
+- the SkelForm boundary remains isolated from normalized runtime names.
 
 ### Open-source public project bootstrap — DONE
 
-Closure basis: repository structure, MIT licensing, public documentation, project artwork, and CI validation.
-
 Durable result:
 
-- the repository has Repo Rules, Design Bible, roadmap process, backlog, project status, ADR-0001, contribution guidelines, security policy, and third-party license notes;
+- repository governance, licensing, architecture, roadmap, contribution, security, and third-party boundaries are public and self-contained;
 - Dead Jim software is MIT-licensed;
-- the architecture is source adapter -> normalized runtime -> renderer adapter;
-- SkelForm is the first source-format discriminator and Phaser 4 is the first renderer adapter;
-- custom editor work remains deferred;
-- public repository documentation is self-contained.
+- the architecture is source adapter -> normalized runtime -> renderer adapter.
 
 ## Explicitly deferred
 
@@ -123,8 +121,8 @@ Durable result:
 - IK and physics;
 - advanced constraints;
 - multiple renderer adapters;
-- animation crossfade/blending until attachment/style swapping is proven;
+- multi-layer blending, blend trees, additive animation, and state machines;
 - animation events until a real consumer requires them;
-- layered animation, state machines, speed curves, and custom scheduling;
+- speed curves and custom scheduling;
 - package publishing/release automation;
-- consumer-specific integration until the initial capability boundary is complete.
+- consumer-specific integration until the initial Phase 1 capability boundary is complete.

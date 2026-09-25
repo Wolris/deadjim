@@ -322,6 +322,76 @@ describe("Phaser4RendererAdapter", () => {
     adapter.destroy();
   });
 
+  it("renders only the selected attachment alternative without changing transforms", () => {
+    const swappable: SkeletonDefinition = {
+      bones: [
+        {
+          id: "root",
+          name: "Root",
+          parentId: null,
+          bind: transform(12, 18, 0.4, 1.5, 0.75),
+        },
+      ],
+      attachments: [
+        {
+          id: "red-hat",
+          name: "Red Hat",
+          boneId: "root",
+          assetId: "red-hat.png",
+          pivotX: 0,
+          pivotY: 0,
+          zIndex: 4,
+        },
+        {
+          id: "blue-hat",
+          name: "Blue Hat",
+          boneId: "root",
+          assetId: "blue-hat.png",
+          pivotX: 0,
+          pivotY: 0,
+          zIndex: 4,
+        },
+      ],
+      attachmentSlots: [
+        {
+          id: "hat",
+          attachmentIds: ["red-hat", "blue-hat"],
+          defaultAttachmentId: "red-hat",
+        },
+      ],
+      animations: [],
+    };
+    const skeleton = validateSkeleton(swappable);
+    const defaultPose = evaluateClipPose(skeleton, null, 0);
+    const swappedPose = evaluateClipPose(
+      skeleton,
+      null,
+      0,
+      new Map([["hat", "blue-hat"]]),
+    );
+    const images: FakeImage[] = [];
+    const adapter = new Phaser4RendererAdapter(
+      makeScene(images),
+      skeleton,
+    );
+
+    adapter.applyPose(swappedPose);
+
+    expect(defaultPose.bones).toEqual(swappedPose.bones);
+    expect(images).toHaveLength(2);
+    expect(images[0].assetId).toBe("red-hat.png");
+    expect(images[0].visible).toBe(false);
+    expect(images[1].assetId).toBe("blue-hat.png");
+    expect(images[1].visible).toBe(true);
+    expect(images[1].x).toBeCloseTo(12);
+    expect(images[1].y).toBeCloseTo(18);
+    expect(images[1].rotation).toBeCloseTo(0.4);
+    expect(images[1].scaleX).toBeCloseTo(1.5);
+    expect(images[1].scaleY).toBeCloseTo(0.75);
+
+    adapter.destroy();
+  });
+
   it("owns and destroys its Phaser images exactly once", () => {
     const images: FakeImage[] = [];
     const adapter = new Phaser4RendererAdapter(

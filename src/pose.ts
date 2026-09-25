@@ -1,5 +1,6 @@
 import type {
   AnimationClip,
+  AttachmentSelections,
   BoneId,
   BonePose,
   NumberKeyframe,
@@ -7,6 +8,7 @@ import type {
   Transform2D,
   TransformTrack,
 } from "./model.js";
+import { resolveVisibleAttachments } from "./attachments.js";
 import type { ValidatedSkeleton } from "./skeleton.js";
 
 /**
@@ -83,6 +85,7 @@ export function evaluateClipPose(
   skeleton: ValidatedSkeleton,
   clip: AnimationClip | null,
   timeMs: number,
+  attachmentSelections: AttachmentSelections = new Map(),
 ): SkeletonPose {
   const tracksByBone = new Map<BoneId, TransformTrack>();
 
@@ -136,8 +139,9 @@ export function evaluateClipPose(
 
   return {
     bones: poses,
-    visibleAttachments: skeleton.definition.attachments.map(
-      (attachment) => attachment.id,
+    visibleAttachments: resolveVisibleAttachments(
+      skeleton,
+      attachmentSelections,
     ),
   };
 }
