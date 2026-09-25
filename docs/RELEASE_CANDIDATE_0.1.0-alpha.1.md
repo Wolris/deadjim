@@ -27,7 +27,7 @@ Maintainer release authorization was granted on **September 25, 2026**. This doc
 
 Fresh npm identity evidence from checklist run 69 and authorized release-preparation run **74**: **PASS — `dead-jim` had no registry package record on September 25, 2026.**
 
-Authorized release-preparation run **74: PASS** also reconfirmed the publish-ready metadata, `dead-jim@0.1.0-alpha.1` packed artifact, 23-file boundary, and clean consumer runtime/type checks after removing `private: true`.
+Authorized release-preparation run **74: PASS** also reconfirmed the publish-ready metadata, `dead-jim@0.1.0-alpha.1` packed artifact, 23-file boundary, and clean consumer runtime/type checks after removing `private: true`. Routine deterministic PR validation **run 75: PASS** after restoring `npm run validate` to the non-networked validation path.
 
 Routine `npm run validate` remains deterministic and does not query the live npm registry. `npm run release:check` is the explicit release-time guard.
 

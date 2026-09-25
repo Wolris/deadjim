@@ -8,7 +8,7 @@ Maintainer authorization for `dead-jim@0.1.0-alpha.1` was granted on September 2
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Prepare the publish-ready `0.1.0-alpha.1` branch and stop at the merge boundary.**
+**AWAITING MERGE APPROVAL — PR #13, publish-ready `0.1.0-alpha.1` release preparation.**
 
 Acceptance criteria:
 
@@ -20,9 +20,9 @@ Acceptance criteria:
 - run full deterministic repository/package validation;
 - run `npm run release:check` with a fresh npm registry identity check on the publish-ready candidate — **run 74: PASS**;
 - prove packed artifact identity and clean consumer runtime/type import again;
-- restore routine CI to deterministic validation after the one-time registry-backed release check — **done; final deterministic PR validation pending**;
-- open a focused release-preparation PR;
-- stop for explicit merge approval before tagging, creating a GitHub release, or running `npm publish`.
+- restore routine CI to deterministic validation after the one-time registry-backed release check — **run 75: PASS**;
+- open a focused release-preparation PR — **PR #13 open**;
+- stop for explicit merge approval before tagging, creating a GitHub release, or running `npm publish` — **current boundary**.
 
 ## NEXT
 
