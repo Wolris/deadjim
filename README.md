@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Wolris/deadjim/assets/dead-jim-avatar.jpg" alt="Dead Jim — grinning neon skeleton project artwork" width="256">
+  <img src="https://raw.githubusercontent.com/Wolris/deadjim/main/assets/dead-jim-avatar.jpg" alt="Dead Jim — grinning neon skeleton project artwork" width="256">
 </p>
 
 # Dead Jim
