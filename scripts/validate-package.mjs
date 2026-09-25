@@ -48,6 +48,10 @@ mkdirSync(packDir, { recursive: true });
 
 run(npmCommand, ["run", "build:lib"]);
 
+const packageJson = JSON.parse(
+  readFileSync(join(repoRoot, "package.json"), "utf8"),
+);
+
 const packOutput = run(
   npmCommand,
   ["pack", "--json", "--pack-destination", packDir],
@@ -60,6 +64,15 @@ assert(
 );
 
 const packed = packInfo[0];
+assert(
+  packed.name === packageJson.name,
+  `Packed artifact name ${packed.name} does not match package.json ${packageJson.name}.`,
+);
+assert(
+  packed.version === packageJson.version,
+  `Packed artifact version ${packed.version} does not match package.json ${packageJson.version}.`,
+);
+
 const packedFiles = packed.files.map((entry) => entry.path).sort();
 const requiredFiles = [
   "LICENSE",
@@ -201,11 +214,11 @@ validateSkeleton(skeleton);
   rmSync(consumerDir, { recursive: true, force: true });
 }
 
-const packageJson = JSON.parse(
-  readFileSync(join(repoRoot, "package.json"), "utf8"),
-);
 assert(packageJson.private === true, "Package must remain private in this lock.");
 
+console.log(
+  `Dead Jim packed artifact: PASS (${packed.name}@${packed.version}, ${packedFiles.length} files)`,
+);
 console.log(
   `Dead Jim package boundary: PASS (${packedFiles.length} packed files, no publish performed)`,
 );
