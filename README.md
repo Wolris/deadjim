@@ -8,7 +8,7 @@ Bones: "He's dead, Jim."
 
 <br/>
 
-The intended pipeline is:
+The reference pipeline is:
 
 ```text
 SkelForm authoring
@@ -22,25 +22,28 @@ Phaser 4 renderer adapter
 
 ## Why Dead Jim?
 
-SkelForm provides a free and open-source 2D skeletal-animation authoring workflow. Phaser is a mature, MIT-licensed HTML5 game framework. Dead Jim is intended to bridge those worlds with a small, explicit TypeScript runtime layer rather than requiring a proprietary skeletal-animation runtime.
+SkelForm provides a free and open-source 2D skeletal-animation authoring workflow. Phaser is a mature, MIT-licensed HTML5 game framework. Dead Jim bridges those worlds with a small, explicit TypeScript runtime layer rather than requiring a proprietary skeletal-animation runtime.
 
 Dead Jim is an independent community project maintained by **Curadh Creative / Wolris**. It is not an official SkelForm or Phaser project.
 
 ## Current status
 
-**Early development / experimental.**
+**Phase 1 complete / pre-release.**
 
-The first milestone is intentionally small:
+The completed Phase 1 runtime discriminator proves:
 
-- import SkelForm data through an isolated source adapter;
-- normalize bones, transforms, sprite attachments, and animation clips;
-- evaluate animation poses independently of any renderer;
-- render the evaluated pose through a Phaser 4 adapter;
-- support modular attachment swapping and basic animation blending.
+- SkelForm v0.7.2 source import through an isolated adapter;
+- normalized bones, transforms, sprite attachments, and animation clips;
+- renderer-independent pose evaluation;
+- deterministic clip playback and looping;
+- modular attachment/style swapping;
+- deterministic two-pose blending;
+- Phaser 4.2.1 rendering through an adapter;
+- a public browser sandbox exercising the complete path.
 
-Advanced mesh deformation, IK, physics, and a custom animation editor are deliberately deferred until real runtime evidence requires them.
+Advanced mesh deformation, IK, physics, state machines, multiple adapters, and a custom animation editor remain deliberately deferred until real runtime evidence requires them.
 
-The Phase 1 runtime discriminator is implemented. A browser sandbox in `examples/phase1/` proves the public SkelForm → Dead Jim → Phaser 4 path visually.
+The next work is release readiness: defining and validating a distributable library package artifact. **No npm package or public release is being claimed yet.**
 
 ## Repository structure
 
@@ -51,7 +54,9 @@ The Phase 1 runtime discriminator is implemented. A browser sandbox in `examples
 - `docs/roadmap/` — active execution lock, process, and backlog
 - `docs/THIRD_PARTY.md` — upstream projects and license boundaries
 - `AGENTS.md` — repository rules for AI-assisted development
-- `src/`, `tests/`, and `validate.cmd` — runtime implementation and validation as they land from the current implementation branch
+- `src/` — runtime implementation
+- `tests/` — deterministic runtime/import/renderer tests
+- `validate.cmd` — Windows validation entrypoint
 
 ## Phase 1 browser demo
 
@@ -73,8 +78,6 @@ npm run demo:build
 ```
 
 ## Validation
-
-Once the runtime scaffold is present on your branch:
 
 On Windows:
 

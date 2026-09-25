@@ -6,9 +6,9 @@ Dead Jim — an MIT-licensed open-source TypeScript bridge/runtime for bringing 
 
 Repository: `Wolris/deadjim`
 
-## Phase 1 evidence
+## Phase 1 — complete
 
-The Phase 1 runtime discriminator is complete and proven through both automated validation and a public browser demo:
+Phase 1 is closed as a proven runtime discriminator:
 
 ```text
 SkelForm v0.7.2 armature.json shape
@@ -32,16 +32,34 @@ Phaser 4.2.1 renderer adapter
 public browser sandbox
 ```
 
-The browser sandbox lives in `examples/phase1/` and uses the real public runtime APIs rather than reimplementing animation behavior in demo code.
+Evidence:
 
-Validation evidence:
+- merged `main` validation run 55: PASS;
+- Phase 1 demo branch validation runs 51 and 53: PASS;
+- maintainer browser validation: **4/4 PASS** for continuous animation, live blend control, attachment swap, and swap-back.
 
-- GitHub Actions run 51: PASS for typecheck, unit/integration tests, and production demo build;
-- maintainer browser validation: **4/4 PASS** for continuous animation, blend control, attachment swap, and swap-back.
+The public sandbox under `examples/phase1/` uses the real runtime APIs rather than duplicating runtime behavior.
+
+## Milestone review finding
+
+The next boundary is **release readiness**, not additional animation features.
+
+The repository currently proves runtime behavior but does not yet define a publishable library artifact:
+
+- `package.json` remains `private: true` at version `0.0.0`;
+- TypeScript validation uses `noEmit`;
+- there is no emitted library build;
+- there are no package `exports`, declaration entry points, or intentional published-file boundary;
+- there is no clean packed-artifact consumer import smoke test;
+- pre-release versioning/release-note policy has not yet been established.
+
+Those gaps should be addressed before package publishing, tagging, or a public release.
 
 ## Current execution
 
-The single current execution lock is the Phase 1 milestone review. It reconciles the Design Bible, backlog, project status, and release-readiness gaps before any new phase, package publishing, tagging, or release work begins.
+The single current execution lock is to establish and validate the **library distribution/package boundary without publishing it**.
+
+The lock should prove emitted JavaScript/declarations, explicit exports/files, and a clean consumer import from the packed artifact while keeping actual npm publishing, Git tags, and GitHub releases behind a later explicit maintainer decision.
 
 ## Current reference stack
 
@@ -65,4 +83,4 @@ Repository documentation, fixtures, examples, source, logs, and screenshots must
 
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The next work is the Phase 1 milestone review; do not start new runtime features before that review leaves one explicit successor lock.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. Phase 1 is complete. The next work is release-readiness packaging; do not publish, tag, release, or add new runtime features unless the active lock explicitly changes.
