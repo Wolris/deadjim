@@ -26,11 +26,14 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "validate": "npm run typecheck && npm test"
+    "demo:dev": "vite examples/phase1",
+    "demo:build": "vite build examples/phase1 --outDir ../../dist/phase1-demo --emptyOutDir",
+    "validate": "npm run typecheck && npm test && npm run demo:build"
   },
   "devDependencies": {
     "phaser": "4.2.1",
     "typescript": "latest",
+    "vite": "8.3.1",
     "vitest": "latest"
   },
   "peerDependencies": {

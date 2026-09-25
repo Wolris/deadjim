@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dead Jim — Phase 1 Runtime Demo</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <p class="eyebrow">Dead Jim · Phase 1</p>
+        <h1>SkelForm → normalized runtime → Phaser 4</h1>
+        <p class="lede">
+          The arm animation, style swap, playback, pose evaluation, blend, and
+          rendering all pass through the public Dead Jim runtime APIs.
+        </p>
+      </header>
+
+      <section class="demo-card" aria-label="Dead Jim Phase 1 demo">
+        <div id="game" class="game-frame"></div>
+
+        <div class="controls">
+          <label for="blend-weight">
+            Blend between the two looping clips
+            <input
+              id="blend-weight"
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value="0.5"
+            />
+          </label>
+
+          <button id="swap-style" type="button">Use magenta arm</button>
+          <output id="demo-status" aria-live="polite"></output>
+        </div>
+      </section>
+
+      <p class="hint">
+        PASS: the arm keeps animating, the slider changes the blended motion,
+        and the style button swaps cyan/magenta without interrupting animation.
+      </p>
+    </main>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
