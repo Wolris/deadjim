@@ -70,3 +70,26 @@ For future public releases:
 Explicit maintainer approval remains mandatory even if parts of this sequence are automated later.
 
 If authenticated npm publication is unavailable, stop before publication rather than inventing credentials, sharing secrets in chat, or bypassing the configured security policy.
+
+## Release automation decision — September 25, 2026
+
+**Publication remains manual for now.**
+
+One manual release is not enough evidence to justify adding a second high-impact release path. Existing CI already automates the deterministic build, test, browser-demo build, packed-artifact boundary, clean consumer checks, and Windows/Node 24 package validation. Tag creation, npm publication, and GitHub release creation remain explicit maintainer actions until repeated release work demonstrates that automation would reduce risk or meaningful repetition.
+
+Revisit publication automation after a second manual pre-release or when release cadence makes the manual sequence materially repetitive.
+
+When publication automation is revisited:
+
+- prefer npm **Trusted Publishing** with GitHub Actions OIDC rather than a long-lived npm write token;
+- use a GitHub-hosted runner and a narrowly scoped release workflow;
+- bind npm trust to the exact repository and workflow filename;
+- preserve an explicit maintainer approval boundary before publication;
+- verify version, changelog, tag, package contents, and validated commit identity before any publish step;
+- keep npm publication and the GitHub release tied to the same approved version/tag;
+- use short-lived credentials and repository/environment protections rather than storing reusable publishing secrets.
+
+References:
+
+- https://docs.npmjs.com/trusted-publishers/
+- https://docs.github.com/en/actions/reference/security/oidc
