@@ -43,7 +43,7 @@ The completed Phase 1 runtime discriminator proves:
 
 The library distribution boundary is also validated: Dead Jim emits ESM JavaScript and TypeScript declarations, packs an intentional file set, and installs/imports successfully in a clean consumer smoke test.
 
-**Dead Jim is not published yet.** The first intentional candidate is `dead-jim@0.1.0-alpha.1`, but the package remains `private: true` until an explicit release authorization.
+**Dead Jim is not published yet.** The first public pre-release `dead-jim@0.1.0-alpha.1` is authorized and in release preparation; tagging and publication remain behind the final release-preparation merge boundary.
 
 Advanced mesh deformation, IK, physics, state machines, multiple adapters, and a custom animation editor remain deliberately deferred until real runtime evidence requires them.
 

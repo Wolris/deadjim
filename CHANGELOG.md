@@ -4,7 +4,7 @@ All notable public changes to Dead Jim are recorded here.
 
 Dead Jim uses Semantic Versioning. See `docs/RELEASE_POLICY.md`.
 
-## 0.1.0-alpha.1 — unreleased candidate
+## 0.1.0-alpha.1 — 2026-09-25
 
 ### Added
 
@@ -28,4 +28,4 @@ Dead Jim uses Semantic Versioning. See `docs/RELEASE_POLICY.md`.
 - Only linear transform interpolation is supported.
 - Weighted meshes, IK, physics, advanced constraints, tint animation, multi-layer blending, blend trees, additive animation, masks, state machines, and animation events are not supported.
 - Phaser 4.2.1 is the only proven renderer target.
-- The package has not been published, tagged, or released.
+- This is an alpha pre-release; public API changes are expected before 0.1.0.

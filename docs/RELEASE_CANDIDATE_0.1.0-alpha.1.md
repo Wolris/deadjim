@@ -12,7 +12,7 @@
 - Phaser peer dependency: `^4.2.1`
 - current publish safety gate: `private: true`
 
-This document is a release **candidate checklist**, not release authorization.
+Maintainer release authorization was granted on **September 25, 2026**. This document remains the candidate evidence record; repository rules still require separate merge approval for the release-preparation PR before tagging/releasing/publishing.
 
 ## Required evidence — complete
 
@@ -57,7 +57,4 @@ stop before publication rather than substituting release automation.
 
 ## Stop condition
 
-The checklist is complete. It does **not** authorize any release action.
-
-Stop and obtain explicit maintainer authorization before changing
-`private: true`, tagging, creating a GitHub release, or running `npm publish`.
+The checklist is complete and maintainer release authorization has been granted. The active release-preparation branch may change publish posture, but it must stop for explicit merge approval before creating the Git tag, GitHub pre-release, or running `npm publish`.
