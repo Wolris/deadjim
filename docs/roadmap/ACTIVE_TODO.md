@@ -4,31 +4,47 @@
 
 **Phase 1 — Core Runtime Discriminator**
 
-Dead Jim now has a validated engine-independent runtime path from a pinned SkelForm source shape through normalized pose evaluation. The next discriminator is the first Phaser 4 renderer boundary.
+Dead Jim now has a validated public runtime path from pinned SkelForm data through normalized pose evaluation into the first Phaser 4 renderer boundary.
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Implement the first Phaser 4 renderer adapter.**
+**LOCKED — Implement the smallest runtime clip-playback and looping path.**
 
 Acceptance criteria:
 
-- begin from current `main` after the SkelForm importer branch is merged;
-- keep Phaser-specific classes, lifecycle, and object ownership inside a renderer-adapter module;
-- consume normalized `SkeletonDefinition` / evaluated `SkeletonPose`; do not parse SkelForm data in the renderer;
-- create or update sprite/image display objects from normalized attachment definitions;
-- apply evaluated bone world position, rotation, and scale to rendered attachments;
-- apply normalized pivot/origin and z-order data without adding renderer concepts to the normalized runtime model;
-- add the smallest deterministic adapter tests practical for the boundary;
-- add a minimal Phaser runtime/browser smoke validation if automated unit evidence cannot prove object behavior;
+- begin from current `main` after the Phaser renderer-adapter branch is merged;
+- keep playback timing engine-independent and separate from Phaser scene/update ownership;
+- provide the smallest explicit playback state needed to sample one `AnimationClip` over elapsed milliseconds;
+- non-looping clips clamp deterministically at their endpoint;
+- looping clips wrap deterministically by clip duration;
+- zero-duration clips remain stable and deterministic;
+- feed sampled playback time through the existing pose evaluator and prove the resulting pose through the Phaser renderer adapter;
+- add deterministic tests for initial time, advancement, endpoint clamping, loop wrapping, and zero-duration behavior;
+- do not add crossfade/blending, animation events, layered animation, speed curves, state machines, or a custom scheduler in this lock;
 - do not add weighted meshes, IK, physics, advanced constraints, editor UI, or consumer-specific concepts;
-- do not widen this lock into animation crossfade/blending or a custom playback framework;
 - keep repository content self-contained and free of private workflow or personal information.
 
 ## NEXT
 
-Add the smallest runtime clip-playback/looping path and prove it through the renderer adapter before expanding into blending or modular attachment/style swapping.
+Prove basic attachment/style swapping against the normalized runtime only after single-clip playback is validated end to end.
 
 ## Recently closed
+
+### First Phaser 4 renderer adapter — DONE
+
+Closure basis: GitHub Actions validation run 26 completed successfully on `feature/phaser4-renderer-adapter` for commit `3461024`.
+
+Durable result:
+
+- Phaser 4.2.1 is the first pinned renderer/type-validation target and remains a peer runtime dependency;
+- Phaser-specific display-object ownership and lifecycle are isolated in `src/renderer/phaser.ts`;
+- the adapter creates one Phaser Image per normalized sprite attachment and applies normalized origin, depth, visibility, evaluated world position, rotation, and scale;
+- renderer input is limited to validated normalized skeleton data plus `SkeletonPose`; no SkelForm source fields leak into the renderer;
+- ADR-0002 defines Dead Jim's normalized 2D coordinate space as +X right, +Y down, clockwise-positive radians, with center-relative normalized attachment pivots;
+- the SkelForm adapter converts its Y-up / counter-clockwise source conventions into normalized Dead Jim coordinates at the import boundary;
+- unsupported SkelForm bind-hidden, tint, pivot-rotation, and pivot-scale semantics are rejected rather than silently lost;
+- deterministic tests cover renderer creation, transform application, visibility, lifecycle/error cases, and the full SkelForm fixture -> import -> validation -> pose -> Phaser adapter path;
+- actual Phaser 4.2.1 types compile in CI and the package installs cleanly; no browser-only behavior is introduced by this lock, so a separate manual browser smoke was not required.
 
 ### First real SkelForm import mapping and fixture — DONE
 
@@ -79,7 +95,7 @@ Durable result:
 - the repository has Repo Rules, Design Bible, roadmap process, backlog, project status, ADR-0001, contribution guidelines, security policy, and third-party license notes;
 - Dead Jim software is MIT-licensed;
 - the architecture is source adapter -> normalized runtime -> renderer adapter;
-- SkelForm is the first source-format discriminator and Phaser 4 is the first planned renderer adapter;
+- SkelForm is the first source-format discriminator and Phaser 4 is the first renderer adapter;
 - custom editor work remains deferred;
 - public repository documentation is self-contained.
 
@@ -90,6 +106,7 @@ Durable result:
 - IK and physics;
 - advanced constraints;
 - multiple renderer adapters;
-- animation crossfade/blending until basic playback is proven;
+- animation crossfade/blending and state machines until basic playback is proven;
+- animation events until a real consumer requirement exists;
 - package publishing/release automation;
-- consumer-specific integration until the independent runtime discriminator passes through Phaser.
+- consumer-specific integration until the independent runtime discriminator includes basic clip playback.
