@@ -1,4 +1,5 @@
 export * from "./model.js";
+export * from "./playback.js";
 export * from "./pose.js";
 export * from "./renderer/phaser.js";
 export * from "./skeleton.js";

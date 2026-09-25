@@ -6,6 +6,12 @@ import type {
   SkeletonPose,
   Transform2D,
 } from "../src/model.js";
+import {
+  advanceClipPlayback,
+  createClipPlayback,
+  evaluateClipPlaybackPose,
+  sampleClipPlaybackTime,
+} from "../src/playback.js";
 import { evaluateClipPose } from "../src/pose.js";
 import {
   PHASER_TARGET_VERSION,
@@ -278,6 +284,39 @@ describe("Phaser4RendererAdapter", () => {
     expect(images[0].originX).toBeCloseTo(0);
     expect(images[0].originY).toBeCloseTo(1.25);
     expect(images[0].depth).toBe(3);
+    expect(images[0].visible).toBe(true);
+
+    adapter.destroy();
+  });
+
+  it("renders looping clip playback through the normalized runtime", () => {
+    const source = structuredClone(fixture) as SkelFormSource;
+    const definition = new SkelFormAdapter().import(source);
+    const skeleton = validateSkeleton(definition);
+    const loopClip = {
+      ...definition.animations[0],
+      loop: true,
+    };
+    const playback = advanceClipPlayback(
+      createClipPlayback(loopClip),
+      1600,
+    );
+    const pose = evaluateClipPlaybackPose(skeleton, playback);
+    const images: FakeImage[] = [];
+    const adapter = new Phaser4RendererAdapter(
+      makeScene(images),
+      skeleton,
+    );
+
+    expect(loopClip.durationMs).toBe(1100);
+    expect(sampleClipPlaybackTime(playback)).toBe(500);
+
+    adapter.applyPose(pose);
+
+    expect(images).toHaveLength(1);
+    expect(images[0].x).toBeCloseTo(20);
+    expect(images[0].y).toBeCloseTo(-20);
+    expect(images[0].rotation).toBeCloseTo(-0.75);
     expect(images[0].visible).toBe(true);
 
     adapter.destroy();
