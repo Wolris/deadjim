@@ -14,27 +14,34 @@ The runtime path is proven end to end. Maintainer browser validation: **4/4 PASS
 
 Dead Jim emits ESM JavaScript and TypeScript declarations, defines explicit package exports/files, retains Phaser as a peer dependency, and passes clean packed-artifact consumer runtime/type smoke tests.
 
-## First public pre-release — authorized, release blocker fix in progress
+## First public pre-release — LIVE
+
+`dead-jim@0.1.0-alpha.1` was publicly released on September 25, 2026.
 
 Release identity:
 
-- npm package: `dead-jim`;
-- version: `0.1.0-alpha.1`;
+- npm package: `dead-jim@0.1.0-alpha.1`;
+- npm dist-tag: `alpha`;
 - Git tag: `v0.1.0-alpha.1`;
 - GitHub pre-release: **Dead Jim v0.1.0-alpha.1**;
-- npm dist-tag: `alpha`.
+- final release commit: `35a86f21339e4b5267d052859d7935e3bd888c2d`.
 
-Release-preparation PR #13 merged at `90e8b7e`, with merged-`main` validation run 77 passing. Final registry validation run 79 also passed and confirmed `dead-jim` remained unclaimed.
+Release evidence:
 
-A local Windows/Node 24 package validation then exposed a release-blocking portability bug: direct `spawnSync("npm.cmd", ...)` failed with `EINVAL`. No npm publication occurred.
+- merged-`main` validation run 85: PASS;
+- Linux full validation: PASS;
+- Windows/Node 24 package validation: PASS;
+- packed artifact: 23 files;
+- clean consumer runtime import: PASS;
+- clean TypeScript consumer check: PASS;
+- npm publication: confirmed live;
+- GitHub pre-release: confirmed published and marked pre-release.
 
-The fix branch replaces direct `npm.cmd` spawning with npm's JavaScript entrypoint through Node when available and adds permanent Windows/Node 24 package-check CI. GitHub Actions run 81 proves Linux validation and the Windows package check pass, including the 23-file artifact and clean consumer runtime/type checks.
-
-The existing tag currently points at the pre-fix release commit and must be moved to the final fixed release commit after this fix is merged.
+The first manual release path also exposed and resolved a Windows `spawnSync npm.cmd EINVAL` portability defect before publication. Permanent Windows/Node 24 package validation is now part of CI.
 
 ## Current execution
 
-The single current lock is the Windows package-validation release blocker fix. Do not publish to npm or create the GitHub pre-release until that fix is merged, `main` is green, and the tag is corrected.
+The single current lock is deciding the smallest safe release automation for future pre-releases now that the manual path is proven. Explicit maintainer approval remains mandatory for release boundaries.
 
 ## Release documents
 
@@ -44,4 +51,4 @@ The single current lock is the Windows package-validation release blocker fix. D
 
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The release remains authorized but unpublished. Finish the Windows package-validation fix, retag the final green release commit, then continue the manual alpha publication path.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The first public alpha is complete. The next lock is the release-automation decision; runtime/editor scope remains unchanged unless promoted from the backlog by evidence.
