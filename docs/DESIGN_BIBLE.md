@@ -45,7 +45,7 @@ Phase 1 established and validated:
 - a Phaser 4.2.1 renderer adapter;
 - a public browser sandbox that exercises the complete reference path.
 
-The browser sandbox under `examples/phase1/` is the milestone proof. Automated validation covers typechecking, runtime/import/renderer tests, and production demo build; maintainer browser validation passed all four visual checks.
+Automated validation plus maintainer browser validation prove the milestone behavior.
 
 ## Architecture boundary
 
@@ -58,20 +58,29 @@ Dead Jim keeps four responsibilities separate:
 
 Source-specific conventions are converted at import boundaries. Renderer-specific representation stays in renderer adapters.
 
-## Post-Phase 1 release boundary
+## Package distribution boundary — proven
 
-Phase 1 proves runtime behavior, but it does **not** yet prove a distributable library package.
+The post-Phase 1 package boundary is also validated without publishing:
 
-Before package publishing, tagging, or a public release, Dead Jim must establish and validate a package distribution contract:
+- the public `src/index.ts` surface emits ESM JavaScript and TypeScript declarations;
+- package exports/types resolve to the emitted `dist/lib` artifact;
+- packed contents are constrained to the built library plus required package documentation/metadata;
+- Phaser remains a peer dependency;
+- a clean temporary consumer installs the packed tarball, imports representative runtime exports, and typechecks representative public types.
 
-- emitted JavaScript and TypeScript declaration artifacts;
-- explicit package entry points / exports;
-- an intentional published-files boundary;
-- a clean consumer import smoke test against the built artifact;
-- package metadata and versioning appropriate for a pre-release;
-- a later explicit release decision.
+This proves distributability mechanics, not release approval.
 
-Release-readiness work should not be used as a reason to widen the runtime feature set.
+## Remaining release boundary
+
+Before a first public pre-release, Dead Jim still requires:
+
+- verified package identity/name;
+- intentional pre-release semantic version;
+- minimal changelog/release-note policy;
+- final public metadata review;
+- a later explicit maintainer decision to change publish posture, tag, release, or publish.
+
+`private: true` remains an intentional safety gate until that later decision.
 
 ## Explicitly deferred
 

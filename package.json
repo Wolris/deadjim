@@ -28,7 +28,10 @@
     "test": "vitest run",
     "demo:dev": "vite examples/phase1",
     "demo:build": "vite build examples/phase1 --outDir ../../dist/phase1-demo --emptyOutDir",
-    "validate": "npm run typecheck && npm test && npm run demo:build"
+    "clean:lib": "node scripts/clean-lib.mjs",
+    "build:lib": "npm run clean:lib && tsc -p tsconfig.build.json",
+    "package:check": "node scripts/validate-package.mjs",
+    "validate": "npm run typecheck && npm test && npm run demo:build && npm run package:check"
   },
   "devDependencies": {
     "phaser": "4.2.1",
@@ -38,5 +41,19 @@
   },
   "peerDependencies": {
     "phaser": "^4.2.1"
-  }
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/lib/index.js",
+      "default": "./dist/lib/index.js"
+    }
+  },
+  "files": [
+    "dist/lib",
+    "README.md",
+    "LICENSE"
+  ]
 }

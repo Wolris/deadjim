@@ -8,72 +8,58 @@ Repository: `Wolris/deadjim`
 
 ## Phase 1 — complete
 
-Phase 1 is closed as a proven runtime discriminator:
+The runtime path is proven end to end through automated tests and the public browser sandbox:
 
 ```text
-SkelForm v0.7.2 armature.json shape
+SkelForm v0.7.2
         ↓
-Dead Jim SkelForm source adapter
+source adapter
         ↓
-normalized skeleton / animation data
+normalized runtime
         ↓
-validated hierarchy
-        ↓
-clip playback / looping
-        ↓
-attachment/style selection
-        ↓
-pose evaluation
-        ↓
-two-pose crossfade/blending
+playback / attachment selection / pose evaluation / two-pose blend
         ↓
 Phaser 4.2.1 renderer adapter
         ↓
 public browser sandbox
 ```
 
-Evidence:
+Maintainer browser validation: **4/4 PASS**.
 
-- merged `main` validation run 55: PASS;
-- Phase 1 demo branch validation runs 51 and 53: PASS;
-- maintainer browser validation: **4/4 PASS** for continuous animation, live blend control, attachment swap, and swap-back.
+## Package distribution boundary — proven
 
-The public sandbox under `examples/phase1/` uses the real runtime APIs rather than duplicating runtime behavior.
+Dead Jim now has a validated, non-published package artifact:
 
-## Milestone review finding
+- ESM JavaScript emitted to `dist/lib`;
+- TypeScript declarations emitted alongside JavaScript;
+- explicit root package exports and type entry point;
+- intentional package `files` boundary;
+- Phaser retained as a peer dependency;
+- deterministic `npm pack` validation;
+- clean temporary consumer install, runtime import, and TypeScript import smoke tests.
 
-The next boundary is **release readiness**, not additional animation features.
+GitHub Actions validation run 59 passed and packed **23 intentional files**. The consumer smoke reported runtime import PASS and package boundary PASS.
 
-The repository currently proves runtime behavior but does not yet define a publishable library artifact:
-
-- `package.json` remains `private: true` at version `0.0.0`;
-- TypeScript validation uses `noEmit`;
-- there is no emitted library build;
-- there are no package `exports`, declaration entry points, or intentional published-file boundary;
-- there is no clean packed-artifact consumer import smoke test;
-- pre-release versioning/release-note policy has not yet been established.
-
-Those gaps should be addressed before package publishing, tagging, or a public release.
+The package remains deliberately non-publishable: `private: true`, version `0.0.0`, no tags, no releases, and no npm publication.
 
 ## Current execution
 
-The single current execution lock is to establish and validate the **library distribution/package boundary without publishing it**.
-
-The lock should prove emitted JavaScript/declarations, explicit exports/files, and a clean consumer import from the packed artifact while keeping actual npm publishing, Git tags, and GitHub releases behind a later explicit maintainer decision.
+The single current execution lock is pre-release metadata/versioning: verify the intended package identity, choose an initial pre-release semantic version, define a minimal release-notes convention, and revalidate the package artifact without publishing.
 
 ## Current reference stack
 
 - SkelForm v0.7.2 as the first source-format compatibility target;
 - TypeScript normalized engine-independent runtime;
 - Phaser 4.2.1 as the first renderer target;
-- Vite-powered public browser sandbox for Phase 1 validation.
+- Vite-powered public Phase 1 browser sandbox;
+- emitted ESM + declaration package artifact validated by a clean consumer smoke test.
 
 ## Licensing
 
 - Dead Jim software: MIT.
 - SkelForm editor: GPL-3.0 external authoring tool / source-format target.
 - skelform-js: MIT reference/runtime.
-- Phaser: MIT renderer target.
+- Phaser: MIT peer renderer target.
 
 See `LICENSE` and `docs/THIRD_PARTY.md`.
 
@@ -83,4 +69,4 @@ Repository documentation, fixtures, examples, source, logs, and screenshots must
 
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. Phase 1 is complete. The next work is release-readiness packaging; do not publish, tag, release, or add new runtime features unless the active lock explicitly changes.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The package boundary is proven; the next work is metadata/versioning only. Do not publish, tag, release, remove `private: true`, or add new runtime features unless the active lock explicitly changes.

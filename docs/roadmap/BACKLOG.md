@@ -2,17 +2,16 @@
 
 Approved future work that is not active.
 
-Completed Phase 1 work is intentionally omitted here. See `docs/roadmap/ACTIVE_TODO.md` and `docs/PROJECT_STATUS.md` for milestone evidence.
+Completed Phase 1 and completed package-boundary work are intentionally omitted here. See `docs/roadmap/ACTIVE_TODO.md` and `docs/PROJECT_STATUS.md` for milestone evidence.
 
 ## Release readiness
 
-- Establish and validate an emitted library distribution artifact.
-- Define package exports, TypeScript declaration entry points, and published-file boundaries.
-- Add a clean consumer install/import smoke test against the packed artifact.
-- Choose an intentional pre-release versioning / semantic-versioning policy.
-- Add a changelog or release-notes convention before the first public release.
-- Decide package publishing automation only after the package boundary is proven.
-- Create tags/releases only through an explicit maintainer-approved release lock.
+- Verify the intended public package identity/name.
+- Choose an intentional initial pre-release version and semantic-versioning policy.
+- Add the smallest changelog/release-notes convention.
+- Review final package metadata before changing publish posture.
+- Decide package publishing automation only after a first manual pre-release path is approved.
+- Create npm publications, tags, and GitHub releases only through an explicit maintainer-approved release lock.
 
 ## Core runtime
 
