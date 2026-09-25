@@ -2,9 +2,25 @@
 
 ## Project
 
-Dead Jim — an MIT-licensed open-source TypeScript bridge/runtime for bringing open 2D skeletal-animation authoring data into Phaser 4 through explicit source and renderer adapters.
+Dead Jim — an MIT-licensed open-source TypeScript bridge/runtime for bringing **SkelForm-authored 2D skeletal animation into Phaser 4** through a small, explicit runtime and adapter boundary.
 
 Repository: `Wolris/deadjim`
+
+## Product direction
+
+The selected workflow is:
+
+```text
+SkelForm authoring
+      ↓
+Dead Jim source adapter
+      ↓
+normalized skeletal runtime
+      ↓
+Phaser 4 renderer adapter
+```
+
+The source-adapter abstraction protects the runtime from format lock-in; it does **not** imply that Dead Jim should proactively support multiple authoring tools. Another source format is considered only if real SkelForm usage exposes a concrete blocker.
 
 ## Phase 1 — complete
 
@@ -26,37 +42,16 @@ Release identity:
 - GitHub pre-release: **Dead Jim v0.1.0-alpha.1**;
 - final release commit: `35a86f21339e4b5267d052859d7935e3bd888c2d`.
 
-Release evidence:
-
-- merged-`main` validation run 85: PASS;
-- post-release reconciliation merged at `a65da361cb95e7d68f7858bcdeb52a5a8ceb5629`;
-- post-merge validation run 87: PASS;
-- Linux full validation: PASS;
-- Windows/Node 24 package validation: PASS;
-- packed artifact: 23 files;
-- clean consumer runtime import: PASS;
-- clean TypeScript consumer check: PASS;
-- npm publication: confirmed live;
-- GitHub pre-release: confirmed published and marked pre-release.
+Release evidence includes Linux full validation, Windows/Node 24 package validation, a 23-file packed artifact, clean runtime/type consumer checks, live npm publication, and the published GitHub pre-release.
 
 ## Release automation decision
 
-Publication remains manual for now.
-
-The first manual release is proven, but one release does not yet justify another high-impact publication path. Existing CI already automates deterministic validation and package-boundary checks. Revisit publication automation after a second manual pre-release or when cadence makes the manual sequence materially repetitive.
-
-If automation is later adopted, the intended security direction is npm Trusted Publishing with GitHub Actions OIDC rather than a stored long-lived npm write token. Explicit maintainer approval remains mandatory.
+Publication remains manual for now. Revisit only when a second manual pre-release or release cadence makes automation materially useful. If later adopted, prefer npm Trusted Publishing with GitHub Actions OIDC and preserve explicit maintainer approval.
 
 ## Current execution
 
-The single current lock is evaluating DragonBones/LoongBones as the second source-format discriminator. The evaluation must pin a concrete format/fixture, map only the Phase 1-compatible subset into the normalized runtime, verify license/coordinate boundaries, and produce a go/no-go recommendation before implementation.
-
-## Release documents
-
-- `docs/RELEASE_POLICY.md`
-- `CHANGELOG.md`
-- `docs/RELEASE_CANDIDATE_0.1.0-alpha.1.md`
+The active lock is **real SkelForm workflow adoption**. Use the published alpha with representative SkelForm-authored animation and let real integration evidence determine the next Dead Jim change. Do not evaluate replacement authoring formats absent a concrete blocker.
 
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The first public alpha is complete, publication automation is intentionally deferred, and the active lock is the DragonBones/LoongBones source-format discriminator.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The first public alpha is live. SkelForm is the selected authoring path. The next Dead Jim work comes from real SkelForm consumer evidence, not speculative alternate-format expansion.
