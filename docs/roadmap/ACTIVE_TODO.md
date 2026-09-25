@@ -2,59 +2,60 @@
 
 ## Current phase
 
-**Post-Phase 1 — First Public Pre-release**
+**Post-Phase 1 — Public Alpha**
 
-Maintainer authorization for `dead-jim@0.1.0-alpha.1` was granted on September 25, 2026.
+Dead Jim `0.1.0-alpha.1` was published on September 25, 2026.
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Fix Windows package validation before publishing `0.1.0-alpha.1`.**
+**LOCKED — Decide the smallest safe release automation for the next pre-release.**
 
-Release-preparation PR #13 was merged at `90e8b7e` and merged-`main` validation run 77 passed. A local Windows/Node 24 release check then exposed a real portability defect: `scripts/validate-package.mjs` attempted to spawn `npm.cmd` directly and failed with `spawnSync npm.cmd EINVAL`.
+The first manual public-release path is now proven end to end. Before adding automation, decide what should remain deliberately manual and what can be made repeatable without weakening the repository's explicit maintainer-approval boundary.
 
 Acceptance criteria:
 
-- keep package identity/version exactly `dead-jim@0.1.0-alpha.1`;
-- make package-check npm subprocess invocation work on Windows/Node 24 without weakening Linux behavior;
-- add permanent Windows/Node 24 package-check CI coverage;
-- preserve the 23-file package boundary and clean consumer runtime/type imports;
-- leave runtime behavior unchanged;
-- open a focused PR and stop for explicit merge approval;
-- after merge and green `main`, move tag `v0.1.0-alpha.1` from pre-fix commit `90e8b7e` to the final fixed release commit;
-- re-run the npm package-name check immediately before publication;
-- publish only after the corrected tag and exact release commit are verified.
+- preserve explicit maintainer approval before any release reaches `main`;
+- preserve explicit maintainer approval before a version is tagged or published;
+- evaluate whether GitHub-hosted release automation is worth adding now that the manual path is proven;
+- prefer short-lived/trusted authentication over long-lived publish credentials if automation is adopted;
+- keep npm package publication and GitHub release creation tied to the same approved version/tag;
+- document the chosen release path in the canonical release policy;
+- if automation is approved, implement it in a separate focused branch/PR with dry-run or non-publishing validation before any real release;
+- if automation is not justified yet, record that decision and return to runtime/source-adapter work.
 
 ## NEXT
 
-After the Windows validation fix is merged and `main` is green:
-
-1. delete/recreate `v0.1.0-alpha.1` on the final fixed release commit;
-2. verify `npm whoami` and `npm run package:name-check`;
-3. run `npm publish --tag alpha`;
-4. create GitHub pre-release **Dead Jim v0.1.0-alpha.1** from the corrected tag.
-
-No npm publication has occurred yet.
+After the release-automation decision, promote the next evidence-backed runtime, source-adapter, renderer, or tooling item from `BACKLOG.md`.
 
 ## Recently closed
 
-### Publish-ready release preparation — DONE
+### First public pre-release — DONE
+
+`dead-jim@0.1.0-alpha.1` is publicly released.
 
 Evidence:
 
-- PR #13 merged at `90e8b7e`;
-- release validation run 74: PASS;
-- deterministic PR validation runs 75 and 76: PASS;
-- merged `main` validation run 77: PASS;
-- fresh npm identity check run 79: PASS.
+- final release commit: `35a86f21339e4b5267d052859d7935e3bd888c2d`;
+- merged-`main` validation run 85: PASS;
+- Linux full validation: PASS;
+- Windows/Node 24 package validation: PASS;
+- packed artifact: `dead-jim@0.1.0-alpha.1`, 23 files;
+- npm publication: live under dist-tag `alpha`;
+- Git tag: `v0.1.0-alpha.1` at the final release commit;
+- GitHub pre-release: **Dead Jim v0.1.0-alpha.1**;
+- clean consumer runtime/type checks: PASS.
 
-### First public pre-release authorization — APPROVED
+### Windows package-validation release blocker — DONE
 
-Maintainer authorization received September 25, 2026 for `dead-jim@0.1.0-alpha.1`.
+The Windows `spawnSync npm.cmd EINVAL` failure was fixed before publication and permanent Windows/Node 24 package validation was added to CI.
+
+### Publish-ready release preparation — DONE
+
+Release-preparation PR #13 and Windows-fix PR #14 were merged and validated before publication.
 
 ## Explicitly deferred
 
-- release automation until after the first manual pre-release path is proven;
-- new runtime features while the first public pre-release is active;
+- new runtime features while the release-automation decision is active;
 - custom visual rigging/animation editor;
 - weighted mesh deformation;
 - IK and physics;

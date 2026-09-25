@@ -2,27 +2,23 @@
 
 ## Status
 
-Dead Jim is pre-release software. The first intentional public package candidate is `0.1.0-alpha.1`.
+Dead Jim is pre-release software.
 
-Maintainer authorization for the first public pre-release was granted on **September 25, 2026**. That authorization permits preparation of the publish-ready branch. Repository rules still require a separate explicit merge approval before the release-preparation branch reaches `main`, and no Git tag, GitHub release, or npm publication occurs before that merge boundary.
+The first public package, `dead-jim@0.1.0-alpha.1`, was published on **September 25, 2026** from final release commit `35a86f21339e4b5267d052859d7935e3bd888c2d`.
+
+The first release was intentionally executed manually so the project could prove its validation, tagging, authentication, npm publication, and GitHub pre-release path before deciding whether any of those steps should be automated.
 
 ## Package identity
 
-Intended npm package name: `dead-jim`.
+npm package name: `dead-jim`.
 
-Evidence is re-checked at release time with:
-
-```bash
-npm run package:name-check
-```
-
-Registry state can change, so that check must pass immediately before the first publication attempt.
+For the first publication, registry identity was re-checked immediately before publishing. Future releases must continue to verify the intended package/version and must never infer successful publication from a local pack or dry run.
 
 ## Versioning
 
 Dead Jim follows Semantic Versioning.
 
-The initial pre-release line is:
+The pre-release line is:
 
 - `0.1.0-alpha.N` — early public-package candidates; API changes are still expected.
 - `0.1.0-beta.N` — the intended `0.1.0` public API is feature-complete; fixes and compatibility adjustments may still occur.
@@ -42,11 +38,11 @@ For each candidate/release:
 - add the version heading and date when the release-preparation branch is authorized;
 - use only the sections that apply: Added, Changed, Fixed, Known limitations;
 - describe public behavior and compatibility, not internal implementation churn;
-- GitHub release notes are derived from the matching changelog entry rather than maintained as a competing source of truth.
+- derive GitHub release notes from the matching changelog entry rather than maintaining a competing source of truth.
 
 ## First pre-release boundary
 
-The `0.1.0-alpha.1` release covers the proven Phase 1 boundary:
+The completed `0.1.0-alpha.1` release covers the proven Phase 1 boundary:
 
 - SkelForm v0.7.2 / serialized armature version 0.7.1 import;
 - normalized skeleton, animation, playback, attachment selection, pose evaluation, and two-pose blending;
@@ -60,11 +56,17 @@ Known intentional limitations remain documented in the Design Bible and changelo
 
 ## Release execution boundary
 
-After the publish-ready branch is validated and separately approved for merge:
+For future public releases:
 
-1. merge the release-preparation PR;
-2. create Git tag `v0.1.0-alpha.1` at the approved merged commit;
-3. publish `dead-jim@0.1.0-alpha.1` with npm dist-tag `alpha`;
-4. create GitHub pre-release **Dead Jim v0.1.0-alpha.1** from that tag using the matching changelog entry.
+1. prepare the version/changelog/package metadata on a focused branch;
+2. run the full deterministic repository/package validation required by the release lock;
+3. obtain explicit maintainer approval before merging the release-preparation PR;
+4. validate merged `main`;
+5. create the approved Git tag at the exact validated release commit;
+6. publish the exact approved version to npm with the intended dist-tag;
+7. create the matching GitHub release or pre-release from the same tag and changelog entry;
+8. reconcile canonical repository status after public verification.
 
-If authenticated npm publication is not available, stop before npm publication rather than inventing credentials or substituting automation.
+Explicit maintainer approval remains mandatory even if parts of this sequence are automated later.
+
+If authenticated npm publication is unavailable, stop before publication rather than inventing credentials, sharing secrets in chat, or bypassing the configured security policy.

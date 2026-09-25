@@ -28,7 +28,7 @@ Dead Jim is an independent community project maintained by **Curadh Creative / W
 
 ## Current status
 
-**Phase 1 complete / pre-release.**
+**Phase 1 complete / first public alpha released.**
 
 The completed Phase 1 runtime discriminator proves:
 
@@ -43,9 +43,19 @@ The completed Phase 1 runtime discriminator proves:
 
 The library distribution boundary is also validated: Dead Jim emits ESM JavaScript and TypeScript declarations, packs an intentional file set, and installs/imports successfully in a clean consumer smoke test.
 
-**Dead Jim is not published yet.** The first public pre-release `dead-jim@0.1.0-alpha.1` is authorized and in release preparation; tagging and publication remain behind the final release-preparation merge boundary.
+The first public pre-release, **`dead-jim@0.1.0-alpha.1`**, is available on npm and as the GitHub pre-release **Dead Jim v0.1.0-alpha.1**. This is alpha software; public API changes are expected before `0.1.0`.
 
 Advanced mesh deformation, IK, physics, state machines, multiple adapters, and a custom animation editor remain deliberately deferred until real runtime evidence requires them.
+
+## Install the alpha
+
+Install Dead Jim together with its proven Phaser peer:
+
+```bash
+npm install dead-jim@alpha phaser@^4.2.1
+```
+
+Use the `alpha` tag deliberately while the public API is still evolving.
 
 ## Repository structure
 
@@ -105,7 +115,7 @@ npm install
 npm run validate
 ```
 
-Full validation covers typechecking, 45 deterministic tests, the Phase 1 production demo build, and the package consumer smoke path.
+Full validation covers typechecking, 45 deterministic tests, the Phase 1 production demo build, and the package consumer smoke path. CI also runs the package boundary on Windows/Node 24.
 
 ## Licensing
 
