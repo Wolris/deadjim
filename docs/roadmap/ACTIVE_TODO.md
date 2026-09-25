@@ -2,32 +2,47 @@
 
 ## Current phase
 
-**Phase 1 — Core Runtime Discriminator**
+**Phase 1 — Milestone Review**
 
-Dead Jim now has a validated public runtime path from pinned SkelForm data through deterministic playback, attachment/style selection, two-pose blending, normalized pose evaluation, and the Phaser 4 renderer boundary.
+The Phase 1 runtime discriminator is functionally complete: pinned SkelForm data imports into the normalized runtime, animates through playback and pose evaluation, supports attachment selection and two-pose blending, renders through Phaser 4, and is proven in a public browser demo.
 
 ## CURRENT EXECUTION LOCK
 
-**LOCKED — Add the smallest public example sandbox/demo for the completed Phase 1 runtime path.**
+**LOCKED — Close Phase 1 with the smallest milestone review.**
 
 Acceptance criteria:
 
-- begin from current `main` after the two-clip crossfade/blending branch is merged;
-- keep the example public-safe and self-contained;
-- demonstrate the normalized pipeline visually without introducing consumer-specific concepts;
-- use the existing SkelForm adapter, validated skeleton runtime, playback/looping, attachment selection, pose evaluation, blending, and Phaser 4 renderer adapter rather than reimplementing those behaviors in demo code;
-- provide a minimal browser entrypoint and public assets sufficient to see the runtime working;
-- include at least one visible animated bone transform, one attachment/style swap, and one two-pose blend/crossfade interaction or deterministic scripted transition;
-- keep demo-specific UI/state outside the core runtime;
-- add the smallest validation needed so the example build cannot silently rot;
-- document exact local run instructions and what constitutes PASS;
-- do not widen this lock into package publishing, editor tooling, advanced animation, or consumer integration.
+- begin from current `main` after the Phase 1 browser-demo branch is merged;
+- reconcile `docs/DESIGN_BIBLE.md` against the capabilities actually proven in Phase 1;
+- reconcile `docs/roadmap/BACKLOG.md` so completed Phase 1 work is not duplicated as future work;
+- update `docs/PROJECT_STATUS.md` with the completed Phase 1 evidence and the next honest project boundary;
+- identify any release-readiness gaps that must be resolved before package publishing, tagging, or a public release;
+- keep release creation, tagging, package publishing, editor work, consumer integration, and new runtime features outside this review unless explicitly promoted afterward;
+- leave exactly one truthful successor execution lock for the next phase or release-readiness work.
 
 ## NEXT
 
-Close Phase 1 and perform the smallest milestone review: reconcile the Design Bible, backlog, project status, and release-readiness gaps before starting a new phase.
+Determine the next phase or release-readiness lock from the milestone review evidence. Do not preselect a feature before the review establishes the next boundary.
 
 ## Recently closed
+
+### Public Phase 1 browser sandbox/demo — DONE
+
+Closure basis:
+
+- GitHub Actions validation run 51 completed successfully on `feature/phase1-browser-demo` for commit `97ceb88`;
+- maintainer manual browser validation: **4/4 PASS**.
+
+Durable result:
+
+- `examples/phase1/` provides a self-contained public browser sandbox for the complete Phase 1 pipeline;
+- the demo uses the real `SkelFormAdapter`, skeleton validation, clip playback/looping, attachment selection, pose evaluation, two-pose blending, and `Phaser4RendererAdapter`;
+- the visual fixture includes animated bone motion, a cyan/magenta attachment swap, and a live two-clip blend control;
+- demo UI and interaction state remain outside the core runtime;
+- Vite is pinned as a direct development dependency at the version already used by the validation toolchain;
+- TypeScript covers the demo source and `npm run validate` now includes a production demo build so the example cannot silently rot;
+- exact local run instructions and visual PASS criteria are documented in both the repository README and `examples/phase1/README.md`;
+- manual validation confirmed continuous animation, responsive blend control, uninterrupted style swapping, and successful swap-back behavior.
 
 ### Deterministic two-clip crossfade/blending — DONE
 
@@ -36,51 +51,38 @@ Closure basis: GitHub Actions validation run 45 completed successfully on `featu
 Durable result:
 
 - exactly two compatible evaluated poses can be blended by one explicit finite weight in the range 0..1;
-- endpoint weights preserve exact pose identity: weight 0 returns the first pose and weight 1 returns the second pose;
-- intermediate translation, rotation, and scale are linearly blended for both local and world transforms;
-- intermediate blends require matching bone IDs and identical attachment visibility, avoiding implicit layered attachment blending;
-- invalid weights and incompatible pose inputs fail explicitly;
-- deterministic tests cover endpoints, midpoint/non-midpoint TRS interpolation, invalid weights, incompatible bones, and attachment visibility mismatch;
-- a blended pose produced from two evaluated clips renders correctly through the Phaser 4 adapter;
-- no multi-layer blending, blend trees, additive animation, state machines, masks, easing curves, animation events, or renderer-owned blend timing were added.
+- endpoint weights preserve exact pose identity;
+- intermediate local/world translation, rotation, and scale blend deterministically;
+- incompatible bones or attachment visibility fail explicitly;
+- blended output is proven through the Phaser renderer.
 
 ### Basic attachment/style swapping — DONE
 
-Closure basis: GitHub Actions validation run 38 completed successfully on `feature/attachment-style-swapping` for commit `d41d0fe`.
-
 Durable result:
 
-- the normalized runtime supports optional attachment slots with mutually exclusive alternatives and deterministic defaults;
-- runtime selection changes only `visibleAttachments`;
-- playback time and bone transforms remain unchanged across swaps;
-- invalid and ambiguous slot structures/selections fail explicitly;
-- Phaser rendering is proven with selected alternatives.
+- renderer-neutral attachment slots provide deterministic defaults and explicit runtime alternatives;
+- swaps affect visibility without changing playback timing or bone transforms;
+- invalid or ambiguous selections fail explicitly.
 
 ### Single-clip playback and looping — DONE
 
-Closure basis: GitHub Actions validation run 32 completed successfully on `feature/clip-playback-looping` for commit `579ecf4`.
-
 Durable result:
 
-- playback state is engine-independent;
-- non-looping clips clamp, looping clips wrap, and zero-duration clips remain stable;
-- playback feeds pose evaluation and Phaser rendering deterministically.
+- engine-independent playback clamps non-looping clips, wraps looping clips, and handles zero-duration clips deterministically.
 
 ### First Phaser 4 renderer adapter — DONE
 
 Durable result:
 
-- Phaser 4.2.1 is the first renderer/type-validation target;
-- Phaser-specific lifecycle and display-object ownership remain isolated in the renderer adapter;
-- normalized transforms, origins, depth, and visibility render deterministically.
+- Phaser 4.2.1 rendering remains isolated behind the renderer adapter;
+- normalized transforms, origins, depth, visibility, and lifecycle are proven.
 
 ### First real SkelForm import mapping and fixture — DONE
 
 Durable result:
 
 - the first compatibility target is pinned to SkelForm v0.7.2 / armature version 0.7.1;
-- source-specific fields and coordinate conversion remain isolated to the source adapter;
-- the pinned fixture runs through validation and pose evaluation.
+- source-specific conversion remains isolated to the source adapter.
 
 ### Pose evaluation and first keyframe interpolation — DONE
 
@@ -110,5 +112,5 @@ Durable result:
 - multi-layer blending, blend trees, additive animation, masks, and state machines;
 - animation events until a real consumer requires them;
 - speed curves and custom scheduling;
-- package publishing/release automation until Phase 1 milestone review;
-- consumer-specific integration until the independent Phase 1 demo is complete.
+- package publishing, tagging, and releases until the Phase 1 milestone review identifies release-readiness gaps;
+- consumer-specific integration until the independent milestone review closes.
