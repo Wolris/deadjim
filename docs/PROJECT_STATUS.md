@@ -17,15 +17,6 @@ Initial reference stack:
 
 The initial product is runtime/adapter tooling, not a custom editor.
 
-## Licensing
-
-- Dead Jim software: MIT.
-- SkelForm editor: GPL-3.0 external authoring tool / source-format target.
-- skelform-js: MIT reference/runtime.
-- Phaser: MIT renderer target.
-
-See `LICENSE` and `docs/THIRD_PARTY.md`.
-
 ## Proven runtime path
 
 The automated discriminator now covers:
@@ -39,26 +30,37 @@ normalized skeleton / animation data
         ↓
 validated hierarchy
         ↓
-engine-independent clip playback / looping
+clip playback / looping
         ↓
-normalized attachment/style selection
+attachment/style selection
         ↓
-engine-independent pose evaluation
+evaluated poses
+        ↓
+two-pose crossfade/blending
         ↓
 Phaser 4.2.1 renderer adapter
 ```
 
-Attachment slots are renderer-neutral mutually exclusive choices. A slot has a deterministic default; runtime selection changes only `visibleAttachments`, while playback time and bone transforms remain unchanged. Ambiguous or invalid slot definitions and selections fail explicitly.
+Two compatible evaluated poses can be blended with one normalized linear weight. Endpoint identity is exact; intermediate TRS values are deterministic; incompatible bone sets or attachment visibility fail explicitly.
 
-GitHub Actions validation run 38 passed for the attachment/style-swapping discriminator.
+GitHub Actions validation run 45 passed for the two-pose crossfade/blending discriminator.
 
 ## Current execution
 
-The single current execution lock is the smallest deterministic two-clip crossfade/blending path. The goal is a renderer-neutral blend between exactly two compatible poses, with no state machine or layered-animation framework.
+The single current execution lock is the smallest public browser sandbox/demo proving the completed Phase 1 runtime path visually while keeping demo UI/state outside the core runtime.
+
+## Licensing
+
+- Dead Jim software: MIT.
+- SkelForm editor: GPL-3.0 external authoring tool / source-format target.
+- skelform-js: MIT reference/runtime.
+- Phaser: MIT renderer target.
+
+See `LICENSE` and `docs/THIRD_PARTY.md`.
 
 ## Public-project rule
 
-Repository documentation, fixtures, examples, source, logs, and screenshots must remain self-contained and free of private workflow, personal-storage, secrets, or unrelated consumer-project information.
+Repository documentation, fixtures, examples, source, logs, and screenshots must remain self-contained and free of private workflow, personal storage, secrets, or unrelated consumer-project information.
 
 ## Fresh-chat handoff
 
