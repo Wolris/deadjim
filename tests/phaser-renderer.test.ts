@@ -6,11 +6,17 @@ import type {
   SkeletonPose,
   Transform2D,
 } from "../src/model.js";
+import { evaluateClipPose } from "../src/pose.js";
 import {
   PHASER_TARGET_VERSION,
   Phaser4RendererAdapter,
 } from "../src/renderer/phaser.js";
 import { validateSkeleton } from "../src/skeleton.js";
+import {
+  SkelFormAdapter,
+  type SkelFormSource,
+} from "../src/source/skelform.js";
+import fixture from "./fixtures/skelform-v0.7.2-minimal.json";
 
 class FakeImage {
   x = 0;
@@ -245,6 +251,34 @@ describe("Phaser4RendererAdapter", () => {
         ),
       ),
     ).toThrow("Pose references unknown attachment unknown-attachment");
+
+    adapter.destroy();
+  });
+
+  it("renders the normalized pose produced from the pinned SkelForm fixture", () => {
+    const source = structuredClone(fixture) as SkelFormSource;
+    const definition = new SkelFormAdapter().import(source);
+    const skeleton = validateSkeleton(definition);
+    const pose = evaluateClipPose(skeleton, definition.animations[0], 500);
+    const images: FakeImage[] = [];
+    const adapter = new Phaser4RendererAdapter(
+      makeScene(images),
+      skeleton,
+    );
+
+    adapter.applyPose(pose);
+
+    expect(images).toHaveLength(1);
+    expect(images[0].assetId).toBe("hand.png");
+    expect(images[0].x).toBeCloseTo(20);
+    expect(images[0].y).toBeCloseTo(-20);
+    expect(images[0].rotation).toBeCloseTo(-0.75);
+    expect(images[0].scaleX).toBeCloseTo(1);
+    expect(images[0].scaleY).toBeCloseTo(1);
+    expect(images[0].originX).toBeCloseTo(0);
+    expect(images[0].originY).toBeCloseTo(1.25);
+    expect(images[0].depth).toBe(3);
+    expect(images[0].visible).toBe(true);
 
     adapter.destroy();
   });
