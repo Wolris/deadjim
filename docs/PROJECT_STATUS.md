@@ -2,29 +2,31 @@
 
 ## Project
 
-Dead Jim — an MIT-licensed open-source TypeScript bridge/runtime for bringing **SkelForm-authored 2D skeletal animation into Phaser 4** through a small, explicit runtime and adapter boundary.
+Dead Jim — an MIT-licensed open-source TypeScript bridge/runtime for bringing open 2D skeletal/vector animation into Phaser 4 through a small, explicit runtime and adapter boundary.
 
 Repository: `Wolris/deadjim`
 
 ## Product direction
 
-The selected workflow is:
+The current target workflow is:
 
 ```text
-SkelForm authoring
+SVG-native authoring
       ↓
 Dead Jim source adapter
       ↓
 normalized skeletal runtime
       ↓
+semantic appearance/material resolution
+      ↓
 Phaser 4 renderer adapter
 ```
 
-The source-adapter abstraction protects the runtime from format lock-in; it does **not** imply that Dead Jim should proactively support multiple authoring tools. Another source format is considered only if real SkelForm usage exposes a concrete blocker.
+The released SkelForm adapter remains a supported compatibility path. It is no longer assumed to be the production authoring workflow because concrete real-asset requirements now include reusable semantic SVG source assets that must survive long enough for metadata-driven color/material resolution.
 
 ## Phase 1 — complete
 
-The runtime path is proven end to end. Maintainer browser validation: **4/4 PASS**.
+The original SkelForm runtime path is proven end to end. Maintainer browser validation: **4/4 PASS**.
 
 ## Package boundary — proven
 
@@ -42,20 +44,24 @@ Release identity:
 - GitHub pre-release: **Dead Jim v0.1.0-alpha.1**;
 - final release commit: `35a86f21339e4b5267d052859d7935e3bd888c2d`.
 
-Release evidence includes Linux full validation, Windows/Node 24 package validation, a 23-file packed artifact, clean runtime/type consumer checks, live npm publication, and the published GitHub pre-release.
+## SVG-native asset boundary — proven
 
-## Release automation decision
+A focused semantic-SVG discriminator passed maintainer browser validation **7/7**.
 
-Publication remains manual for now. Revisit only when a second manual pre-release or release cadence makes automation materially useful. If later adopted, prefer npm Trusted Publishing with GitHub Actions OIDC and preserve explicit maintainer approval.
+It proved hierarchical SVG parts, joint pivots, theme/material recoloring of the same source assets, hair swapping, portable Idle/Action transforms, and successful customized SVG export.
+
+ADR-0004 records the resulting architecture boundary.
 
 ## Current execution
 
-The real SkelForm atlas-packaging blocker is closed and validated on merged `main`.
+The active lock is the first external SVG-native authoring-tool discriminator.
 
-The active boundary is now a **genuine SkelForm v0.7.2 editor/export proof**. The proof uses a deliberately small generic humanoid-style rig (torso, head, arm), Default + Alternate styles, and Idle + Action linear-transform animations. The editor-produced `.skf` file is the required evidence; once available, Dead Jim will unpack its runtime assets and prove the public import/atlas/Phaser path end to end.
+Premation is the first candidate because it is a no-cost/open-source desktop editor with SVG import, hierarchical bone rigging, keyframeable bone transforms, and inspectable local project bundles.
 
-No additional runtime capability is authorized unless that real editor-produced proof exposes a reproducible gap.
+The required evidence is a tiny imported SVG rig with practical pivots, Idle + Action, at least rotation plus translation or scale animation, and a saved local `.motion` bundle. Dead Jim will then inspect only the public project data needed to determine whether a small source adapter is viable while original semantic SVG masters remain the appearance source of truth.
+
+Custom Dead Jim editor development remains deferred unless bounded external-tool tests establish that it is necessary.
 
 ## Fresh-chat handoff
 
-Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`. The first public alpha is live. SkelForm is the selected authoring path. The next Dead Jim work comes from real SkelForm consumer evidence, not speculative alternate-format expansion.
+Read `AGENTS.md`, then fresh `docs/roadmap/ACTIVE_TODO.md`, then ADR-0004 if the active authoring lock needs architecture context. The first public alpha is live; SkelForm remains supported; the current work is evidence-driven selection of an SVG-native authoring path.

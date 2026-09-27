@@ -38,16 +38,20 @@ A response may stop when the atomic lock is complete, a genuine maintainer decis
 - Do not create a second active queue in issues, chat, README, or another document.
 - New approved future work goes to `BACKLOG.md` unless explicitly promoted.
 - Do not opportunistically widen a runtime/adapter task into editor development.
+- Existing external authoring tools must be discriminated before promoting a custom Dead Jim editor.
 - Do not silently weaken a named requirement after implementation begins.
 
 ## 4. Product and architecture guardrails
 
-- Dead Jim bridges skeletal-animation authoring data into game runtimes, beginning with **SkelForm -> Dead Jim -> Phaser 4**.
+- Dead Jim bridges open 2D skeletal/vector authoring data into game runtimes.
+- Phase 1 proved **SkelForm -> Dead Jim -> Phaser 4** as a working adapter/runtime path.
+- Post-alpha real-asset evidence established a second requirement: the active authoring workflow must preserve semantic SVG source assets long enough to apply appearance/material customization before raster rendering.
 - Dead Jim's software implementation is MIT-licensed.
 - The core workflow must not require a commercial skeletal-animation runtime license unless the project explicitly changes that goal.
-- Dead Jim begins as a runtime and adapter project, not a custom visual editor.
+- Dead Jim remains runtime/adapter first. Prefer an external authoring tool that emits inspectable data before considering a custom visual editor.
 - Prefer import adapters and renderer adapters around a normalized runtime model.
 - Keep the normalized model independent of Phaser where practical.
+- Keep source SVG appearance semantics separate from skeleton/animation transforms where practical.
 - Do not make consumer-specific concepts part of the core API unless a general requirement proves the abstraction.
 - Prefer small, inspectable data formats and explicit TypeScript APIs.
 - Avoid dependencies when a small internal implementation is clearer and safer.
@@ -56,7 +60,7 @@ A response may stop when the atomic lock is complete, a genuine maintainer decis
 
 - Use TypeScript for runtime/reference implementation code unless an accepted ADR says otherwise.
 - Favor small modules, explicit types, deterministic math, and readable names.
-- Keep source import, normalized runtime state, animation evaluation, and renderer integration separate.
+- Keep source import, normalized runtime state, animation evaluation, appearance resolution, and renderer integration separate.
 - Do not generalize a one-off pattern until real use earns the abstraction.
 - No secrets or personal/private data in source, fixtures, docs, examples, logs, or screenshots.
 
@@ -99,10 +103,12 @@ When handing manual validation to a maintainer or reviewer:
 ## 9. External formats and licenses
 
 - Dead Jim code is MIT-licensed.
-- SkelForm's editor is GPL-3.0 and must remain an external tool/source-format target unless the project explicitly changes its licensing strategy.
+- SkelForm's editor is GPL-3.0 and remains an external compatibility/source-format target.
 - Do not copy GPL-licensed SkelForm editor code into the MIT-licensed Dead Jim core.
 - `skelform-js` is MIT-licensed; preserve its upstream copyright/license notice if code is incorporated from it.
+- An external SVG-native authoring editor may use a copyleft license without changing Dead Jim's MIT license as long as the projects remain separate and Dead Jim does not copy incompatible implementation code.
+- Do not copy or modify third-party code that has no explicit license grant.
 - Phaser is MIT-licensed and is the first renderer target.
 - Keep source-format support modular so one authoring tool can be replaced without rewriting the core runtime.
-- Do not imply official affiliation with SkelForm or Phaser.
+- Do not imply official affiliation with SkelForm, Phaser, or any evaluated authoring tool.
 - See `docs/THIRD_PARTY.md`.

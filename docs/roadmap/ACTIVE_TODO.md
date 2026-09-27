@@ -2,52 +2,88 @@
 
 ## Current phase
 
-**Post-Phase 1 — Public Alpha / SkelForm Adoption**
+**Post-Phase 1 — Public Alpha / SVG-native Authoring Adoption**
 
 Dead Jim `0.1.0-alpha.1` was published on September 25, 2026.
 
 ## CURRENT EXECUTION LOCK
 
-**AWAITING MANUAL EVIDENCE — Prove one genuine SkelForm editor/export asset end to end.**
+**AWAITING MANUAL EVIDENCE — Discriminate Premation as the first external SVG-native authoring candidate.**
 
-The real-export atlas packaging blocker is closed. The next proof must originate in **SkelForm v0.7.2 itself**, not a hand-authored JSON fixture.
+The semantic-SVG runtime contract has passed. Do not redraw the representative production character yet.
 
-Use a deliberately small, readable humanoid-style rig so this remains a runtime/adoption proof rather than an art project.
+The next question is whether an existing no-cost external editor can author the skeleton and animation data efficiently while Dead Jim keeps SVG appearance semantics independent.
 
-Required authoring evidence:
+Premation is the first candidate because current public documentation/source evidence shows:
 
-- create/save the rig in SkelForm v0.7.2;
-- use a small visible part set: **torso, head, arm**;
-- hierarchy: torso/root with head and arm as children;
-- create **Default** and **Alternate** styles;
-- Default provides all three texture names;
-- Alternate overrides at least the arm texture using the **same texture name**, allowing active-style precedence to be proven while unspecified textures fall back to Default;
-- create two animations: **Idle** and **Action**;
-- Idle changes at least one supported transform subtly;
-- Action visibly rotates and/or moves the arm;
-- every authored animation keyframe used by this proof must use **Linear** interpolation;
-- keep pivots at supported position-only values; no pivot rotation or pivot scale changes;
-- do not use mesh deformation, IK, physics, tint animation, hidden bind-pose bones, or any other deferred feature;
-- save/export the resulting `.skf` file and provide that exact editor-produced file for the repository proof.
+- local/offline-capable Windows support;
+- SVG import;
+- hierarchical bone rigging;
+- keyframeable bone rotation, x/y, scaleX/scaleY;
+- timeline/graph editing;
+- inspectable local `.motion` project bundles containing JSON scene/animation/timeline chunks;
+- AGPL-3.0 licensing, allowing the editor to remain an external project while Dead Jim stays MIT.
 
-Repository acceptance after the editor-produced file is available:
+### Maintainer discriminator
 
-- unpack only the runtime-required `armature.json` and atlas image(s) from the genuine `.skf`;
-- import the armature with the public `SkelFormAdapter`;
-- resolve the Default style and the Alternate-over-Default style using the real exported atlas metadata;
-- render through Phaser 4 using the public atlas/frame binding path;
-- demonstrate Idle and Action playback without consumer-specific source parsing;
-- prove the style override changes the intended texture while the remaining parts fall back correctly;
-- keep the public fixture sanitized/generic and free of private consumer details;
-- pass full Linux validation, Windows/Node 24 package validation, and a concise maintainer browser PASS checklist.
+Use the already-proven simple semantic-SVG part set. This is not a production-art task.
+
+Required evidence:
+
+1. import enough SVG parts to represent **chest -> upper arm -> forearm -> hand -> held item** plus one head/hair part;
+2. create the parent/child skeleton in Premation without merging the SVG source parts into one raster image;
+3. establish practical pivots for shoulder, elbow, and wrist;
+4. create **Idle** using at least one authored transform and **Action** using obvious arm motion;
+5. prove rotation plus at least one of translation or scale can be keyframed in the editor;
+6. save the local `.motion` project and provide the project bundle for inspection;
+7. preserve the original semantic SVG masters as the appearance source of truth; Premation may use imported/parsed copies for authoring preview;
+8. confirm the workflow does not require a paid account, hosted service, or commercial runtime license.
+
+Repository acceptance after the project bundle is available:
+
+- inspect only the project data needed to identify skeleton hierarchy, part/layer identity, pivots/bind transforms, and animation tracks;
+- determine whether a small Premation source adapter can map those fields into Dead Jim's normalized runtime without copying AGPL implementation code;
+- prove original SVG masters can remain independently addressable for semantic theme/material resolution;
+- record any concrete gap before implementing around it.
+
+### Known risk to verify
+
+Premation parses simple imported SVGs into editable scene shapes. Dead Jim must not depend on Premation preserving arbitrary custom SVG attributes. The discriminator succeeds if original SVG masters can remain separate appearance assets while Premation provides stable rig/animation identity that can be mapped back to them.
 
 ## NEXT
 
-After the genuine editor/export proof passes, expand only as real use requires toward a short representative production-style asset set. Record any concrete compatibility/runtime gap before implementing it.
+If the Premation discriminator passes, implement the smallest source adapter/project importer needed for the proof and run the semantic-SVG asset through Dead Jim -> Phaser 4.
+
+If it fails, record the exact blocker and discriminate the next bounded external candidate before promoting custom editor development.
+
+Only after the SVG-native authoring path is proven should work resume on the representative production-style character set.
 
 Once the representative asset proof is solid and blocking gaps are closed, promote the **public promotional/adoption website** milestone from `BACKLOG.md`.
 
 ## Recently closed
+
+### Semantic SVG rig discriminator — DONE
+
+Maintainer-reported browser validation: **7/7 PASS**.
+
+Evidence:
+
+- semantic SVG parts remained separate and hierarchically transformable;
+- chest/limb overlap worked without forced closed-shape seam outlines;
+- theme colors changed the same SVG assets;
+- Steel/Gold/Diamond-style material changes reused the same held-item SVG;
+- hair swapped without rebuilding the rig;
+- Idle/Action transforms were driven by portable rig/animation data;
+- a customized vector SVG export was produced successfully after changing theme, material, and hair;
+- ADR-0004 records the resulting source/appearance boundary.
+
+### Genuine SkelForm editor proof — SUPERSEDED
+
+The prior lock required a genuine SkelForm v0.7.2 editor-produced `.skf`.
+
+During real asset preparation, a concrete required workflow gap was established before completing that proof: the production direction requires reusable semantic SVG source assets and metadata-driven color/material changes, while the SkelForm export path packages textures as raster atlas images.
+
+The already-released SkelForm adapter remains supported. The editor proof is no longer the active adoption gate.
 
 ### Real SkelForm atlas packaging — DONE
 
@@ -65,7 +101,7 @@ Evidence:
 
 ### Product-focus correction — DONE
 
-DragonBones/LoongBones evaluation was removed from the active roadmap. Multiple source adapters remain an architectural possibility only if concrete evidence later requires one.
+DragonBones/LoongBones evaluation was removed from the active roadmap. Source-adapter expansion remains evidence-driven.
 
 ### Release automation decision — DONE
 
@@ -89,11 +125,10 @@ Evidence:
 
 ## Explicitly deferred
 
-- alternative source formats unless SkelForm proves inadequate for a concrete required workflow;
+- custom Dead Jim visual rigging/animation editor until bounded external-tool discrimination establishes that it is necessary;
 - automated npm/GitHub publication until repetition justifies it;
-- custom visual rigging/animation editor;
 - weighted mesh deformation;
-- IK and physics;
-- advanced constraints/interpolation;
+- IK and physics in the Dead Jim runtime;
+- advanced constraints/interpolation beyond concrete source evidence;
 - additional renderer adapters without evidence;
 - multi-layer blending, blend trees, additive animation, masks, state machines, speed curves, and custom scheduling.
