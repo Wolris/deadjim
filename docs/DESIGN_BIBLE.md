@@ -6,24 +6,37 @@ This document is the public product source of truth for Dead Jim.
 
 ## Product statement
 
-Dead Jim is an **MIT-licensed open-source TypeScript bridge/runtime** for bringing **SkelForm-authored 2D skeletal animation into Phaser 4** through a small, explicit adapter architecture.
+Dead Jim is an **MIT-licensed open-source TypeScript bridge/runtime** for bringing open 2D skeletal/vector animation into game runtimes through a small, explicit adapter architecture, beginning with Phaser 4.
 
-The reference pipeline is:
+The current target pipeline is:
 
 ```text
-SkelForm -> source adapter -> normalized Dead Jim runtime -> Phaser 4 renderer adapter
+SVG-native authoring data
+        ↓
+Dead Jim source adapter
+        ↓
+normalized skeletal runtime
+        ↓
+appearance/material resolution
+        ↓
+Phaser 4 renderer adapter
 ```
+
+The already-released SkelForm adapter remains a supported compatibility path.
 
 ## Problem
 
-2D skeletal-animation authoring and game-engine playback are often tightly coupled. Dead Jim provides a small runtime boundary that can consume an open authoring format while keeping renderer-specific concerns out of the normalized animation model.
+2D skeletal-animation authoring and game-engine playback are often tightly coupled. Dead Jim provides a small runtime boundary that can consume open authoring data while keeping source-format and renderer-specific concerns out of the normalized animation model.
+
+Real asset work also requires reusable visual source assets. A single SVG item or body part should be able to carry semantic appearance slots that are resolved from player/theme/item data without redrawing a separate raster asset for every color or material combination.
 
 ## Founding principles
 
 - **Open workflow** — the core path should not require a commercial skeletal-animation runtime license.
 - **MIT core** — Dead Jim's own software implementation is MIT-licensed.
-- **Runtime first** — build and prove the bridge/runtime before considering editor tooling.
+- **Runtime first** — build and prove the bridge/runtime before considering custom editor tooling.
 - **Adapters over lock-in** — source formats and renderers live behind explicit boundaries.
+- **Semantic vector source** — preserve SVG source semantics long enough to resolve reusable color/material appearance data.
 - **Renderer-neutral core** — normalized skeleton and animation data do not depend on Phaser classes.
 - **Small surface area** — implement only features proven useful by real runtime examples.
 - **Inspectable behavior** — prefer explicit TypeScript data and deterministic animation math.
@@ -49,14 +62,29 @@ Automated validation plus maintainer browser validation prove the milestone beha
 
 ## Architecture boundary
 
-Dead Jim keeps four responsibilities separate:
+Dead Jim keeps five responsibilities separate:
 
 1. **Source adapters** convert external authoring formats into normalized data.
 2. **Normalized runtime** owns renderer-independent skeleton, attachment, animation, playback, and pose state.
 3. **Animation evaluation** performs deterministic timing, interpolation, selection, and blending.
-4. **Renderer adapters** own engine-specific display objects and lifecycle behavior.
+4. **Appearance resolution** applies semantic source-asset choices such as theme/color/material substitutions without making them bone-animation concerns.
+5. **Renderer adapters** own engine-specific display objects, caching/rasterization decisions, and lifecycle behavior.
 
 Source-specific conventions are converted at import boundaries. Renderer-specific representation stays in renderer adapters.
+
+## SVG-native authoring requirement — proven
+
+Post-alpha real-asset work established requirements that the SkelForm raster-atlas workflow cannot preserve directly:
+
+- reusable SVG body/item parts rather than one raster asset per appearance;
+- semantic color/material slots that can be changed from metadata;
+- modular body construction with simple overlapping joints;
+- source geometry that can scale cleanly;
+- hierarchical translation/rotation/scale animation stored separately from appearance data.
+
+A focused SVG rig discriminator proved the contract in-browser: hierarchical parts, joint pivots, theme/material recoloring, hair swapping, Idle/Action transforms, and customized SVG export all passed maintainer validation.
+
+ADR-0004 records this boundary and the resulting authoring-workflow pivot.
 
 ## Package distribution boundary — proven and released
 
@@ -73,22 +101,23 @@ Future releases remain behind explicit maintainer approval and the release proce
 
 ## Public alpha state
 
-The first public alpha proves the selected **SkelForm -> Dead Jim -> Phaser 4** path and the package distribution boundary. SkelForm is the chosen authoring workflow; additional source formats are considered only if concrete real-world use proves SkelForm inadequate for a required workflow.
+The first public alpha proves **SkelForm -> Dead Jim -> Phaser 4** and the package distribution boundary. That adapter remains valid.
 
-Publication automation is intentionally deferred until repeated release work justifies it. If adopted later, it must preserve the explicit maintainer approval boundary and use short-lived trusted authentication rather than reusable publishing secrets.
+The active adoption work is now selecting a no-cost SVG-native authoring workflow that can produce inspectable rig/animation data without destroying the reusable SVG appearance boundary.
+
+Publication automation remains intentionally deferred until repeated release work justifies it.
 
 ## Explicitly deferred
 
 Until real runtime or consumer evidence requires them:
 
-- custom animation/rigging editor;
+- a custom Dead Jim visual rigging/animation editor, unless bounded external-tool discrimination proves it necessary;
 - weighted mesh deformation;
-- IK and physics;
+- IK and physics in the Dead Jim runtime;
 - advanced constraints;
-- non-linear/advanced curve interpolation;
-- tint animation;
+- non-linear/advanced curve interpolation beyond what a selected source format requires;
+- tint animation as a skeletal animation channel;
 - multiple renderer adapters;
-- alternative source formats unless concrete SkelForm usage proves one is required;
 - multi-layer blending, blend trees, additive animation, masks, and state machines;
 - animation events unless a real consumer requires them;
 - speed curves and custom scheduling;
@@ -98,9 +127,11 @@ Until real runtime or consumer evidence requires them:
 
 ### SkelForm
 
-[SkelForm](https://skelform.org/) is the first authoring/source-format target. Its editor is GPL-3.0. Dead Jim isolates SkelForm-specific parsing from the normalized runtime and does not copy or vendor the GPL editor implementation.
+[SkelForm](https://skelform.org/) is Dead Jim's first implemented source-format adapter and remains a supported compatibility target. Its editor is GPL-3.0. Dead Jim isolates SkelForm-specific parsing from the normalized runtime and does not copy or vendor the GPL editor implementation.
 
-The first compatibility target is SkelForm v0.7.2 / serialized armature version 0.7.1.
+The pinned compatibility target is SkelForm v0.7.2 / serialized armature version 0.7.1.
+
+SkelForm is no longer assumed to be the canonical production authoring workflow because its exported raster-atlas boundary cannot preserve the required semantic SVG source-asset contract.
 
 ### skelform-js
 
