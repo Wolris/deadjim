@@ -8,6 +8,7 @@ Keep Dead Jim implementation restartable, evidence-based, public-safe, and small
 
 - `ACTIVE_TODO.md` is the sole active engineering queue.
 - `BACKLOG.md` contains approved future work that is not active.
+- `HISTORY.md` contains completed and superseded engineering milestones.
 - `PROJECT_STATUS.md` summarizes state but is not a second queue.
 - `DESIGN_BIBLE.md` owns durable public product principles and scope.
 - `docs/architecture/` owns material engineering decisions.
@@ -20,6 +21,7 @@ Use:
 - **NEXT** — immediate successor work, not yet active.
 - **DEFERRED** — intentionally outside the current phase.
 - **AWAITING VALIDATION** — implementation exists, evidence is outstanding.
+- **AWAITING MANUAL EVIDENCE** — the remaining invariant requires maintainer observation or external-tool evidence.
 - **DONE** — closure evidence is recorded.
 
 ## Atomic lock rule
@@ -34,7 +36,8 @@ The current execution lock should be the smallest independently useful durable t
 4. Execute until complete or a real stop gate is reached.
 5. Validate against the actual acceptance criteria.
 6. Reconcile canonical repository files.
-7. Record exactly one successor lock.
+7. Move completed/superseded detail to `HISTORY.md`.
+8. Record exactly one successor lock.
 
 ## Evidence rules
 
