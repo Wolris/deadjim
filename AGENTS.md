@@ -18,7 +18,8 @@ Canonical repository owners:
 - `docs/roadmap/ACTIVE_TODO.md` — sole current engineering execution queue.
 - `docs/roadmap/PROCESS.md` — engineering task lifecycle.
 - `docs/roadmap/BACKLOG.md` — approved future engineering work.
-- `docs/PROJECT_STATUS.md` — concise fresh-chat handoff.
+- `docs/roadmap/HISTORY.md` — completed and superseded engineering milestones.
+- `docs/PROJECT_STATUS.md` — concise fresh-chat handoff, not a second queue.
 - `docs/architecture/` — accepted engineering decisions.
 
 ## 2. Startup and execution lock
